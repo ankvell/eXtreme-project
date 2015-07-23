@@ -1,0 +1,27 @@
+{
+  "name": "awesome-app",
+  "version": "1.0.1",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "build": "browserify app/scripts/main.js -o app/scripts/bundle.js",
+    "watch": "watchify app/scripts/main.js -o app/scripts/bundle.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankvell/eXtreme-project.git"
+  },
+  "author": "FrontEndLab3 Team I",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ankvell/eXtreme-project/issues"
+  },
+  "homepage": "https://github.com/ankvell/eXtreme-project#readme",
+  "devDependencies": {
+    "browserify": "^9.0.8",
+    "watchify": "^3.3.0"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4"
+  }
+}
