@@ -1,0 +1,19 @@
+* {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+body {
+    margin: 0;
+    padding: 0;
+}
+#demo {
+    border: 1px solid #ccc;
+    display: block;
+    margin: 20px auto;
+    background-image: url(http://www.bigrockclimbing.co.uk/shopimages/sections/normal/gallery_big_rock_bouldering_pic2.jpg);
+}
+#clear, #add {
+    display: block;
+    margin: 5px auto;
+}

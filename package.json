@@ -4,8 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "browserify app/scripts/main.js -o app/scripts/bundle.js",
-    "watch": "watchify app/scripts/main.js -o app/scripts/bundle.js"
+    "build": "browserify app/admin/scripts/main.js -o app/admin/scripts/bundle.js",
+    "watch": "watchify app/admin/scripts/main.js -o app/admin/scripts/bundle.js"
   },
   "repository": {
     "type": "git",
@@ -22,6 +22,8 @@
     "watchify": "^3.3.0"
   },
   "dependencies": {
-    "jquery": "^2.1.4"
+    "backbone": "^1.2.1",
+    "jquery": "^2.1.4",
+    "underscore": "^1.8.3"
   }
 }
