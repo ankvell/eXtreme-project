@@ -4,8 +4,8 @@
   "description": "",
   "main": "main.js",
   "scripts": {
-    "build": "browserify app/admin/scripts/main.js -o app/admin/scripts/bundle.js",
-    "watch": "watchify app/admin/scripts/main.js -o app/admin/scripts/bundle.js"
+    "build": "browserify app/admin/scripts/main.js -d -o app/admin/scripts/bundle.js",
+    "watch": "watchify app/admin/scripts/main.js -d -o app/admin/scripts/bundle.js"
   },
   "repository": {
     "type": "git",
