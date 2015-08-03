@@ -1,29 +1,17 @@
 {
-  "name": "awesome-app",
-  "version": "1.0.1",
+  "name": "gmapsapp",
+  "version": "1.0.0",
   "description": "",
-  "main": "main.js",
+  "main": "index.js",
   "scripts": {
-    "build": "browserify app/admin/scripts/main.js -d -o app/admin/scripts/bundle.js",
-    "watch": "watchify app/admin/scripts/main.js -d -o app/admin/scripts/bundle.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "browserify app/scripts/application.js -o app/scripts/bundle.js --debug"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ankvell/eXtreme-project.git"
-  },
-  "author": "FrontEndLab3 Team I",
+  "author": "",
   "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ankvell/eXtreme-project/issues"
-  },
-  "homepage": "https://github.com/ankvell/eXtreme-project#readme",
   "devDependencies": {
-    "browserify": "^9.0.8",
-    "watchify": "^3.3.0"
-  },
-  "dependencies": {
     "backbone": "^1.2.1",
-    "jquery": "^2.1.4",
-    "underscore": "^1.8.3"
+    "browserify": "^11.0.1",
+    "jquery": "^2.1.4"
   }
 }

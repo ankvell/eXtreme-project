@@ -1,0 +1,28 @@
+#map {
+    width: 600px;
+    height: 500px;
+    margin: 0 auto;
+}
+#container{
+    width: 590px;
+    position:relative;
+}
+#autocomplete{
+    width: 300px;
+}
+input {
+    margin-left: 160px;
+}
+#drawing-controls{
+    position: absolute;
+    top: 27px;
+    left: 65%;
+    z-index: 1;
+}
+.color-button{
+    width: 23px;
+    height: 23px;
+    border-radius: 20px;
+    border: 1px solid lightgrey;
+    float: left;
+}

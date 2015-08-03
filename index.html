@@ -1,14 +1,19 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>eXtreme</title>
-  <link rel="stylesheet" href="app/styles/main.css">
-</head>
-<body>
-  <div></div>
+    <head>
+        <meta charset="UTF-8">
+        <title>Document</title>
+        <link rel="stylesheet" href="app/styles/style.css">
+    </head>
+    <body>
+        <button id="load">Load previous drawings</button>
+        <div id="container">
+            <input type="text" name="autocompete" id="autocomplete" />
+            <div id="drawing-controls"></div>
+            <div id="map"></div>
+        </div>
 
-  <script src="app/scripts/bundle.js"></script>
-</body>
-</html>
+            <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
+            <script src="app/scripts/bundle.js"></script>
+        </body>
+    </html>
