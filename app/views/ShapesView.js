@@ -36,7 +36,7 @@ var ShapesView = Backbone.View.extend({
             editable: false,
             label: jsonMarker.label,
             map: this.model.map
-        }
+        };
         marker = new google.maps.Marker(markerOptions);
         return marker;
     },
@@ -104,7 +104,7 @@ var ShapesView = Backbone.View.extend({
         var path = new google.maps.MVCArray();
         jsonPath.path.forEach(function(el){
             path.push(new google.maps.LatLng(el.lat, el.lon));
-        })
+        });
         return path;
     }
 });

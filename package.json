@@ -1,5 +1,5 @@
 {
-  "name": "gmapsapp",
+  "name": "awesome-app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -7,8 +7,16 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "browserify app/scripts/application.js -o app/scripts/bundle.js --debug"
   },
-  "author": "",
+ "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ankvell/eXtreme-project.git"
+  },
+  "author": "FrontEndLab3 Team I",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ankvell/eXtreme-project/issues"
+  },
+  "homepage": "https://github.com/ankvell/eXtreme-project#readme",
   "devDependencies": {
     "backbone": "^1.2.1",
     "browserify": "^11.0.1",
