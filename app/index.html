@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>extrem</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>eXtrem</h1>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Date</th>
+                    <th>Description</th>
+                    <th>Action</th>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="title-input">
+                    </td>
+                    <td>
+                        <input class="date-input">
+                    </td>
+                    <td>
+                        <input class="description-input">
+                    </td>
+                    <td>
+                        <button class="add-event">Add</button>
+                    </td>
+                </tr>
+            </thead>
+            <tbody class="events-list"></tbody>
+        </table>
+    </div>
+
+    <script type="text/template" class="events-list-template">
+        <td><span class="title"><%= title %></span></td>
+        <td><span class="date"><%= date %></span></td>
+        <td><span class="description"><%= description %></span></td>
+        <td>
+            <button class="edit-event">Edit</button>
+            <button class="delete-event">Delete</button>
+            <button class="update-event" style="display: none">Update</button>
+            <button class="cancel" style="display: none">Cancel</button>
+        </td>
+
+    </script>
+    
+    <script src="js/bundle.js"></script>
+</body>
+
+</html>
