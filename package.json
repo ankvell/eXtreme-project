@@ -20,6 +20,10 @@
   "devDependencies": {
     "backbone": "^1.2.1",
     "browserify": "^11.0.1",
-    "jquery": "^2.1.4"
+    "jquery": "^2.1.4",
+    "body-parser": "^1.13.3",
+    "express": "^4.13.0",
+    "mongoose": "^4.1.1",
+    "underscore": "^1.8.3"
   }
 }
