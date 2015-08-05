@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify app/scripts/application.js -o app/scripts/bundle.js --debug"
+    "build": "browserify app/application.js -o app/bundle.js --debug"
   },
   "repository": {
     "type": "git",
