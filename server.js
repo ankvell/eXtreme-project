@@ -16,13 +16,13 @@ mongoose.model('Article', ArticleSchema);
 
 var Article = mongoose.model('Article');
 
-//var newEvent = new Event({
-//    title: 'new event',
-//    date: '01.02.03',
-//    description: 'new event will be there'
-//});
+var article = new Article({
+   title: 'new event',
+   date: '01.02.03',
+   description: 'new event will be there'
+});
 
-//newEvent.save();
+article.save();
 
 var app = express();
 
@@ -33,12 +33,12 @@ app.get('/api/articles', function(req, res) {
     Article.find(function(err, docs) {
         docs.forEach(function(item) {
             console.log('GET id: ' + item._id);
-        })
+        });
         res.send(docs);
-    })
+    });
 });
 app.post('/api/articles', function(req, res) {
-	console.log('POST request:')
+	console.log('POST request:');
 	for (var key in req.body) {
 		console.log(key + ': ' + req.body[key]);
 	}

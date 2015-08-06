@@ -1,37 +1,37 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
-    Map = require('./models/Map'),
-    MapView = require('./views/MapView'),
-    DrawingView = require('./views/DrawingView'),
-    MarkerView = require('./views/MarkerView'),
-    InfoView = require('./views/InfoView'),
-    LocationView = require('./views/LocationView'),
-    ShapesView = require('./views/ShapesView'),
-    Article = require('./models/Article'),
-    ArticleCollection = require('./collections/ArticleCollection'),
-    ArticleListView = require('./views/ArticleListView');
+    // Map = require('./scripts/models/Map'),
+    MapView = require('./scripts/views/MapView'),
+    DrawingView = require('./scripts/views/DrawingView'),
+    MarkerView = require('./scripts/views/MarkerView'),
+    InfoView = require('./scripts/views/InfoView'),
+    LocationView = require('./scripts/views/LocationView'),
+    ShapesView = require('./scripts/views/ShapesView'),
+    Article = require('./scripts/models/Article'),
+    ArticleCollection = require('./scripts/collections/ArticleCollection'),
+    ArticleListView = require('./scripts/views/ArticleListView');
 
 $(document).ready(function() {
-    var map = new Map({
-        lat: 48.161526,
-        lng: 24.501073
-    });
-    var mapView = new MapView({
-        model: map
-    });
-    var locationView = new LocationView({
-        model: map
-    });
-    var drawingView = new DrawingView({
-        model: map
-    });
-    $('#load').on('click', function() {
-        drawingView.remove();
-        locationView.remove();
-        shapesView = new ShapesView({
-            model: map
-        });
-    });
+    // var map = new Map({
+    //     lat: 48.161526,
+    //     lng: 24.501073
+    // });
+    // var mapView = new MapView({
+    //     model: map
+    // });
+    // var locationView = new LocationView({
+    //     model: map
+    // });
+    // var drawingView = new DrawingView({
+    //     model: map
+    // });
+    // $('#load').on('click', function() {
+    //     drawingView.remove();
+    //     locationView.remove();
+    //     shapesView = new ShapesView({
+    //         model: map
+    //     });
+    // });
 
     var articleCollection = new ArticleCollection();
     var articleListView = new ArticleListView({
