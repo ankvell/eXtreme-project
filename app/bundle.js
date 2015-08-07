@@ -1,1 +1,0 @@
-console.error("Error: SyntaxError: Unexpected token } while parsing json file /home/asya/www/eXtreme/package.json");
