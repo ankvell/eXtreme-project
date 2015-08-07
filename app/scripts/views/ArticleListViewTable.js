@@ -1,7 +1,7 @@
 var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    ArticleView = require('./ArticleView');
+    ArticleViewTable = require('./ArticleViewTable');
 
 var ArticleListView = Backbone.View.extend({
     el: $('.events-list'),
@@ -22,7 +22,7 @@ var ArticleListView = Backbone.View.extend({
         return this;
     },
     renderArticle: function(article){
-        var articleView = new ArticleView({
+        var articleView = new ArticleViewTable({
             model: article
         });
         this.$el.append(articleView.render().el);

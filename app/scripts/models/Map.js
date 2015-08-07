@@ -11,7 +11,7 @@ var Map = Backbone.Model.extend({
         var mapOptions = {
             zoom: this.get('zoom'),
             center: currentLatLng,
-           // mapTypeId: this.get('mapTypeId'),
+            mapTypeId: this.get('mapTypeId'),
             disableDefaultUI: this.get('disableDefaultUI')
         };
         this.set('mapOptions', mapOptions);

@@ -1,10 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <meta charset="UTF-8">
-        <title>extrem</title>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!--[if lt IE 9]>
+        <script src="http://css3-mediaqueries-js.googlecode.com/files/css3-mediaqueries.js"></script>
+        <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+        <title>Article</title>
+        <link rel="stylesheet" href="styles/style.css">
     </head>
     <body>
+        <header>
+            <div class="header_cont">
+                <div class="nav_btn">
+                    <button>
+                        <span>—</span><br>
+                        <span>—</span><br>
+                        <span>—</span>
+                    </button>
+                </div>
+                <div class="logo">
+                    <a href="#" class="logo_cont">
+                        <p class="top">extrem</p>
+                        <p class="bttm">hiking club</p>
+                    </a>
+                </div>
+                <div class="search">
+                    <div class="search_cont">search</div>
+                </div>
+            </div>
+        </header>
+        <div class="content">
+            <div class="content_cont">
+                <nav>
+                    <ul class="menu">
+                        <li><a href="#">маршрути</a></li>
+                        <li><a href="#">контакти</a></li>
+                        <li><a href="#">контакти</a></li>
+                    </ul>
+                </nav>
+                <div class="east_side">
+                    <div class="topic">
+                        <div class="topic_cont">
+                            <div class="left">
+                                <p class="h1"></p>
+                                <p class="info">с. Зелене - Угорські скелі - г. Скупова - г. Крента - пгт. Верховина</p>
+                            </div>
+                            <div class="right">
+                                <p class="time">~56 годин</p>
+                                <p class="diff">Важка</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="description">
+                        <div class="description_cont">
+                            <p class="h2">Опис</p>
+                            <div class="descr_info">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="itinerary">
+                        <p class="h2">Маршрут</p>
+                        <div class="itinerary_cont">
+                        </div>
+                    </div>
+                    <div class="blocks">
+                        <div class="blocks_cont">
+                            <div class="blocks_item odd">
+                                <div class="items_cont"></div>
+                            </div>
+                            <div class="blocks_item even">
+                                <div class="items_cont"></div>
+                            </div>
+                            <div class="blocks_item odd">
+                                <div class="items_cont"></div>
+                            </div>
+                            <div class="blocks_item even">
+                                <div class="items_cont"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="round_info">
+                        <div class="round_info_cont">
+                            <div class="round_item"></div>
+                            <div class="round_item"></div>
+                            <div class="round_item"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+        </footer>
+        <!--
+        <button id="load">Load previous drawings</button>
+        <div id="container">
+            <input type="text" name="autocompete" id="autocomplete" />
+            <div id="drawing-controls"></div>
+            <div id="map"></div>
+        </div>-->
         <div class="container">
             <h1>eXtrem</h1>
             <table class="table">
@@ -38,13 +133,13 @@
     <td><span class="date"><%= date %></span></td>
     <td><span class="description"><%= description %></span></td>
     <td>
-        <button class="edit-event">Edit</button>
-        <button class="delete-event">Delete</button>
-        <button class="update-event" style="display: none">Update</button>
+        <button class="edit">Edit</button>
+        <button class="delete">Delete</button>
+        <button class="update" style="display: none">Update</button>
         <button class="cancel" style="display: none">Cancel</button>
     </td>
     </script>
-
-    <script src="bundle.js"></script>
-</body>
+        <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
+        <script src="scripts/bundle.js"></script>
+    </body>
 </html>

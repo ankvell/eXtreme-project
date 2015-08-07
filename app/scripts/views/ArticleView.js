@@ -1,46 +1,30 @@
 var $ = require('jquery'),
-    _ = require('underscore'),
-    Backbone = require('backbone');
+    Backbone = require('backbone'),
+    Map = require('../models/Map'),
+    ShapesView = require('./ShapesView');
 
 var ArticleView = Backbone.View.extend({
-    tagName: 'tr',
-    initialize: function() {
-        this.template = _.template($('.events-list-template').html());
-    },
-    render: function() {
-        this.$el.html(this.template(this.model.toJSON()));
-        return this;
-    },
-    events: {
-        'click .edit': 'editArticle',
-        'click .update': 'updateArticle',
-        'click .cancel': 'cancelEditing',
-        'click .delete': 'deleteArticle'
-    },
-    editArticle: function() {
-        this.$('.edit').hide();
-        this.$('.delete').hide();
-        this.$('.update').show();
-        this.$('.cancel').show();
-
-        var title = this.$('.title').html(),
-            date = this.$('.date').html(),
-            description = this.$('.description').html();
-
-        this.$('.title').html('<input type="text" class="title-update" value="' + title + '">');
-        this.$('.date').html('<input type="text" class="date-update" value="' + date + '">');
-        this.$('.description').html('<input type="text" class="description-update" value="' + description + '">');
-    },
-    updateArticle: function() {
-        this.model.set('title', $('.title-update').val());
-        this.model.set('date', $('.date-update').val());
-        this.model.set('description', $('.description-update').val());
-    },
-    cancelEditing: function() {
+    el: $('.east_side'),
+    initialize: function(){
+        if(this.model.mapData){
+            this.model.map = new Map({'lat': this.model.mapData.lat, 'lng': this.model.mapData.lon, 'zoom': 13});
+        }
         this.render();
     },
-    deleteArticle: function() {
-        this.model.destroy();
+    render: function(){
+        this.clearContent();
+        this.$el.find('.h1').html(this.model.title);
+        this.$el.find('.descr_info').html(this.model.description);
+        if (this.model.map){
+            this.$el.find('.itinerary').show();
+            var shapesView = new ShapesView({model: this.model});
+        }
+    },
+    clearContent: function(){
+        this.$el.find('.h1').empty();
+        this.$el.find('.descr_info').empty();
+        this.$el.find('.itinerary_cont').empty();
+        this.$el.find('.itinerary').hide();
     }
 });
 module.exports = ArticleView;

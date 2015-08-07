@@ -3,7 +3,10 @@ var $ = require('jquery'),
 
 var ShapesView = Backbone.View.extend({
     initialize: function(){
-        var json = JSON.parse(localStorage.getItem('shapesData'));
+        var json = this.model;
+        //var json = JSON.parse(localStorage.getItem('shapesData'));
+        //this.model.map.setCenter(new google.maps.LatLng(json.map.lat, json.map.lon));
+        this.model.map = new google.maps.Map(document.getElementsByClassName('itinerary_cont')[0], this.model.map.attributes.mapOptions);
         this.jsonRead(json);
     },
     jsonRead: function(json){

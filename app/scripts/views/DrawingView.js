@@ -208,7 +208,7 @@ var DrawingView = Backbone.View.extend({
                     throw new Error('Shape type is incorrect');
             }
         }).bind(this));
-        json += ']}';
+        json += '], "map": {' + this.jsonMakeMapData() + '}}';
         return json;
     },
     jsonMakeMarker: function(marker){
@@ -295,6 +295,9 @@ var DrawingView = Backbone.View.extend({
         }
         json += ']';
         return json;
+    },
+    jsonMakeMapData: function(){
+        return '"lat": ' + this.model.map.getCenter().G + ',"lon": ' + this.model.map.getCenter().K
     }
 });
 module.exports = DrawingView;
