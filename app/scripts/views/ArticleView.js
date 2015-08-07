@@ -7,7 +7,7 @@ var ArticleView = Backbone.View.extend({
     el: $('.east_side'),
     initialize: function(){
         if(this.model.mapData){
-            this.model.map = new Map({'lat': this.model.mapData.lat, 'lng': this.model.mapData.lon, 'zoom': 13});
+            this.model.map = new Map({'lat': this.model.mapData.lat, 'lng': this.model.mapData.lon, 'zoom': 12});
         }
         this.render();
     },

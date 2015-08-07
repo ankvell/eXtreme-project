@@ -1,3 +1,4 @@
+require('./textTruncate');
 var $ = require('jquery'),
     Backbone = require('backbone'),
     Map = require('./models/Map'),
@@ -11,6 +12,7 @@ var $ = require('jquery'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
     ArticleListViewTable = require('./views/ArticleListViewTable'),
+    ListView = require('./views/ListView'),
     data = require('../../data.js');
 
 $(document).ready(function() {
@@ -48,7 +50,7 @@ $(document).ready(function() {
     //     });
     // });
 
-    var articleCollection = new ArticleCollection({model: data});
+    var articleCollection = new ArticleCollection(data);
     var articleListView = new ArticleListViewTable({
         model: articleCollection
     });
@@ -63,5 +65,10 @@ $(document).ready(function() {
         $('.date-input').val('');
         $('.description-input').val('');
         articleCollection.add(article);
+    });
+
+    $('#showList').on('click', function(){
+        var listView = new ListView({collection: articleCollection});
+        $('.short-description').textTruncate({ellipsis: "Читати далі"});
     });
 });

@@ -135,10 +135,31 @@ input {
     float: left;
 }
 .container{
-    margin-left: 300px;
-    text-align: left;
+    margin-left: 0;
+}
+@media screen and (min-width: 767px) {
+    .container{
+        margin-left: 22%;
+    }
 }
 .container table{
     width: 500px;
     border: 2px solid black;
+}
+#showList{
+    display: block;
+    margin: 0 auto;
+}
+.article-container p {
+  margin-top: 10px;
+  color: #878787;
+  font-size: 14px;
+}
+.article-container {
+  margin-top: 20px;
+  border-bottom: 1px dashed grey;
+  padding: 10px;
+}
+.short-description{
+    height: 200px;
 }

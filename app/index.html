@@ -92,6 +92,7 @@
             </div>
         </div>
         <footer>
+        <button id="showList">Show List of Articles</button>
         </footer>
         <!--
         <button id="load">Load previous drawings</button>
@@ -138,6 +139,12 @@
         <button class="update" style="display: none">Update</button>
         <button class="cancel" style="display: none">Cancel</button>
     </td>
+    </script>
+    <script type="text/template" class="article-list-template">
+    <div class="article-container">
+        <h2 class="article-title"><%= title %></h2>
+        <p class="short-description"><%= description %></p>
+    </div>
     </script>
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
         <script src="scripts/bundle.js"></script>
