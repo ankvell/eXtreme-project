@@ -3,6 +3,11 @@ var $ = require('jquery'),
     Backbone = require('Backbone');
 
 var ArticleListView = Backbone.View.extend({
+    events: {
+        'click': function(){
+            App.eventAggregator.trigger('article:selected', this.model);
+        }
+    },
     render: function(){
         var tmpl = _.template($('.article-list-template').html());
         this.$el.html(tmpl(this.model.toJSON()));
