@@ -10,7 +10,7 @@ var ArticleListView = Backbone.View.extend({
     },
     render: function(){
         var tmpl = _.template($('.article-list-template').html());
-        this.$el.html(tmpl(this.model.toJSON()));
+        this.$el.html(tmpl(this.model.attributes));
         if (this.model.attributes.mapData){
             this.$el.find('.article-container').append($('<img/>').attr({
                 src: "http://sinomobi.ru/packages/img/thumbnails/1437595775-googleMaps_transito.jpg",
@@ -18,6 +18,7 @@ var ArticleListView = Backbone.View.extend({
                 height: "100px"
             }));
         }
+        console.log(this.$el.find('.short-description').text());
         return this;
     }
 });

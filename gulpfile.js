@@ -23,7 +23,7 @@ paths.jsEntry = paths.jsDir + '/application.js';
 paths.jsOut = 'bundle.js';
 
 // paths.scssDir = './app/styles';
-paths.css = './app/styles/*.css';
+paths.css = './app/styles/**/*';
 // paths.scssFiles = paths.scssDir + '/**/*.scss';
 // paths.scssEntry = paths.scssDir + '/main.scss';
 // paths.cssOut = 'styles.css';
@@ -43,7 +43,7 @@ gulp.task('build', function() {
   runSequence(
     'cleanBuildFolder',
     //'scriptsStyleguideFull',
-    ['buildHtml', 'buildStyles', 'buildScripts'],
+    ['buildHtml', 'buildStyles', 'buildScripts', 'buildEditor'],
     notifySuccess);
 });
 
@@ -121,6 +121,10 @@ gulp.task('buildHtml', function() {
     .pipe(gulp.dest(paths.buildDir))
     .pipe($.size());
 });
+gulp.task('buildEditor', function(){
+  return gulp.src('app/ckeditor/**/*')
+      .pipe(gulp.dest(paths.buildDir + '/ckeditor'));
+})
 // BROWSERIFY
 var browserifyOptions = {
   entries: [paths.jsEntry],

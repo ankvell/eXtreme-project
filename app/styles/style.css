@@ -1,23 +1,23 @@
-* { margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
+﻿* { margin: 0; padding: 0; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; }
 @font-face {
     font-family: din-reg;
-    src: url(../fonts/DINPro/DINPro-Regular.otf);
+    src: url(./fonts/DINPro/DINPro-Regular.otf);
    }
 @font-face {
     font-family: din-bold;
-    src: url(../fonts/DINPro/DINPro-Bold.otf);
+    src: url(./fonts/DINPro/DINPro-Bold.otf);
    }
 @font-face {
     font-family: din-light;
-    src: url(../fonts/DINPro/DINPro-Light.otf);
+    src: url(./fonts/DINPro/DINPro-Light.otf);
    }
 @font-face {
     font-family: din-med;
-    src: url(../fonts/DINPro/DINPro-Medium.otf);
+    src: url(./fonts/DINPro/DINPro-Medium.otf);
    }
 @font-face {
     font-family: din-black;
-    src: url(../fonts/DINPro/DINPro-Black.otf);
+    src: url(./fonts/DINPro/DINPro-Black.otf);
    }
 body { font: 100% din-reg; color: #3c3c3c; }
 /* HEADER */
@@ -118,9 +118,6 @@ nav .menu li a:hover { text-decoration: none; }
 #autocomplete{
     width: 300px;
 }
-input {
-    margin-left: 160px;
-}
 #drawing-controls{
     position: absolute;
     top: 27px;
@@ -162,4 +159,11 @@ input {
 }
 .short-description{
     height: 200px;
+}
+label, input, textarea, button{
+    margin-left: 10px;
+}
+input[type="text"]{
+    width: 300px;
+    display: block;
 }
