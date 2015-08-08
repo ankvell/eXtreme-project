@@ -6,11 +6,11 @@ var source = require('vinyl-source-stream');
 var _ = require('underscore');
 var runSequence = require('run-sequence');
 var notifier = require('node-notifier');
-var minifycss = require('gulp-minify-css');
 
 // gulp and gulp plugins
 var gulp = require('gulp');
 var $ = require('gulp-load-plugins')();
+var minifycss = require('gulp-minify-css');
 
 // CONFIGS
 var env = process.env.NODE_ENV || 'development';
@@ -43,14 +43,13 @@ gulp.task('build', function() {
   runSequence(
     'cleanBuildFolder',
     //'scriptsStyleguideFull',
-    ['buildHtml', 'buildStyles',
-     'buildScripts'],
+    ['buildHtml', 'buildStyles', 'buildScripts'],
     notifySuccess);
 });
 
 /**
-* start web server and watchers to recompile on file changes
-*/
+  * start web server and watchers to recompile on file changes
+  */
 gulp.task('serve', ['startDevServer', 'browserifyWatch', 'appWatch']);
 
 // SUB TASKS
@@ -59,7 +58,6 @@ gulp.task('cleanBuildFolder', function() {
 });
 
 gulp.task('appWatch', function() {
-  gulp.watch(paths.jsFiles, ['scriptsStyleguideBrief']);
   gulp.watch(paths.scssFiles, ['buildStyles']);
 });
 
@@ -90,19 +88,20 @@ gulp.task('startDevServer', function() {
 // });
 
 // code healthiness
+
 /**
- * only JSCS
- * should not take much time to run
- * use in watcher
- */
+  * only JSCS
+  * should not take much time to run
+  * use in watcher
+  */
 gulp.task('scriptsStyleguideBrief', function() {
   return gulp.src(paths.jsFiles).pipe($.jscs());
 });
 
 /**
- * both JSCS and ESLINT
- * use in builds
- */
+  * both JSCS and ESLINT
+  * use in builds
+  */
 gulp.task('scriptsStyleguideFull', function() {
   return gulp.src(paths.jsFiles)
     .pipe($.jscs())
@@ -111,9 +110,11 @@ gulp.task('scriptsStyleguideFull', function() {
     .pipe($.eslint.failOnError());
 });
 
-// HTML
-// note - for now just copies html,
-// in future will be used to change content of html
+/**
+  * HTML
+  * note - for now just copies html,
+  * in future will be used to change content of html
+  */
 gulp.task('buildHtml', function() {
   return gulp.src(paths.html)
     .pipe($.useref())
@@ -162,8 +163,8 @@ watchBundler.on('time', function(time) {
 });
 
 /**
- * small desktop popup with result of a build
- */
+  * small desktop popup with result of a build
+  */
 function notifySuccess(err) {
   notifier.notify({
     title: 'GULP BUILD ' + (err ? 'FAILED' : 'SUCCESS'),

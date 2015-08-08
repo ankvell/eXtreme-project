@@ -1,6 +1,6 @@
 var $ = require('jquery'),
     _ = require('underscore'),
-    Backbone = require('Backbone');
+    Backbone = require('backbone');
 
 var ArticleListView = Backbone.View.extend({
     events: {
