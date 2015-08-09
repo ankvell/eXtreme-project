@@ -53,7 +53,7 @@ var ShapesView = Backbone.View.extend({
             bounds: bounds,
             editable: false,
             fillColor: jsonRectangle.color,
-            fillOpacity: 0.5,
+            fillOpacity: 0.4,
             map: this.model.map
         };
         rectangle = new google.maps.Rectangle(rectangleOptions);

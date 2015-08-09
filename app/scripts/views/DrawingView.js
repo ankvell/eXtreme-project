@@ -2,15 +2,14 @@ var $ = require('jquery'),
     Backbone = require('backbone');
 
 var DrawingView = Backbone.View.extend({
-    el: $('#drawing-controls'),
     initialize: function() {
-        var colors = ['#000000','#0000FF', '#008000', '#FFA500', '#FF0000', '#800080'],
+        var colors = ['#000000','#2980B9', '#27AE60', '#E67E22', '#E74C3C', '#8E44AD'],
             labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             labelIndex = 0;
         var polyOptions = {
                 strokeWeight: 0,
                 fillColor: '#000000',
-                fillOpacity: 0.5,
+                fillOpacity: 0.4,
                 editable: true,
                 draggable: true
             };
@@ -62,6 +61,7 @@ var DrawingView = Backbone.View.extend({
         this.render(drawingManager, colors);
     },
     render: function(drawingManager, colors) {
+        $('#drawing_controls').empty();
         var button, deleteButton;
         colors.forEach((function(color) {
             button = $('<div class="color-button"></div>');
@@ -71,9 +71,12 @@ var DrawingView = Backbone.View.extend({
                 this.setSelectedShapeColor(color);
                 this.onColorChange();
             }).bind(this));
-            this.$el.append(button);
+            $('#drawing_controls').append(button);
         }).bind(this));
-        deleteButton = $('<button class="delete-button"></button>').text('Delete');
+        deleteButton = $('<button/>', {
+            type: 'button',
+            class: "delete-button",
+        }).text('Delete');
         google.maps.event.addDomListener(deleteButton[0], 'click', (function() {
             if (this.selectedShape) {
                 this.selectedShape.setMap(null);
@@ -81,7 +84,7 @@ var DrawingView = Backbone.View.extend({
                 this.saveShapes();
             }
         }).bind(this));
-        this.$el.append(deleteButton);
+        $('#drawing_controls').append(deleteButton);
         return this;
     },
     selectColor: function(drawingManager, color) {

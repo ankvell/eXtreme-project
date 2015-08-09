@@ -101,8 +101,14 @@
                        <label for="caption">Заголовок</label><input type="text" id="caption" placeholder="Заголовок статті" required>
                        <label for="route_description">Опис маршруту</label><input type="text" id="route_description" placeholder="с. Кваси - г. Петрос(2020м) - г. Говерла(2061м) - г. Піп Іван(2028м) - с. Дземброня">
                        <label for="description">Опис</label><textarea id="description"></textarea>
-                       <button id="add_map">Додати мапу</button>
-                       <button id="add_rock">Додати скелю</button>
+                       <button type="button" id="add_map">Додати мапу</button>
+                       <div id="map_container">
+                            <input type="text" name="autocompete" id="autocomplete" />
+                            <div id="drawing_controls"></div>
+                            <div id="map"></div>
+                        </div>
+                       <div id="rock"></div>
+                       <button type="button" id="add_rock">Додати скелю</button>
                        <div id="map_container"></div>
                        <label>Складність</label>
                        <label><input type="radio" name="complexity" value="1">1</label>

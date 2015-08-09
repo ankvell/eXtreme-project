@@ -4,10 +4,9 @@ var $ = require('jquery'),
     InfoView = require('./InfoView');
 
 var LocationView = Backbone.View.extend({
-    el: $('#autocomplete'),
     initialize: function() {
         var markerView, infoView;
-        var autocomplete = new google.maps.places.Autocomplete(this.el);
+        var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
         autocomplete.setTypes(['geocode']);
         google.maps.event.addListener(autocomplete, 'place_changed', (function() {
             this.model.place = autocomplete.getPlace();
