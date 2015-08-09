@@ -1,7 +1,6 @@
-require('./textTruncate');
 var $ = require('jquery'),
     _ = require('underscore'),
-    api = require('./configs/api'),
+    //api = require('./configs/api'),
     Backbone = require('backbone'),
     Map = require('./models/Map'),
     MapView = require('./views/MapView'),
@@ -14,6 +13,7 @@ var $ = require('jquery'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
     ListView = require('./views/ListView'),
+    addArticleView = require('./views/AddArticleView'),
     data = require('../../data.js');
 
 $(document).ready(function() {
@@ -67,21 +67,23 @@ $(document).ready(function() {
             'view/:title': 'viewArticle'
         },
         showArticleList: function() {
-            api.getArticles(function(data) {
-                new ListView({
-                    collection: new ArticleCollection(data)
-                });
+            // api.getArticles(function(data) {
+            //     new ListView({
+            //         collection: new ArticleCollection(data)
+            //     });
+            // });
+            var listView = new ListView({
+                collection: articleCollection
             });
         },
         viewArticle: function(title){
-            api.getArticle(title, function(article) {
-                new ArticleView({model: new Article(article)});
+            // api.getArticle(title, function(article) {
+            //     new ArticleView({model: new Article(article)});
+            // });
+            var selectedArticle = _(articleCollection.models).find(function(article){
+                return article.get('title') === title;
             });
-            //Don't delete for now
-            //var selectedArticle = _(articleCollection.models).find(function(article){
-                //return article.get('title') === title;
-            //});
-            //var articleView = new ArticleView({model: selectedArticle});
+            var articleView = new ArticleView({model: selectedArticle});
         },
         showAddArticleView: function(){
             var addArticleView = new AddArticleView({
@@ -91,7 +93,4 @@ $(document).ready(function() {
     });
     var router = new ArticleRouter();
     Backbone.history.start();
-    // Backbone.history.start();
-    // var eventAggregator = require('./routes/eventAggregator')(router);
-    // router.navigate('articles', {trigger:true});
 });

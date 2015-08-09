@@ -1,7 +1,6 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
-    ArticleListView = require('./ArticleListView'),
-    textTruncate = require('../textTruncate');
+    ArticleListView = require('./ArticleListView');
 
 var ListView = Backbone.View.extend({
     el: $('.east_side'),
@@ -15,14 +14,23 @@ var ListView = Backbone.View.extend({
         this.collection.models.forEach((function(article){
             this.renderArticle(article);
         }).bind(this));
-        $('.short-description').textTruncate();
         return this;
     },
     renderArticle: function(article){
+        this.shortenDescription(article, 700);
         var articleListView = new ArticleListView({
             model: article
         });
         this.$el.append(articleListView.render().el);
+    },
+    shortenDescription: function(article, maxLength){
+        var shortened = article.attributes.description;
+        var index;
+        if (shortened.length > maxLength){
+            index = shortened.lastIndexOf(' ', maxLength - 3);
+            shortened = shortened.substr(0, index) + '...';
+        }
+        article.attributes.shortDescription = shortened;
     }
 });
 module.exports = ListView;

@@ -157,9 +157,6 @@ nav .menu li a:hover { text-decoration: none; }
   border-bottom: 1px dashed grey;
   padding: 10px;
 }
-.short-description{
-    height: 200px;
-}
 label, input, textarea, button{
     margin-left: 10px;
 }

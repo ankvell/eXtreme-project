@@ -18,7 +18,6 @@ var ArticleListView = Backbone.View.extend({
                 height: "100px"
             }));
         }
-        console.log(this.$el.find('.short-description').text());
         return this;
     }
 });
