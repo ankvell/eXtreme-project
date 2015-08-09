@@ -100,7 +100,7 @@
                    <form action='#'>
                        <label for="caption">Заголовок</label><input type="text" id="caption" placeholder="Заголовок статті" required>
                        <label for="route_description">Опис маршруту</label><input type="text" id="route_description" placeholder="с. Кваси - г. Петрос(2020м) - г. Говерла(2061м) - г. Піп Іван(2028м) - с. Дземброня">
-                       <label for="description">Опис</label><textarea id="description"></textarea>
+                       <label for="description">Опис</label><textarea id="description" required></textarea>
                        <button type="button" id="add_map">Додати мапу</button>
                        <div id="map_container">
                             <input type="text" name="autocompete" id="autocomplete" />
@@ -117,7 +117,7 @@
                        <label><input type="radio" name="complexity" value="4">4</label>
                        <label><input type="radio" name="complexity" value="5">5</label>
                        <label for="duration">Тривалість</label><input type="text" placeholder="15год" id="duration">
-                       <input type="submit" id="submit" value="Зберегти">
+                       <button type="button" id="submit">Зберегти</button>
                        <input type="reset" id="reset" value="Очистити">
                    </form>
         </script>

@@ -10,11 +10,12 @@ var $ = require('jquery'),
 AddArticleView = Backbone.View.extend({
     el: $('.east_side'),
     events: {
-        'click #submit': 'saveArticle',
+        //'click #submit': 'saveArticle',
         'click #add_map': 'loadMap'
     },
     initialize: function(){
         this.render();
+        $('#submit').on('click', this.saveArticle.bind(this));
     },
     render: function(){
         this.$el.empty();
@@ -23,29 +24,34 @@ AddArticleView = Backbone.View.extend({
         CKEDITOR.replace('description');
         $('#map_container').hide();
     },
-    saveArticle: function(e){
-        e.preventDefault();
+    saveArticle: function(){
         var id = this.generateId();
         var title = $('#caption').val();
         var route = $('#route_description').val();
         var description = CKEDITOR.instances['description'].getData();
-        if ($('#map_container').is(':visible') && localStorage.getItem('shapesData' !== null)){
+        if ($('#map_container').is(':visible')){
             var drawingData = JSON.parse(localStorage.getItem('shapesData'));
-            var shapesData = JSON.stringify(drawingData.shapes);
-            var mapData = JSON.stringify(drawingData.map);
+            if (drawingData && drawingData.shapes.length > 0){
+                var shapesData = JSON.stringify(drawingData.shapes);
+                var mapData = JSON.stringify(drawingData.map);
+            }
         }
         var article = new Article({
             title: title,
             route: route,
-            description: description,
-            //FIX PROBLEM WITH EMPTY MAP NOT BEING SAVED
-            shapes: JSON.parse(shapesData) || '',
-            map: JSON.parse(mapData) || ''
+            description: description
         });
-        this.collection.create(article);
+        if (typeof shapesData !== "undefined"){
+            article.set({
+                shapes: JSON.parse(shapesData),
+                map: JSON.parse(mapData)
+            });
+        }
+        this.collection.create(article, {silent: true});
         localStorage.removeItem('shapesData');
         article.save();
         App.eventAggregator.trigger('show:list');
+        return false;
     },
     generateId: function(){
         function s4() {

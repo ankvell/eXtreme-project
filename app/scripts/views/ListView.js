@@ -5,7 +5,6 @@ var $ = require('jquery'),
 var ListView = Backbone.View.extend({
     el: $('.east_side'),
     initialize: function(){
-        this.listenTo(this.collection, 'add', this.render);
         this.listenTo(this.collection, 'change', this.render);
         this.render();
     },
@@ -30,7 +29,9 @@ var ListView = Backbone.View.extend({
             index = shortened.lastIndexOf(' ', maxLength - 3);
             shortened = shortened.substr(0, index) + '...';
         }
-        article.attributes.shortDescription = shortened;
+        article.set({
+            shortDescription: shortened
+        }, {silent: true});
     }
 });
 module.exports = ListView;
