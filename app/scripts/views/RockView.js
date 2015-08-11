@@ -5,17 +5,17 @@ var $ = require('jquery'),
 
 var RockView = Backbone.View.extend({
     el: '#canvas',
-    initialize: function(options){
+    initialize: function(options) {
         this.imageUrl = options.imageUrl;
         this.pathesCollection = new RockPathesCollection();
         this.context = this.el.getContext('2d');
         this.render();
     },
-    render: function(){
+    render: function() {
         this.draw = false;
         var imageObj = new Image();
         imageObj.src = this.imageUrl;
-        imageObj.addEventListener('load', (function(){
+        imageObj.addEventListener('load', (function() {
             var width = document.getElementById('rock_container').offsetWidth;
             var height = document.getElementById('rock_container').offsetHeight;
             this.el.width = width;
@@ -28,39 +28,47 @@ var RockView = Backbone.View.extend({
         'click': 'drawTrack',
         'dblclick': 'saveTrack'
     },
-    drawTrack: function(event){
+    drawTrack: function(event) {
         var x = event.offsetX;
         var y = event.offsetY;
-        if (!this.draw){
+        if (!this.draw) {
             this.startNewTrack();
         }
         this.position(x, y);
         var previousTrack = this.path.get('track');
-        this.posCoords.push({"x": x, "y": y});
-        this.path.set('track', previousTrack.concat({"x": x, "y": y}));
+        this.posCoords.push({
+            "x": x,
+            "y": y
+        });
+        this.path.set('track', previousTrack.concat({
+            "x": x,
+            "y": y
+        }));
         this.connection();
     },
-    startNewTrack: function(){
+    startNewTrack: function() {
         this.path = new Path({});
         this.pathesCollection.add(this.path);
         this.posCoords = [];
         this.draw = true;
     },
-    position: function(x, y){
+    position: function(x, y) {
         this.context.beginPath();
         this.context.arc(x, y, 3, 0, 2 * Math.PI);
         this.context.fill();
         this.context.restore();
     },
-    connection: function(){
+    connection: function() {
         this.context.lineWidth = 2;
         this.context.beginPath();
-        this.context.lineTo(this.posCoords[this.posCoords.length - 2].x, this.posCoords[this.posCoords.length - 2].y);
-        this.context.lineTo(this.posCoords[this.posCoords.length - 1].x, this.posCoords[this.posCoords.length - 1].y);
+        if (this.posCoords.length > 1) {
+            this.context.moveTo(this.posCoords[this.posCoords.length - 2].x, this.posCoords[this.posCoords.length - 2].y);
+            this.context.lineTo(this.posCoords[this.posCoords.length - 1].x, this.posCoords[this.posCoords.length - 1].y);
+        }
         this.context.stroke();
         this.context.closePath();
     },
-    saveTrack: function(){
+    saveTrack: function() {
         this.draw = false;
         localStorage.setItem('tracks', JSON.stringify(this.pathesCollection.models));
     },

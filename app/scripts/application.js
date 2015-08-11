@@ -2,13 +2,6 @@ var $ = require('jquery'),
     _ = require('underscore'),
     //api = require('./configs/api'),
     Backbone = require('backbone'),
-    Map = require('./models/Map'),
-    MapView = require('./views/MapView'),
-    DrawingView = require('./views/DrawingView'),
-    MarkerView = require('./views/MarkerView'),
-    InfoView = require('./views/InfoView'),
-    LocationView = require('./views/LocationView'),
-    ShapesView = require('./views/ShapesView'),
     Article = require('./models/Article'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
@@ -20,34 +13,34 @@ $(document).ready(function() {
     window.App = {};
     var articleCollection = new ArticleCollection();
     articleCollection.fetch();
-    data.forEach(function(el){
+    data.forEach(function(el) {
         var article = new Article(el);
         articleCollection.add(article);
     });
     var idArray = [];
-    for (var key in localStorage){
-        if (key !== 'articleData'){
+    for (var key in localStorage) {
+        if (key !== 'articleData') {
             var obj = JSON.parse(localStorage.getItem(key));
-            if (obj.id){
+            if (obj.id) {
                 idArray.push(obj.id);
             }
             var found = false;
-            articleCollection.models.forEach(function(el, index){
-                if (el.id === obj.id){
+            articleCollection.models.forEach(function(el, index) {
+                if (el.id === obj.id) {
                     found = true;
                 }
             });
-            if (!found){
+            if (!found) {
                 var article = new Article(obj);
                 articleCollection.add(article);
             }
         }
     }
-    articleCollection.models.forEach(function(el, index){
-        if (idArray.indexOf(el.id) === -1){
+    articleCollection.models.forEach(function(el, index) {
+        if (idArray.indexOf(el.id) === -1) {
             el.save();
         }
-    })
+    });
     App.eventAggregator = _.extend({}, Backbone.Events);
     App.eventAggregator.on('article:selected', function(article) {
         var urlPath = 'view/' + article.get('title');
@@ -55,9 +48,11 @@ $(document).ready(function() {
             trigger: true
         });
     });
-    App.eventAggregator.on('show:list', function(){
+    App.eventAggregator.on('show:list', function() {
         var urlPath = 'articles';
-        router.navigate(urlPath, {trigger: true});
+        router.navigate(urlPath, {
+            trigger: true
+        });
     });
     var ArticleRouter = Backbone.Router.extend({
         routes: {
@@ -76,19 +71,21 @@ $(document).ready(function() {
                 collection: articleCollection
             });
         },
-        viewArticle: function(title){
+        viewArticle: function(title) {
             // api.getArticle(title, function(article) {
             //     new ArticleView({model: new Article(article)});
             // });
-            var selectedArticle = _(articleCollection.models).find(function(article){
+            var selectedArticle = _(articleCollection.models).find(function(article) {
                 return article.get('title') === title;
             });
-            var articleView = new ArticleView({model: selectedArticle});
+            var articleView = new ArticleView({
+                model: selectedArticle
+            });
         },
-        showAddArticleView: function(){
+        showAddArticleView: function() {
             var addArticleView = new AddArticleView({
                 collection: articleCollection
-            })
+            });
         }
     });
     var router = new ArticleRouter();

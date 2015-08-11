@@ -92,6 +92,7 @@ AddArticleView = Backbone.View.extend({
     },
     loadRock: function(){
         $('#rock_container').show();
+
         $('#load_rock_image').on('click', function(){
             if (document.getElementById('url').checkValidity() && $('#url').val()){
                 var imageUrl = $('#url').val();

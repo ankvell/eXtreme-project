@@ -1,15 +1,26 @@
 // generic tools
+var _ = require('underscore');
 var del = require('del');
+var gulpIf = require('gulp-if');
+var jscs = require('gulp-jscs');
+var sass = require('gulp-sass');
+var size = require('gulp-size');
+var autoprefixer = require('gulp-autoprefixer');
+var useref = require('gulp-useref');
+var sourcemaps = require('gulp-sourcemaps');
+var webserver = require('gulp-webserver');
+var eslint = require('gulp-eslint');
 var browserify = require('browserify');
 var watchify = require('watchify');
 var source = require('vinyl-source-stream');
-var _ = require('underscore');
+var buffer = require('vinyl-buffer');
 var runSequence = require('run-sequence');
 var notifier = require('node-notifier');
+var gutil = require('gulp-util');
+var assign = require('lodash.assign');
 
 // gulp and gulp plugins
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
 var minifycss = require('gulp-minify-css');
 
 // CONFIGS
@@ -58,12 +69,12 @@ gulp.task('cleanBuildFolder', function() {
 });
 
 gulp.task('appWatch', function() {
-  gulp.watch(paths.scssFiles, ['buildStyles']);
+  gulp.watch(paths.css, ['buildStyles']);
 });
 
 gulp.task('startDevServer', function() {
   gulp.src(paths.buildDir)
-    .pipe($.webserver({
+    .pipe(webserver({
       port: 3000,
       livereload: true
     }));
@@ -75,18 +86,19 @@ gulp.task('startDevServer', function() {
     gulp.src(paths.css)
       .pipe(gulp.dest(paths.cssBuildDir));
   });
-// gulp.task('buildStyles', function() {
-//   return gulp.src(paths.scssFiles)
-//     .pipe($.if(!isProd, $.sourcemaps.init()))
-//     .pipe($.sass().on('error', $.sass.logError))
+/**
+  * gulp.task('buildStyles', function() {
+  *  return gulp.src(paths.scssFiles)
+  *    .pipe(gulpIf(!isProd, sourcemaps.init()))
+  *    .pipe(sass.on('error', sass.logError))
 
-//     // todo: clean this task minification process
-//     .pipe($.autoprefixer({browsers: ['> 5%', 'last 2 versions']}))
-//     .pipe($.if(!isProd, $.sourcemaps.write()))
-//     .pipe($.if(isProd, minifycss()))
-//     .pipe(gulp.dest(paths.cssBuildDir));
-// });
-
+  *    // todo: clean this task minification process
+  *    .pipe($.autoprefixer({browsers: ['> 5%', 'last 2 versions']}))
+  *    .pipe(gulpIf(!isProd, sourcemaps.write()))
+  *    .pipe(gulpIf(isProd, minifycss()))
+  *    .pipe(gulp.dest(paths.cssBuildDir));
+  * });
+  */
 // code healthiness
 
 /**
@@ -95,20 +107,23 @@ gulp.task('startDevServer', function() {
   * use in watcher
   */
 gulp.task('scriptsStyleguideBrief', function() {
-  return gulp.src(paths.jsFiles).pipe($.jscs());
+  return gulp.src(paths.jsFiles).pipe(jscs());
 });
 
 /**
   * both JSCS and ESLINT
   * use in builds
   */
-gulp.task('scriptsStyleguideFull', function() {
-  return gulp.src(paths.jsFiles)
-    .pipe($.jscs())
-    .pipe($.eslint())
-    .pipe($.eslint.format())
-    .pipe($.eslint.failOnError());
-});
+
+/**
+  * gulp.task('scriptsStyleguideFull', function() {
+  *  return gulp.src(paths.jsFiles)
+  *  .pipe(jscs())
+  *  .pipe(eslint())
+  *  .pipe(eslint.format())
+  *  .pipe(eslint.failOnError());
+  * });
+  */
 
 /**
   * HTML
@@ -117,14 +132,15 @@ gulp.task('scriptsStyleguideFull', function() {
   */
 gulp.task('buildHtml', function() {
   return gulp.src(paths.html)
-    .pipe($.useref())
+    .pipe(useref())
     .pipe(gulp.dest(paths.buildDir))
-    .pipe($.size());
+    .pipe(size());
 });
 gulp.task('buildEditor', function(){
   return gulp.src('app/ckeditor/**/*')
       .pipe(gulp.dest(paths.buildDir + '/ckeditor'));
-})
+});
+
 // BROWSERIFY
 var browserifyOptions = {
   entries: [paths.jsEntry],
@@ -132,12 +148,9 @@ var browserifyOptions = {
   fullPaths: true
 };
 
-var watchifyOptions = _.extend({
-  cache: {},
-  packageCache: {}
-}, browserifyOptions);
-
 var bundler = browserify(browserifyOptions);
+
+var watchifyOptions = assign({}, watchify.args, browserifyOptions);
 var watchBundler = watchify(browserify(watchifyOptions));
 
 gulp.task('buildScripts', function() {
@@ -148,23 +161,27 @@ gulp.task('buildScripts', function() {
 
 gulp.task('browserifyWatch', function() {
   watchBundler.on('update', watchifyBundle);
+  watchBundler.on('log', gutil.log); // output build logs to terminal
   return watchBundler.bundle(); // needed too keep process running
 });
 
 // TODO : exit process somehow
 function watchifyBundle() {
   return watchBundler.bundle()
-    .on('error', $.util.log.bind($.util, 'Browserify Error'))
+    .on('error', gutil.log.bind(gutil, 'Browserify Error'))
     .pipe(source(paths.jsOut))
+    // optional, remove if you don't need to buffer file contents
+    .pipe(buffer())
     .pipe(gulp.dest(paths.buildDir + paths.script));
 }
 
 // BROWSERIFY EVENTS
-bundler.on('error', $.util.log.bind($.util, 'Browserify Error'));
+bundler.on('error', gutil.log.bind(gutil, 'Browserify Error'));
 
 watchBundler.on('time', function(time) {
-  $.util.log('Browserify rebundle finished after ' + $.util.colors.magenta(time + ' ms'));
+  gutil.log('Browserify rebundle finished after ' + gutil.colors.magenta(time + ' ms'));
 });
+
 
 /**
   * small desktop popup with result of a build
@@ -175,3 +192,4 @@ function notifySuccess(err) {
     message: err ? 'at ' + err.message : '✔ ' + env
   });
 }
+

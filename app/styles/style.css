@@ -175,3 +175,10 @@ input[type="text"]{
     height: 420px;
     position: relative;
 }
+#rock_drawing_controls {
+    position: absolute;
+    width: 300px;
+    height: 60px;
+    background-color: darkslategrey;
+
+}
