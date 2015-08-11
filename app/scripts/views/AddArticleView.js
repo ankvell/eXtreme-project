@@ -6,14 +6,13 @@ var $ = require('jquery'),
     MapView = require('./MapView'),
     LocationView = require('./LocationView'),
     DrawingView = require('./DrawingView'),
-    MainCanvasView = require('./MainCanvasView');
+    RockView = require('./RockView');
 
 AddArticleView = Backbone.View.extend({
     el: $('.east_side'),
     events: {
-        //'click #submit': 'saveArticle',
         'click #add_map': 'loadMap',
-        'click #add_rock': 'loadRocks'
+        'click #add_rock': 'loadRock'
     },
     initialize: function(){
         this.render();
@@ -25,7 +24,8 @@ AddArticleView = Backbone.View.extend({
         this.$el.html(tmpl({}));
         CKEDITOR.replace('description');
         $('#map_container').hide();
-        $('#render-canvas').hide();
+        $('#rock_container').hide();
+        $('#canvas').hide();
     },
     saveArticle: function(){
         var id = this.generateId();
@@ -39,10 +39,18 @@ AddArticleView = Backbone.View.extend({
                 var mapData = JSON.stringify(drawingData.map);
             }
         }
+        if (document.querySelector('input[name="difficulty"]:checked')){
+            var difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+        }
+        var duration = $('#duration').val();
+        var creationDate = this.getCurrentDate();
         var article = new Article({
             title: title,
             route: route,
-            description: description
+            description: description,
+            difficulty: difficulty,
+            duration: duration,
+            creationDate: creationDate
         });
         if (typeof shapesData !== "undefined"){
             article.set({
@@ -69,9 +77,33 @@ AddArticleView = Backbone.View.extend({
         var locationView = new LocationView({model: map});
         var drawingView = new DrawingView({model: map});
     },
-    loadRocks: function() {
-        $('#render-canvas').show();
-        new MainCanvasView().render();
+    getCurrentDate: function(){
+        var today = new Date();
+        var dd = today.getDate();
+        var mm = today.getMonth() + 1;
+        var yyyy = today.getFullYear();
+        if (dd < 10){
+            dd = '0' + dd;
+        }
+        if (mm < 10){
+            mm='0' + mm;
+        }
+        return dd + '-' + mm + '-' + yyyy;
+    },
+    loadRock: function(){
+        $('#rock_container').show();
+        $('#load_rock_image').on('click', function(){
+            if (document.getElementById('url').checkValidity() && $('#url').val()){
+                var imageUrl = $('#url').val();
+                $('#choose_url').hide();
+                $('#canvas').show();
+                var rockView = new RockView({
+                    imageUrl: imageUrl
+                });
+            } else{
+                $('#error').text('Please enter valid url');
+            }
+        });
     }
 });
 module.exports = AddArticleView;

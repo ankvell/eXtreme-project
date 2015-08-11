@@ -6,7 +6,10 @@ var Article = Backbone.Model.extend({
         route: '',
         description: '',
         date: '',
-        map: ''
+        map: '',
+        difficulty: '',
+        duration: '',
+        creationDate: ''
     }
 });
 module.exports = Article;

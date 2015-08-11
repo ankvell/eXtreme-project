@@ -2,6 +2,13 @@ var $ = require('jquery'),
     _ = require('underscore'),
     //api = require('./configs/api'),
     Backbone = require('backbone'),
+    Map = require('./models/Map'),
+    MapView = require('./views/MapView'),
+    DrawingView = require('./views/DrawingView'),
+    MarkerView = require('./views/MarkerView'),
+    InfoView = require('./views/InfoView'),
+    LocationView = require('./views/LocationView'),
+    ShapesView = require('./views/ShapesView'),
     Article = require('./models/Article'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
@@ -40,7 +47,7 @@ $(document).ready(function() {
         if (idArray.indexOf(el.id) === -1){
             el.save();
         }
-    });
+    })
     App.eventAggregator = _.extend({}, Backbone.Events);
     App.eventAggregator.on('article:selected', function(article) {
         var urlPath = 'view/' + article.get('title');
@@ -81,7 +88,7 @@ $(document).ready(function() {
         showAddArticleView: function(){
             var addArticleView = new AddArticleView({
                 collection: articleCollection
-            });
+            })
         }
     });
     var router = new ArticleRouter();

@@ -21,6 +21,12 @@ var ListView = Backbone.View.extend({
             model: article
         });
         this.$el.append(articleListView.render().el);
+        if (article.attributes.difficulty){
+            $('.difficulty span').show();
+        }
+        if (article.attributes.duration){
+            $('.duration span').show();
+        }
     },
     shortenDescription: function(article, maxLength){
         var shortened = article.attributes.description;

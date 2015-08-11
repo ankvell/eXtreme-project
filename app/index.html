@@ -50,7 +50,10 @@
     <div class="article-container">
         <h2 class="article-title"><%= title %></h2>
         <div class="route"><%= route %></div>
+        <div class="difficulty"><span>Складність: </span><%= difficulty %></div>
+        <div class="duration"><span>Тривалість: </span><%= duration %></div>
         <div class="short-description"><%= shortDescription %></div>
+        <div class="creationDate"><%= creationDate %></div>
     </div>
     </script>
     <script type="text/template" class="article-template">
@@ -58,11 +61,11 @@
                         <div class="topic_cont">
                             <div class="left">
                                 <p class="h1"><%= title %></p>
-                                <p class="info">с. Зелене - Угорські скелі - г. Скупова - г. Крента - пгт. Верховина</p>
+                                <p class="info"><%= route %></p>
                             </div>
                             <div class="right">
-                                <p class="time">~56 годин</p>
-                                <p class="diff">Важка</p>
+                                <p class="time"><%= duration %></p>
+                                <p class="diff"><%= difficulty %></p>
                             </div>
                         </div>
                     </div>
@@ -94,6 +97,7 @@
                             </div>
                         </div>
                     </div>
+                    <div class="date"><%= creationDate %></div>
         </script>
         <script type="text/template" class="admin">
             <h1>Нова стаття</h1>
@@ -107,43 +111,26 @@
                             <div id="drawing_controls"></div>
                             <div id="map"></div>
                         </div>
-
-                       <div id="render-canvas"></div>
+                        <div id="rock_container">
+                            <div id="choose_url">
+                                <label for="url">Введіть url адресу знимка скали:</label><input type="url" id="url" placeholder="Url goes here"><span id="error"></span>
+                                <button type="button" id="load_rock_image">Завантажити знимок</button>
+                            </div>
+                            <canvas id="canvas"><span>Unfortunately your browser doesn't support canvas. Use the latest version of a browser</span></canvas>
+                        </div>
                        <button type="button" id="add_rock">Додати скелю</button>
-
                        <div id="map_container"></div>
                        <label>Складність</label>
-                       <label><input type="radio" name="complexity" value="1">1</label>
-                       <label><input type="radio" name="complexity" value="2">2</label>
-                       <label><input type="radio" name="complexity" value="3">3</label>
-                       <label><input type="radio" name="complexity" value="4">4</label>
-                       <label><input type="radio" name="complexity" value="5">5</label>
+                       <label><input type="radio" name="difficulty" value="1">1</label>
+                       <label><input type="radio" name="difficulty" value="2">2</label>
+                       <label><input type="radio" name="difficulty" value="3">3</label>
+                       <label><input type="radio" name="difficulty" value="4">4</label>
+                       <label><input type="radio" name="difficulty" value="5">5</label>
                        <label for="duration">Тривалість</label><input type="text" placeholder="15год" id="duration">
                        <button type="button" id="submit">Зберегти</button>
                        <input type="reset" id="reset" value="Очистити">
                    </form>
         </script>
-
-        <!-- template for info-panel -->
-        <script type="text/template" class="trackInfoPanel">
-            <h4>Indicate the level of complexity of the route</h4>
-            <input type="text" id="complexity" class="inputsInfoStyle"/>
-            <h4>Add a description of the route</h4>
-            <textarea id="description" class="inputsInfoStyle" rows="8" /></textarea>
-            <button id="saveTrackInfo">Save</button>
-        </script>
-
-
-        <!-- template for canvas drawer -->
-        <script type="text/template" class="drawCanvasTemplate">
-            <div id="panel">
-                <button id="newPath">New track</button>
-                <button id="saveTrack">Save track</button>
-                <input type="color" value="#cd4a0c" id="colorInput" />
-            </div>
-            <canvas id="demo"></canvas>
-        </script>
-
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
         <script src="scripts/bundle.js"></script>
         <script src="ckeditor/ckeditor.js"></script>
