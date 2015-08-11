@@ -5,13 +5,15 @@ var $ = require('jquery'),
     Map = require('../models/Map'),
     MapView = require('./MapView'),
     LocationView = require('./LocationView'),
-    DrawingView = require('./DrawingView');
+    DrawingView = require('./DrawingView'),
+    MainCanvasView = require('./MainCanvasView');
 
 AddArticleView = Backbone.View.extend({
     el: $('.east_side'),
     events: {
         //'click #submit': 'saveArticle',
-        'click #add_map': 'loadMap'
+        'click #add_map': 'loadMap',
+        'click #add_rock': 'loadRocks'
     },
     initialize: function(){
         this.render();
@@ -23,6 +25,7 @@ AddArticleView = Backbone.View.extend({
         this.$el.html(tmpl({}));
         CKEDITOR.replace('description');
         $('#map_container').hide();
+        $('#render-canvas').hide();
     },
     saveArticle: function(){
         var id = this.generateId();
@@ -65,6 +68,10 @@ AddArticleView = Backbone.View.extend({
         var mapView = new MapView({model: map});
         var locationView = new LocationView({model: map});
         var drawingView = new DrawingView({model: map});
+    },
+    loadRocks: function() {
+        $('#render-canvas').show();
+        new MainCanvasView().render();
     }
 });
 module.exports = AddArticleView;

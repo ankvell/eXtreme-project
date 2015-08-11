@@ -107,8 +107,10 @@
                             <div id="drawing_controls"></div>
                             <div id="map"></div>
                         </div>
-                       <div id="rock"></div>
+
+                       <div id="render-canvas"></div>
                        <button type="button" id="add_rock">Додати скелю</button>
+
                        <div id="map_container"></div>
                        <label>Складність</label>
                        <label><input type="radio" name="complexity" value="1">1</label>
@@ -121,6 +123,27 @@
                        <input type="reset" id="reset" value="Очистити">
                    </form>
         </script>
+
+        <!-- template for info-panel -->
+        <script type="text/template" class="trackInfoPanel">
+            <h4>Indicate the level of complexity of the route</h4>
+            <input type="text" id="complexity" class="inputsInfoStyle"/>
+            <h4>Add a description of the route</h4>
+            <textarea id="description" class="inputsInfoStyle" rows="8" /></textarea>
+            <button id="saveTrackInfo">Save</button>
+        </script>
+
+
+        <!-- template for canvas drawer -->
+        <script type="text/template" class="drawCanvasTemplate">
+            <div id="panel">
+                <button id="newPath">New track</button>
+                <button id="saveTrack">Save track</button>
+                <input type="color" value="#cd4a0c" id="colorInput" />
+            </div>
+            <canvas id="demo"></canvas>
+        </script>
+
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
         <script src="scripts/bundle.js"></script>
         <script src="ckeditor/ckeditor.js"></script>
