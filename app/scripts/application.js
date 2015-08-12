@@ -85,10 +85,11 @@ $(document).ready(function() {
                 model: selectedArticle
             });
         },
-        showAddArticleView: function() {
-            var addArticleView = new AddArticleView({
-                collection: articleCollection
-            });
+        showAdminView: function(){
+            var adminView = new AdminView({
+                collection: articleCollection,
+                operation: 'Adding'
+            })
         }
     });
     var router = new ArticleRouter();
