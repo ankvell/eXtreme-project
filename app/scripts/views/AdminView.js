@@ -6,29 +6,32 @@ var $ = require('jquery'),
     MapView = require('./MapView'),
     LocationView = require('./LocationView'),
     DrawingView = require('./DrawingView'),
-    RockView = require('./RockView');
+    RockView = require('./RockView'),
+    AdminEditListView = require('./AdminEditListView');
 
-AddArticleView = Backbone.View.extend({
-    el: $('.east_side'),
+var AdminView = Backbone.View.extend({
+    id: 'addForm',
     events: {
         'click #add_map': 'loadMap',
-        'click #add_rock': 'loadRock'
+        'click #add_rock': 'loadRock',
+        'click #showArticlesTable': 'showAdminEditListView'
     },
     initialize: function(){
         this.render();
         $('#submit').on('click', this.saveArticle.bind(this));
     },
     render: function(){
-        this.$el.empty();
+        $('.east_side').empty();
         var tmpl = _.template($('.admin').html());
         this.$el.html(tmpl({}));
+        $('.east_side').append(this.el);
         CKEDITOR.replace('description');
         $('#map_container').hide();
+        $('#choose_url').hide();
         $('#rock_container').hide();
         $('#canvas').hide();
     },
     saveArticle: function(){
-        var id = this.generateId();
         var title = $('#caption').val();
         var route = $('#route_description').val();
         var description = CKEDITOR.instances['description'].getData();
@@ -64,14 +67,12 @@ AddArticleView = Backbone.View.extend({
         App.eventAggregator.trigger('show:list');
         return false;
     },
-    generateId: function(){
-        function s4() {
-            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
-        }
-        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
-    },
     loadMap: function(){
+        if ($('#rock_container').is(':visible')){
+            $('#rock_container').hide();
+        }
         $('#map_container').show();
+        this.clearData();
         var map = new Map();
         var mapView = new MapView({model: map});
         var locationView = new LocationView({model: map});
@@ -91,12 +92,16 @@ AddArticleView = Backbone.View.extend({
         return dd + '-' + mm + '-' + yyyy;
     },
     loadRock: function(){
-        $('#rock_container').show();
-
+        if ($('#map_container').is(':visible')){
+            $('#map_container').hide();
+        }
+        $('#choose_url').show();
+        this.clearData();
         $('#load_rock_image').on('click', function(){
             if (document.getElementById('url').checkValidity() && $('#url').val()){
                 var imageUrl = $('#url').val();
                 $('#choose_url').hide();
+                $('#rock_container').show();
                 $('#canvas').show();
                 var rockView = new RockView({
                     imageUrl: imageUrl
@@ -105,6 +110,17 @@ AddArticleView = Backbone.View.extend({
                 $('#error').text('Please enter valid url');
             }
         });
+    },
+    clearData: function(){
+        if (localStorage.getItem('shapesData') != null){
+            localStorage.removeItem('shapesData');
+        }
+        if (localStorage.getItem('tracks') != null){
+            localStorage.removeItem('tracks');
+        }
+    },
+    showAdminEditListView: function(){
+        var adminEditListView = new AdminEditListView({collection: this.collection});
     }
 });
-module.exports = AddArticleView;
+module.exports = AdminView;

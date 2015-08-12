@@ -17,7 +17,8 @@ var ArticleView = Backbone.View.extend({
         var tmpl = _.template($('.article-template').html());
         this.$el.html(tmpl(this.model.toJSON()));
         if (this.model.attributes.map){
-            var shapesView = new ShapesView({model: this.model});
+            var mapContainer = document.getElementsByClassName('itinerary_cont')[0];
+            var shapesView = new ShapesView({model: this.model, mapContainer: mapContainer});
         } else {
             this.$el.find('.itinerary').hide();
         }

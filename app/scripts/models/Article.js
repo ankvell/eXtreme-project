@@ -7,6 +7,7 @@ var Article = Backbone.Model.extend({
         description: '',
         date: '',
         map: '',
+        shapes: '',
         difficulty: '',
         duration: '',
         creationDate: ''

@@ -6,20 +6,22 @@ var $ = require('jquery'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
     ListView = require('./views/ListView'),
-    addArticleView = require('./views/AddArticleView'),
+    AdminView = require('./views/AdminView'),
     data = require('../../data.js');
 
 $(document).ready(function() {
     window.App = {};
     var articleCollection = new ArticleCollection();
     articleCollection.fetch();
-    data.forEach(function(el) {
+    if (!localStorage.getItem('articleData')){
+        data.forEach(function(el){
         var article = new Article(el);
         articleCollection.add(article);
     });
+    }
     var idArray = [];
-    for (var key in localStorage) {
-        if (key !== 'articleData') {
+    for (var key in localStorage){
+        if (key !== 'articleData' && key != 'shapesData' && key != 'tracks'){
             var obj = JSON.parse(localStorage.getItem(key));
             if (obj.id) {
                 idArray.push(obj.id);
@@ -36,8 +38,9 @@ $(document).ready(function() {
             }
         }
     }
-    articleCollection.models.forEach(function(el, index) {
-        if (idArray.indexOf(el.id) === -1) {
+    articleCollection.models.forEach(function(el, index){
+        console.log(articleCollection);
+        if (el.id != undefined && idArray.indexOf(el.id) === -1){
             el.save();
         }
     });
@@ -58,7 +61,7 @@ $(document).ready(function() {
         routes: {
             '': 'showArticleList',
             'articles': 'showArticleList',
-            'admin': 'showAddArticleView',
+            'admin': 'showAdminView',
             'view/:title': 'viewArticle'
         },
         showArticleList: function() {

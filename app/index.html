@@ -101,7 +101,7 @@
         </script>
         <script type="text/template" class="admin">
             <h1>Нова стаття</h1>
-                   <form action='#'>
+                   <form action="#" id="article_form">
                        <label for="caption">Заголовок</label><input type="text" id="caption" placeholder="Заголовок статті" required>
                        <label for="route_description">Опис маршруту</label><input type="text" id="route_description" placeholder="с. Кваси - г. Петрос(2020м) - г. Говерла(2061м) - г. Піп Іван(2028м) - с. Дземброня">
                        <label for="description">Опис</label><textarea id="description" required></textarea>
@@ -111,25 +111,36 @@
                             <div id="drawing_controls"></div>
                             <div id="map"></div>
                         </div>
+                       <button type="button" id="add_rock">Додати скелю</button>
+                        <div id="choose_url">
+                            <label for="url">Введіть url адресу знимка скали:</label><input type="url" id="url" placeholder="Url goes here"><span id="error"></span>
+                            <button type="button" id="load_rock_image">Завантажити знимок</button>
+                        </div>
                         <div id="rock_container">
-                            <div id="choose_url">
-                                <label for="url">Введіть url адресу знимка скали:</label><input type="url" id="url" placeholder="Url goes here"><span id="error"></span>
-                                <button type="button" id="load_rock_image">Завантажити знимок</button>
-                            </div>
                             <canvas id="canvas"><span>Unfortunately your browser doesn't support canvas. Use the latest version of a browser</span></canvas>
                         </div>
-                       <button type="button" id="add_rock">Додати скелю</button>
-                       <div id="map_container"></div>
                        <label>Складність</label>
-                       <label><input type="radio" name="difficulty" value="1">1</label>
-                       <label><input type="radio" name="difficulty" value="2">2</label>
-                       <label><input type="radio" name="difficulty" value="3">3</label>
-                       <label><input type="radio" name="difficulty" value="4">4</label>
-                       <label><input type="radio" name="difficulty" value="5">5</label>
+                       <label><input type="radio" name="difficulty" id="radio1" value="1">1</label>
+                       <label><input type="radio" name="difficulty" id="radio2" value="2">2</label>
+                       <label><input type="radio" name="difficulty" id="radio3" value="3">3</label>
+                       <label><input type="radio" name="difficulty" id="radio4" value="4">4</label>
+                       <label><input type="radio" name="difficulty" id="radio5" value="5">5</label>
                        <label for="duration">Тривалість</label><input type="text" placeholder="15год" id="duration">
                        <button type="button" id="submit">Зберегти</button>
                        <input type="reset" id="reset" value="Очистити">
+                        <button type="button" id="showArticlesTable">Edit/Delete Articles</button>
                    </form>
+        </script>
+        <script type="text/template" id="editable_article">
+            <div id="table_container">
+                <table id="articles_table">
+                    <td class="edit_article_title"><%= title %></td>
+                    <td class="control_buttons">
+                        <button type="button" class="edit">Edit</button>
+                        <button type="button" class="delete">Delete</button>
+                    </td>
+                </table>
+            </div>
         </script>
         <script src="https://maps.googleapis.com/maps/api/js?libraries=places,drawing&sensor=false"></script>
         <script src="scripts/bundle.js"></script>
