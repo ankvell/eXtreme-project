@@ -4,8 +4,6 @@ var $ = require('jquery'),
 var ShapesView = Backbone.View.extend({
     initialize: function(options){
         var json = this.model.attributes;
-        //var json = JSON.parse(localStorage.getItem('shapesData'));
-        //this.model.map.setCenter(new google.maps.LatLng(json.map.lat, json.map.lon));
         this.model.map = new google.maps.Map(options.mapContainer, this.model.map.attributes.mapOptions);
         this.jsonRead(json);
     },

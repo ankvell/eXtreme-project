@@ -10,7 +10,7 @@ var ListView = Backbone.View.extend({
     },
     render: function(){
         this.$el.empty();
-        this.collection.models.forEach((function(article){
+        this.collection.forEach((function(article){
             this.renderArticle(article);
         }).bind(this));
         return this;

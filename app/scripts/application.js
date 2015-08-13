@@ -27,7 +27,7 @@ $(document).ready(function() {
                 idArray.push(obj.id);
             }
             var found = false;
-            articleCollection.models.forEach(function(el, index) {
+            articleCollection.forEach(function(el, index) {
                 if (el.id === obj.id) {
                     found = true;
                 }
@@ -38,8 +38,7 @@ $(document).ready(function() {
             }
         }
     }
-    articleCollection.models.forEach(function(el, index){
-        console.log(articleCollection);
+    articleCollection.forEach(function(el, index){
         if (el.id != undefined && idArray.indexOf(el.id) === -1){
             el.save();
         }
@@ -87,8 +86,7 @@ $(document).ready(function() {
         },
         showAdminView: function(){
             var adminView = new AdminView({
-                collection: articleCollection,
-                operation: 'Adding'
+                collection: articleCollection
             })
         }
     });

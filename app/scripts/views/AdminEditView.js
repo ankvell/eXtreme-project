@@ -17,46 +17,61 @@ var AdminEditView = Backbone.View.extend({
     initialize: function(options){
         this.keyInDb = options.keyInDb;
         this.render();
-        $('#submit').on('click', this.updateArticle.bind(this));
+        _.bindAll(this, 'updateArticle');
+        $('#submit').on('click', this.updateArticle);
     },
     render: function(){
         $('#addForm').hide();
         var tmpl = _.template($('.admin').html());
         this.$el.html(tmpl({}));
         $('.east_side').prepend(this.el);
-        $('#map_container').hide();
-        $('#rock_container').hide();
-        $('#canvas').hide();
-        $('#caption').val(this.model.attributes.title);
-        $('#route_description').val(this.model.attributes.route);
         CKEDITOR.replace('description');
-        CKEDITOR.instances['description'].setData(this.model.attributes.description);
-        if (this.model.attributes.map != undefined){
-            $('#map_container').show();
-            $('#autocomplete').hide();
+        this.titleEl = $('#caption');
+        this.routeEl = $('#route_description');
+        this.durationEl = $('#duration');
+        this.editor = CKEDITOR.instances['description'];
+        this.mapAutocompleteField = $('#autocomplete');
+        this.mapContainer = $('#map_container');
+        this.rockContainer = $('#rock_container');
+        this.urlField = $('choose_url');
+        this.canvasEl = $('#canvas');
+        this.mapContainer.hide();
+        this.mapVisible = false;
+        this.rockContainer.hide();
+        this.rockVisible = false;
+        this.canvasEl.hide();
+        this.populateForm();
+    },
+    populateForm: function(){
+        this.titleEl.val(this.model.attributes.title);
+        this.routeEl.val(this.model.attributes.route);
+        this.editor.setData(this.model.attributes.description);
+        this.durationEl.val(this.model.attributes.duration);
+        if (this.model.attributes.map){
+            this.mapContainer.show();
+            this.mapVisible = true;
+            this.mapAutocompleteField.hide();
             this.model.map = new Map({'lat': this.model.attributes.map.lat, 'lng': this.model.attributes.map.lon});
             var shapesView = new ShapesView({model: this.model, mapContainer: $('#map')[0]});
         }
         $('#radio' + this.model.attributes.difficulty).prop('checked',true);
-        $('#duration').val(this.model.attributes.duration);
     },
     updateArticle: function(){
-        this.model.attributes.title = $('#caption').val();
-        this.model.attributes.route = $('#route_description').val();
-        this.model.attributes.description = CKEDITOR.instances['description'].getData();
-        if ($('#map_container').is(':visible')){
+        this.model.attributes.title = this.titleEl.val();
+        this.model.attributes.route = this.routeEl.val();
+        this.model.attributes.description = this.editor.getData();
+        this.model.attributes.duration = this.durationEl.val();
+        this.model.attributes.creationDate = this.getCurrentDate();
+        if (this.mapVisible){
             var drawingData = JSON.parse(localStorage.getItem('shapesData'));
             if (drawingData && drawingData.shapes.length > 0){
-                console.log(drawingData);
                 this.model.attributes.shapes = drawingData.shapes;
                 this.model.attributes.map = drawingData.map;
             }
         }
-        if (document.querySelector('input[name="difficulty"]:checked')){
-            this.model.attributes.difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+        if (this.$el.find('input[name=difficulty]:checked')){
+            this.model.attributes.difficulty = this.$el.find('input[name=difficulty]:checked').val()
         }
-        this.model.attributes.duration = $('#duration').val();
-        this.model.attributes.creationDate = this.getCurrentDate();
         localStorage.removeItem(this.keyInDb);
         var updatedData = JSON.stringify({
             id: this.model.attributes.id,
@@ -70,38 +85,40 @@ var AdminEditView = Backbone.View.extend({
             map: this.model.attributes.map
         });
         localStorage.setItem(this.keyInDb, updatedData);
+        App.eventAggregator.trigger('show:list');
     },
     loadMap: function(){
-        if ($('#rock_container').is(':visible')){
-            $('#rock_container').hide();
+        if (this.rockVisible){
+            this.rockContainer.hide();
+            this.rockVisible = false;
         }
-        $('#map_container').show();
+        this.mapAutocompleteField.show();
+        this.mapContainer.show();
+        this.mapVisible = true;
         this.clearData();
-        if (localStorage.getItem('shapesData') != null){
-            localStorage.removeItem('shapesData');
-        }
         var map = new Map();
         var mapView = new MapView({model: map});
         var locationView = new LocationView({model: map});
         var drawingView = new DrawingView({model: map});
     },
     loadRock: function(){
-        if ($('#map_container').is(':visible')){
-            $('#map_container').hide();
+        if (this.mapVisible){
+            this.mapContainer.hide();
+            this.mapVisible = false;
         }
-        $('#choose_url').show();
+        this.urlField.show();
         this.clearData();
         $('#load_rock_image').on('click', function(){
-            if (document.getElementById('url').checkValidity() && $('#url').val()){
-                var imageUrl = $('#url').val();
-                $('#choose_url').hide();
-                $('#rock_container').show();
-                $('#canvas').show();
+            if ($('#url')[0].checkValidity() && $('#url').val()){
+                this.urlField.hide();
+                this.rockContainer.show();
+                this.rockVisible = true;
+                this.canvasEl.show();
                 var rockView = new RockView({
-                    imageUrl: imageUrl
+                    imageUrl: $('#url').val()
                 });
             } else{
-                $('#error').text('Please enter valid url');
+                $('#error').text('Invalid url');
             }
         });
     },

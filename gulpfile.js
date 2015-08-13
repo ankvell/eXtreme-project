@@ -137,8 +137,8 @@ gulp.task('buildHtml', function() {
     .pipe(size());
 });
 gulp.task('buildEditor', function(){
-  return gulp.src('app/ckeditor/**/*')
-      .pipe(gulp.dest(paths.buildDir + '/ckeditor'));
+  return gulp.src('app/scripts/assets/ckeditor/**/*')
+      .pipe(gulp.dest(paths.buildDir + '/scripts/assets/ckeditor'));
 });
 
 // BROWSERIFY

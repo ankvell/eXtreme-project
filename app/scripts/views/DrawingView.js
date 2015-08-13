@@ -1,4 +1,5 @@
 var $ = require('jquery'),
+    _ = require('underscore'),
     Backbone = require('backbone');
 
 var DrawingView = Backbone.View.extend({
@@ -35,7 +36,7 @@ var DrawingView = Backbone.View.extend({
             if (newShape.type !== 'marker') {
                 drawingManager.setDrawingMode(null);
                 google.maps.event.addListener(newShape, 'click', (function(e) {
-                    if (typeof e.vertex !== 'undefined') {
+                    if (e.vertex != undefined) {
                         var path = newShape.getPath();
                         path.removeAt(e.vertex);
                         if (path.length == 2 && newShape.type == 'polygon' || path.length < 2) {
@@ -56,8 +57,9 @@ var DrawingView = Backbone.View.extend({
             }
             this.onNewShape(newShape);
         }).bind(this));
-        google.maps.event.addListener(drawingManager, 'drawingmode_changed', this.clearSelection.bind(this));
-        google.maps.event.addListener(this.model.map, 'click', this.clearSelection.bind(this));
+        _.bindAll(this, 'clearSelection', 'saveShapes');
+        google.maps.event.addListener(drawingManager, 'drawingmode_changed', this.clearSelection);
+        google.maps.event.addListener(this.model.map, 'click', this.clearSelection);
         this.render(drawingManager, colors);
     },
     render: function(drawingManager, colors) {
@@ -75,7 +77,7 @@ var DrawingView = Backbone.View.extend({
         }).bind(this));
         deleteButton = $('<button/>', {
             type: 'button',
-            class: "delete-button",
+            class: 'delete-button',
         }).text('Delete');
         google.maps.event.addDomListener(deleteButton[0], 'click', (function() {
             if (this.selectedShape) {
@@ -141,14 +143,14 @@ var DrawingView = Backbone.View.extend({
         var path, paths, pathsLength;
         switch (shape.type) {
         case 'marker':
-            google.maps.event.addListener(shape, 'dragend', this.saveShapes.bind(this));
+            google.maps.event.addListener(shape, 'dragend', this.saveShapes);
             break;
         case 'rectangle':
-            google.maps.event.addListener(shape, 'bounds_changed', this.saveShapes.bind(this));
+            google.maps.event.addListener(shape, 'bounds_changed', this.saveShapes);
             break;
         case 'circle':
-            google.maps.event.addListener(shape, 'center_changed', this.saveShapes.bind(this));
-            google.maps.event.addListener(shape, 'radius_changed', this.saveShapes.bind(this));
+            google.maps.event.addListener(shape, 'center_changed', this.saveShapes);
+            google.maps.event.addListener(shape, 'radius_changed', this.saveShapes);
             break;
         case 'polyline':
             path = shape.getPath();
@@ -167,9 +169,9 @@ var DrawingView = Backbone.View.extend({
         }
     },
     newShapeAddPathListeners: function(shape, path){
-        google.maps.event.addListener(path, 'insert_at', this.saveShapes.bind(this));
-        google.maps.event.addListener(path, 'remove_at', this.saveShapes.bind(this));
-        google.maps.event.addListener(path, 'set_at', this.saveShapes.bind(this));
+        google.maps.event.addListener(path, 'insert_at', this.saveShapes);
+        google.maps.event.addListener(path, 'remove_at', this.saveShapes);
+        google.maps.event.addListener(path, 'set_at', this.saveShapes);
     },
     saveShapes: function(){
         var shapesData = this.jsonMake();

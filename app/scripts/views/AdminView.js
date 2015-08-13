@@ -18,7 +18,8 @@ var AdminView = Backbone.View.extend({
     },
     initialize: function(){
         this.render();
-        $('#submit').on('click', this.saveArticle.bind(this));
+        _.bindAll(this, 'saveArticle');
+        $('#submit').on('click', this.saveArticle);
     },
     render: function(){
         $('.east_side').empty();
@@ -26,52 +27,55 @@ var AdminView = Backbone.View.extend({
         this.$el.html(tmpl({}));
         $('.east_side').append(this.el);
         CKEDITOR.replace('description');
-        $('#map_container').hide();
-        $('#choose_url').hide();
-        $('#rock_container').hide();
-        $('#canvas').hide();
+        this.titleEl = $('#caption');
+        this.routeEl = $('#route_description');
+        this.durationEl = $('#duration');
+        this.editor = CKEDITOR.instances['description'];
+        this.mapContainer = $('#map_container');
+        this.rockContainer = $('#rock_container');
+        this.urlField = $('#choose_url');
+        this.canvasEl = $('#canvas');
+        this.mapContainer.hide();
+        this.mapVisible = false;
+        this.rockContainer.hide();
+        this.rockVisible = false;
+        this.canvasEl.hide();
+        this.urlField.hide();
     },
     saveArticle: function(){
-        var title = $('#caption').val();
-        var route = $('#route_description').val();
-        var description = CKEDITOR.instances['description'].getData();
-        if ($('#map_container').is(':visible')){
+        var article = new Article({
+            title: this.titleEl.val(),
+            route: this.routeEl.val(),
+            description: this.editor.getData(),
+            duration: this.durationEl.val(),
+            creationDate: this.getCurrentDate()
+        });
+        if (this.mapVisible){
             var drawingData = JSON.parse(localStorage.getItem('shapesData'));
             if (drawingData && drawingData.shapes.length > 0){
-                var shapesData = JSON.stringify(drawingData.shapes);
-                var mapData = JSON.stringify(drawingData.map);
+                article.set({
+                    shapes: drawingData.shapes,
+                    map: drawingData.map
+                });
             }
         }
-        if (document.querySelector('input[name="difficulty"]:checked')){
-            var difficulty = document.querySelector('input[name="difficulty"]:checked').value;
-        }
-        var duration = $('#duration').val();
-        var creationDate = this.getCurrentDate();
-        var article = new Article({
-            title: title,
-            route: route,
-            description: description,
-            difficulty: difficulty,
-            duration: duration,
-            creationDate: creationDate
-        });
-        if (typeof shapesData !== "undefined"){
+        if (this.$el.find('input[name=difficulty]:checked')){
             article.set({
-                shapes: JSON.parse(shapesData),
-                map: JSON.parse(mapData)
+                difficulty: this.$el.find('input[name=difficulty]:checked').val()
             });
         }
         this.collection.create(article, {silent: true});
-        localStorage.removeItem('shapesData');
         article.save();
+        this.clearData();
         App.eventAggregator.trigger('show:list');
-        return false;
     },
     loadMap: function(){
-        if ($('#rock_container').is(':visible')){
-            $('#rock_container').hide();
+        if (this.rockVisible){
+            this.rockContainer.hide();
+            this.rockVisible = false;
         }
-        $('#map_container').show();
+        this.mapContainer.show();
+        this.mapVisible = true;
         this.clearData();
         var map = new Map();
         var mapView = new MapView({model: map});
@@ -92,24 +96,25 @@ var AdminView = Backbone.View.extend({
         return dd + '-' + mm + '-' + yyyy;
     },
     loadRock: function(){
-        if ($('#map_container').is(':visible')){
-            $('#map_container').hide();
+        if (this.mapVisible){
+            this.mapContainer.hide();
+            this.mapVisible = false;
         }
-        $('#choose_url').show();
+        this.urlField.show();
         this.clearData();
-        $('#load_rock_image').on('click', function(){
-            if (document.getElementById('url').checkValidity() && $('#url').val()){
-                var imageUrl = $('#url').val();
-                $('#choose_url').hide();
-                $('#rock_container').show();
-                $('#canvas').show();
+        $('#load_rock_image').on('click', (function(){
+            if ($('#url')[0].checkValidity() && $('#url').val()){
+                this.urlField.hide();
+                this.rockContainer.show();
+                this.rockVisible = true;
+                this.canvasEl.show();
                 var rockView = new RockView({
-                    imageUrl: imageUrl
+                    imageUrl: $('#url').val()
                 });
             } else{
-                $('#error').text('Please enter valid url');
+                $('#error').text('Invalid url');
             }
-        });
+        }).bind(this));
     },
     clearData: function(){
         if (localStorage.getItem('shapesData') != null){

@@ -37,12 +37,12 @@ var RockView = Backbone.View.extend({
         this.position(x, y);
         var previousTrack = this.path.get('track');
         this.posCoords.push({
-            "x": x,
-            "y": y
+            'x': x,
+            'y': y
         });
         this.path.set('track', previousTrack.concat({
-            "x": x,
-            "y": y
+            'x': x,
+            'y': y
         }));
         this.connection();
     },
