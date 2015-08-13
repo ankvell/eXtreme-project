@@ -7,14 +7,16 @@ var $ = require('jquery'),
     LocationView = require('./LocationView'),
     DrawingView = require('./DrawingView'),
     RockView = require('./RockView'),
-    AdminEditListView = require('./AdminEditListView');
+    AdminEditListView = require('./AdminEditListView'),
+    imgs = [];
 
 var AdminView = Backbone.View.extend({
     id: 'addForm',
     events: {
         'click #add_map': 'loadMap',
         'click #add_rock': 'loadRock',
-        'click #showArticlesTable': 'showAdminEditListView'
+        'click #showArticlesTable': 'showAdminEditListView',
+        'click #load': 'loadImages'
     },
     initialize: function(){
         this.render();
@@ -60,6 +62,21 @@ var AdminView = Backbone.View.extend({
             }
         }
         if (this.$el.find('input[name=difficulty]:checked')){
+            var difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+        }
+        console.log(difficulty);
+        var duration = $('#duration').val();
+        var creationDate = this.getCurrentDate();
+        var article = new Article({
+            title: title,
+            route: route,
+            description: description,
+            difficulty: difficulty,
+            duration: duration,
+            creationDate: creationDate,
+            imgs: imgs
+        });
+        if (typeof shapesData !== "undefined"){
             article.set({
                 difficulty: this.$el.find('input[name=difficulty]:checked').val()
             });
@@ -115,6 +132,14 @@ var AdminView = Backbone.View.extend({
                 $('#error').text('Invalid url');
             }
         }).bind(this));
+    },
+    loadImages: function() {
+            imgURL = $('#imgs_url').val();
+            if(imgURL) {
+                imgs.push(imgURL);
+            }
+            console.log(imgs);
+            $('#imgs_url').val('');
     },
     clearData: function(){
         if (localStorage.getItem('shapesData') != null){

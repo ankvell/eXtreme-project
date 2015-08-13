@@ -44,6 +44,9 @@ paths.buildDir = isProd ? './dist' : './public';
 paths.cssBuildDir = './public/styles';
 paths.script = '/scripts';
 
+paths.imgSrc = 'app/images/**/*';
+paths.imgDst = 'public/images/';
+
 // MAIN TASKS
 gulp.task('default', ['build']);
 /**
@@ -54,7 +57,7 @@ gulp.task('build', function() {
   runSequence(
     'cleanBuildFolder',
     //'scriptsStyleguideFull',
-    ['buildHtml', 'buildStyles', 'buildScripts', 'buildEditor'],
+    ['buildHtml', 'buildStyles', 'buildScripts', 'buildEditor', 'images'],
     notifySuccess);
 });
 
@@ -135,6 +138,10 @@ gulp.task('buildHtml', function() {
     .pipe(useref())
     .pipe(gulp.dest(paths.buildDir))
     .pipe(size());
+});
+gulp.task('images', function() {
+    gulp.src(paths.imgSrc)
+        .pipe(gulp.dest(paths.imgDst));
 });
 gulp.task('buildEditor', function(){
   return gulp.src('app/scripts/assets/ckeditor/**/*')

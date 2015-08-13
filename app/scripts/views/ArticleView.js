@@ -2,7 +2,8 @@ var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     Map = require('../models/Map'),
-    ShapesView = require('./ShapesView');
+    ShapesView = require('./ShapesView'),
+    carousel = require('../carousel/owl-carousel');
 
 var ArticleView = Backbone.View.extend({
     el: $('.east_side'),
@@ -22,6 +23,14 @@ var ArticleView = Backbone.View.extend({
         } else {
             this.$el.find('.itinerary').hide();
         }
+        
+        $("#owl-demo").owlCarousel({
+            autoPlay: 3000,
+            items : 4,
+            itemsDesktop : [1199,3],
+            itemsDesktopSmall : [480,2],
+            itemTablet : [320,1]
+        });
     }
 });
 module.exports = ArticleView;
