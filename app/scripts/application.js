@@ -2,6 +2,7 @@ var $ = require('jquery'),
     _ = require('underscore'),
     //api = require('./configs/api'),
     Backbone = require('backbone'),
+    Router = require('./routes/Router'),
     Article = require('./models/Article'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
@@ -43,6 +44,8 @@ $(document).ready(function() {
             el.save();
         }
     });
+    var router = new Router({articleCollection: articleCollection});
+    Backbone.history.start();
     App.eventAggregator = _.extend({}, Backbone.Events);
     App.eventAggregator.on('article:selected', function(article) {
         var urlPath = 'view/' + article.get('title');
@@ -56,40 +59,4 @@ $(document).ready(function() {
             trigger: true
         });
     });
-    var ArticleRouter = Backbone.Router.extend({
-        routes: {
-            '': 'showArticleList',
-            'articles': 'showArticleList',
-            'admin': 'showAdminView',
-            'view/:title': 'viewArticle'
-        },
-        showArticleList: function() {
-            // api.getArticles(function(data) {
-            //     new ListView({
-            //         collection: new ArticleCollection(data)
-            //     });
-            // });
-            var listView = new ListView({
-                collection: articleCollection
-            });
-        },
-        viewArticle: function(title) {
-            // api.getArticle(title, function(article) {
-            //     new ArticleView({model: new Article(article)});
-            // });
-            var selectedArticle = _(articleCollection.models).find(function(article) {
-                return article.get('title') === title;
-            });
-            var articleView = new ArticleView({
-                model: selectedArticle
-            });
-        },
-        showAdminView: function(){
-            var adminView = new AdminView({
-                collection: articleCollection
-            })
-        }
-    });
-    var router = new ArticleRouter();
-    Backbone.history.start();
 });
