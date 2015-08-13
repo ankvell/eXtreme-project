@@ -28,6 +28,7 @@
                 </div>
                 <div class="search">
                     <div class="search_cont">search</div>
+                    <input type="text" id="search_field" placeholder="type your search here...">
                 </div>
             </div>
         </header>
@@ -64,24 +65,24 @@
                                 <p class="info"><%= route %></p>
                             </div>
                             <div class="right">
-                                
+
                                 <div class="clock_block">
                                     <img src="images/clock.png" />
                                     <p class="time">~<%= duration %></p>
                                 </div>
 								<div class="diff_block">
                                     <div class="m_imgs">
-                                        <img src="images/half_mount.png" class="one <% if(difficulty >= 1) { %>active<% } %> " />    
-                                        <img src="images/half_mount.png" class="two <% if(difficulty >= 2) { %>active<% } %>" />    
-                                        <img src="images/half_mount.png" class="three <% if(difficulty >= 3) { %>active<% } %>" />    
-                                        <img src="images/half_mount.png" class="four <% if(difficulty >= 4) { %>active<% } %>" />    
-                                        <img src="images/half_mount.png" class="five <% if(difficulty >= 5) { %>active<% } %>" />    
-                                        <img src="images/half_mount.png" class="six <% if(difficulty >= 6) { %>active<% } %>" />    
-                                        <img src="images/full_mount.png" class="seven <% if(difficulty >= 7) { %>active<% } %>" />    
+                                        <img src="images/half_mount.png" class="one <% if(difficulty >= 1) { %>active<% } %> " />
+                                        <img src="images/half_mount.png" class="two <% if(difficulty >= 2) { %>active<% } %>" />
+                                        <img src="images/half_mount.png" class="three <% if(difficulty >= 3) { %>active<% } %>" />
+                                        <img src="images/half_mount.png" class="four <% if(difficulty >= 4) { %>active<% } %>" />
+                                        <img src="images/half_mount.png" class="five <% if(difficulty >= 5) { %>active<% } %>" />
+                                        <img src="images/half_mount.png" class="six <% if(difficulty >= 6) { %>active<% } %>" />
+                                        <img src="images/full_mount.png" class="seven <% if(difficulty >= 7) { %>active<% } %>" />
                                     </div>
 								    <p class="diff"><%= difficulty %></p>
                                 </div>
-                                
+
                             </div>
                         </div>
                     </div>
@@ -97,7 +98,7 @@
                         <div class="itinerary_cont">
                         </div>
                     </div>
-                   
+
                     <div class="blocks">
                         <% if (typeof imgs !== "undefined") { %>
                             <div id="owl-demo" class="owl-carousel">
@@ -107,7 +108,7 @@
                             </div>
                         <% } %>
                     </div>
-                    
+
                     <div class="date"><%= creationDate %></div>
         </script>
         <script type="text/template" class="admin">

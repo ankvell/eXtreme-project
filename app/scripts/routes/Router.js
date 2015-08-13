@@ -1,8 +1,11 @@
 var _ = require('underscore'),
+    $ = require('jquery'),
     Backbone = require('backbone'),
     ListView = require('../views/ListView'),
     ArticleView = require('../views/ArticleView'),
-    AdminView = require('../views/AdminView');
+    AdminView = require('../views/AdminView'),
+    Filter = require('../models/Filter'),
+    SearchView = require('../views/SearchView');
 
 var Router = Backbone.Router.extend({
         initialize: function(options){
@@ -12,7 +15,8 @@ var Router = Backbone.Router.extend({
             '': 'showArticleList',
             'articles': 'showArticleList',
             'admin': 'showAdminView',
-            'view/:title': 'viewArticle'
+            'view/:title': 'viewArticle',
+            'search/:searchItem': 'viewSearchResult'
         },
         showArticleList: function() {
             // api.getArticles(function(data) {
@@ -23,6 +27,7 @@ var Router = Backbone.Router.extend({
             var listView = new ListView({
                 collection: this.articleCollection
             });
+            var searchView = new SearchView();
         },
         viewArticle: function(title) {
             // api.getArticle(title, function(article) {
@@ -39,6 +44,10 @@ var Router = Backbone.Router.extend({
             var adminView = new AdminView({
                 collection: this.articleCollection
             })
+        },
+        viewSearchResult: function(searchItem){
+            var filter = new Filter({collection: this.articleCollection, searchString: searchItem});
+            var listView = new ListView({collection: filter.filtered});
         }
     });
 module.exports = Router;

@@ -59,4 +59,10 @@ $(document).ready(function() {
             trigger: true
         });
     });
+    App.eventAggregator.on('search:results', function(searchString){
+        var urlPath = 'search/' + searchString;
+        router.navigate(urlPath, {
+            trigger: true
+        });
+    });
 });

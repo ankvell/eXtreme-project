@@ -23,7 +23,6 @@ var ArticleView = Backbone.View.extend({
         } else {
             this.$el.find('.itinerary').hide();
         }
-        
         $("#owl-demo").owlCarousel({
             autoPlay: 3000,
             items : 4,
