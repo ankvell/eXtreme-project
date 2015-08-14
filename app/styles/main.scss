@@ -1,0 +1,33 @@
+@font-face {
+    font-family: din-reg;
+    src: url(./fonts/DINPro/DINPro-Regular.otf);
+}
+@font-face {
+    font-family: din-bold;
+    src: url(./fonts/DINPro/DINPro-Bold.otf);
+}
+
+@font-face {
+    font-family: din-light;
+    src: url(./fonts/DINPro/DINPro-Light.otf);
+}
+
+@font-face {
+    font-family: din-med;
+    src: url(./fonts/DINPro/DINPro-Medium.otf);
+}
+
+@font-face {
+    font-family: din-black;
+    src: url(./fonts/DINPro/DINPro-Black.otf);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body {
+        font: 100% din-reg;
+        color: #3c3c3c;
+}

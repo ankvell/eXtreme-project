@@ -26,6 +26,7 @@
     "esprima-fb": "^15001.1.0-dev-harmony-fb",
     "gulp": "^3.9.0",
     "gulp-autoprefixer": "^2.3.1",
+    "gulp-concat": "^2.6.0",
     "gulp-eslint": "^0.14.0",
     "gulp-if": "^1.2.5",
     "gulp-jscs": "^1.6.0",

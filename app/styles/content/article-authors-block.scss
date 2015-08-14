@@ -1,0 +1,16 @@
+.round_info {
+    position: relative;
+    margin-bottom: 40px;
+    .round_info_cont {
+        width: 96%;
+        margin: 0 auto;
+        padding: 30px 1%;
+        .round_item {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: #d8d8d8;
+            margin-bottom: 45px;
+        }
+    }
+}

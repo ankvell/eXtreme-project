@@ -1,0 +1,50 @@
+.header_cont .logo {
+    position: relative;
+    display: table;
+    vertical-align: middle;
+    left: 7%;
+    text-align: center;
+    text-transform: uppercase;
+    float: left;
+    letter-spacing: 5px;
+    font-family: din-med;
+    .logo_cont {
+        color: #fdfffe;
+        text-decoration: none;
+        display: table-cell;
+        vertical-align: middle;
+        line-height: 1;
+        .top{
+            font-size: 27px;
+        }
+        .bttm {
+            font-size: 10px;
+            padding-top: 3px;
+        }
+    }
+}
+@media screen and (min-width: 2561px) {
+    .header_cont .logo_cont {
+        .top {
+            font-size: 43px;
+        }
+        .bttm {
+            font-size: 18px;
+        }
+    }
+}
+@media screen and (max-width: 2560px) and (min-width: 1440px){
+    .header_cont .logo_cont {
+        .top {
+            font-size: 1.7vw;
+        }
+        .bttm {
+            font-size: .7vw;
+        }
+    }
+}
+@media screen and (max-width: 767px) {
+    .header_cont .logo {
+        left: 70px;
+    }
+}

@@ -1,0 +1,33 @@
+.description {
+    position: relative;
+    margin-bottom: 40px;
+    .description_cont {
+        width: 96%;
+        margin: 0 auto;
+        padding: 30px 1% 60px;
+        .h2 {
+            font-size: 23px;
+            padding: 0 0 25px 0;
+        }
+        .descr_info {
+            color: #878787;
+            font-size: 14px;
+        }
+    }
+}
+@media screen and (min-width: 2561px) {
+    .description_cont .descr_info {
+        font-size: 26px;
+        .h2 {
+            font-size: 41px;
+        }
+    }
+}
+@media screen and (max-width: 2560px) and (min-width: 1440px) {
+    .description_cont .descr_info {
+        font-size: 1vw;
+        .h2 {
+            font-size: 1.6vw;
+        }
+    }
+}

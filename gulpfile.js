@@ -1,6 +1,7 @@
 // generic tools
 var _ = require('underscore');
 var del = require('del');
+var concat = require('gulp-concat');
 var gulpIf = require('gulp-if');
 var jscs = require('gulp-jscs');
 var sass = require('gulp-sass');
@@ -33,11 +34,11 @@ paths.jsFiles = paths.jsDir + '/**/*.js';
 paths.jsEntry = paths.jsDir + '/application.js';
 paths.jsOut = 'bundle.js';
 
-// paths.scssDir = './app/styles';
-paths.css = './app/styles/**/*';
-// paths.scssFiles = paths.scssDir + '/**/*.scss';
-// paths.scssEntry = paths.scssDir + '/main.scss';
-// paths.cssOut = 'styles.css';
+paths.scssDir = './app/styles';
+// paths.css = './app/styles/**/*';
+paths.scssFiles = paths.scssDir + '/**/*.scss';
+paths.scssEntry = paths.scssDir + '/main.scss';
+paths.cssOut = 'style.css';
 
 paths.html = './app/index.html';
 paths.buildDir = isProd ? './dist' : './public';
@@ -57,7 +58,7 @@ gulp.task('build', function() {
   runSequence(
     'cleanBuildFolder',
     //'scriptsStyleguideFull',
-    ['buildHtml', 'buildStyles', 'buildScripts', 'buildEditor', 'images'],
+    ['buildHtml', 'buildStyles', 'buildScripts', 'buildEditor', 'buildFonts', 'images'],
     notifySuccess);
 });
 
@@ -84,24 +85,17 @@ gulp.task('startDevServer', function() {
 });
 
 // CSS
-//Temporary
-  gulp.task('buildStyles', function(){
-    gulp.src(paths.css)
-      .pipe(gulp.dest(paths.cssBuildDir));
+  gulp.task('buildStyles', function() {
+  return gulp.src(paths.scssFiles)
+    .pipe(gulpIf(!isProd, sourcemaps.init()))
+    .pipe(sass().on('error', sass.logError))
+    .pipe(autoprefixer({browsers: ['> 5%', 'last 2 versions']}))
+    .pipe(concat(paths.cssOut))
+    .pipe(gulpIf(!isProd, sourcemaps.write()))
+    //.pipe(gulpIf(isProd, minifycss()))
+    .pipe(gulp.dest(paths.cssBuildDir));
   });
-/**
-  * gulp.task('buildStyles', function() {
-  *  return gulp.src(paths.scssFiles)
-  *    .pipe(gulpIf(!isProd, sourcemaps.init()))
-  *    .pipe(sass.on('error', sass.logError))
 
-  *    // todo: clean this task minification process
-  *    .pipe($.autoprefixer({browsers: ['> 5%', 'last 2 versions']}))
-  *    .pipe(gulpIf(!isProd, sourcemaps.write()))
-  *    .pipe(gulpIf(isProd, minifycss()))
-  *    .pipe(gulp.dest(paths.cssBuildDir));
-  * });
-  */
 // code healthiness
 
 /**
@@ -147,6 +141,10 @@ gulp.task('buildEditor', function(){
   return gulp.src('app/scripts/assets/ckeditor/**/*')
       .pipe(gulp.dest(paths.buildDir + '/scripts/assets/ckeditor'));
 });
+gulp.task('buildFonts', function(){
+    return gulp.src('app/styles/fonts/**/*')
+      .pipe(gulp.dest(paths.buildDir + '/styles/fonts'));
+})
 
 // BROWSERIFY
 var browserifyOptions = {

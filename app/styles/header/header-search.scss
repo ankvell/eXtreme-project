@@ -1,0 +1,12 @@
+.header_cont .search {
+    position: relative;
+    display: table;
+    vertical-align: middle;
+    right: 1.6%;
+    float: right;
+    .search_cont {
+        display: table-cell;
+        vertical-align: middle;
+        line-height: 1;
+    }
+}
