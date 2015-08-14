@@ -23,34 +23,28 @@ var RenderCanvasView = Backbone.View.extend({
             canvas.height = 540;
             context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
 
-            // draw point
-            for (var jj = 0; jj < allCoords.length; jj++) {
-                var toPoints = allCoords[jj].track;
-                var pointColor = allCoords[jj].trackColor;
-                for (var yy = 0; yy < toPoints.length; yy++) {
+            allCoords.forEach(function(el) {
+                var paths = el.track;
+                this.drawColor = el.trackColor;
+                paths.forEach(function(elem) {
                     context.beginPath();
-                    context.fillStyle = pointColor;
-                    context.arc(toPoints[yy].x, toPoints[yy].y, 3, 0, 2 * Math.PI);
+                    context.fillStyle = this.drawColor;
+                    context.arc(elem.x, elem.y, 3, 0, 2 * Math.PI);
                     context.fill();
                     context.restore();
-                }
-            }
-            // draw paths
-            for (var ii = 0; ii < allCoords.length; ii++) {
-                var toPaths = allCoords[ii].track;
-                var lineColor = allCoords[ii].trackColor;
+                });
+
                 context.beginPath();
-                for (var kk = 0; kk < toPaths.length; kk++) {
-                    context.strokeStyle = lineColor;
+                paths.forEach(function(elem) {
+                    context.strokeStyle = this.drawColor;
                     context.lineWidth = 2;
-                    context.lineTo(toPaths[kk].x, toPaths[kk].y);
-                }
+                    context.lineTo(elem.x, elem.y);
+                });
                 context.stroke();
                 context.closePath();
-            }
-        }).bind(this));
-        // canvas.width =  200 + 'px';//parseInt(imageObj.width); //imageObj.width;
-        // canvas.height = 200 + 'px'; //parseInt(imageObj.height); //imageObj.height;
+            });
+        }));
+
         return this;
     },
     tracksComplement: function() {

@@ -4,7 +4,8 @@ var RockPath = Backbone.Model.extend({
     defaults: {
         track: [],
         complexity: '',
-        description: ''
+        description: '',
+        trackColor: '#DE5635'
     }
 });
 module.exports = RockPath;

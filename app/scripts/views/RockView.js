@@ -13,8 +13,15 @@ var RockView = Backbone.View.extend({
         this.render();
         this.checkColor();
 
-        _.bindAll(this, 'saveTrack');
-        $('#saveTrack').on('click', this.saveTrack);
+        _.bindAll(this, 'saveTrack', 'undoTrack');
+        $('#save_track').on('click', this.saveTrack);
+        $('#alter_track').on('click', function(){
+            setTimeout(function() {
+                this.undoTrack();
+            }.bind(this))
+        }.bind(this));
+
+
 
         $('.color-button').click(function(e) {
             this.color = e.target.style.backgroundColor;
@@ -68,6 +75,8 @@ var RockView = Backbone.View.extend({
         this.draw = true;
     },
     position: function(x, y) {
+
+        // this.color = this.path.get('trackColor');
         this.path.set('trackColor', this.color);
 
         this.context.beginPath();
@@ -93,6 +102,31 @@ var RockView = Backbone.View.extend({
 
         this.$el.next().find('#trackComplexity').val('');
         this.$el.next().find('#trackDescription').val('');
+    },
+    undoTrack: function() {
+        this.render();
+        var allCoords = this.pathesCollection.models;
+        allCoords.pop();
+        allCoords.forEach(function(el) {
+            var toPoints = el.attributes.track;
+            this.drawColor = el.attributes.trackColor;
+            toPoints.forEach(function(elem) {
+                this.context.beginPath();
+                this.context.fillStyle = this.drawColor;
+                this.context.arc(elem.x, elem.y, 3, 0, 2 * Math.PI);
+                this.context.fill();
+                this.context.restore();
+            }.bind(this));
+
+            this.context.beginPath();
+            toPoints.forEach(function(elem) {
+                this.context.strokeStyle = this.drawColor;
+                this.context.lineWidth = 2;
+                this.context.lineTo(elem.x, elem.y);
+            }.bind(this));
+            this.context.stroke();
+            this.context.closePath();
+        }.bind(this));
     },
     tracksDetails: function() {
         this.tracksComplexity = this.$el.next().find('#trackComplexity').val();

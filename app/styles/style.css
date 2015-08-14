@@ -796,8 +796,8 @@ input[type="text"] {
     font: 16px Arial, Helvetica, sans-serif;
     color: #fff;
 }
-#saveTrack,
-#alter {
+#save_track,
+#alter_track{
     width: 90px;
     height: 30px;
     border-radius: 12px 5px;
@@ -805,7 +805,7 @@ input[type="text"] {
     border: 1px solid #226317;
     color: #EFECEA;
 }
-#alter {
+#alter_track {
     background-color: #B34E30;
     border: 1px solid #8E4017;
 }
