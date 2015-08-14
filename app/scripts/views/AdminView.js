@@ -7,8 +7,7 @@ var $ = require('jquery'),
     LocationView = require('./LocationView'),
     DrawingView = require('./DrawingView'),
     RockView = require('./RockView'),
-    AdminEditListView = require('./AdminEditListView'),
-    imgs = [];
+    AdminEditListView = require('./AdminEditListView');
 
 var AdminView = Backbone.View.extend({
     id: 'addForm',
@@ -18,12 +17,12 @@ var AdminView = Backbone.View.extend({
         'click #showArticlesTable': 'showAdminEditListView',
         'click #load': 'loadImages'
     },
-    initialize: function(){
+    initialize: function() {
         this.render();
         _.bindAll(this, 'saveArticle');
         $('#submit').on('click', this.saveArticle);
     },
-    render: function(){
+    render: function() {
         $('.east_side').empty();
         var tmpl = _.template($('.admin').html());
         this.$el.html(tmpl({}));
@@ -37,6 +36,7 @@ var AdminView = Backbone.View.extend({
         this.rockContainer = $('#rock_container');
         this.urlField = $('#choose_url');
         this.canvasEl = $('#canvas');
+        this.imgs = [];
         this.mapContainer.hide();
         this.mapVisible = false;
         this.rockContainer.hide();
@@ -44,7 +44,7 @@ var AdminView = Backbone.View.extend({
         this.canvasEl.hide();
         this.urlField.hide();
     },
-    saveArticle: function(){
+    saveArticle: function() {
         var article = new Article({
             title: this.titleEl.val(),
             route: this.routeEl.val(),
@@ -52,42 +52,39 @@ var AdminView = Backbone.View.extend({
             duration: this.durationEl.val(),
             creationDate: this.getCurrentDate()
         });
-        if (this.mapVisible){
+        if (this.mapVisible) {
             var drawingData = JSON.parse(localStorage.getItem('shapesData'));
-            if (drawingData && drawingData.shapes.length > 0){
+            if (drawingData && drawingData.shapes.length > 0) {
                 article.set({
                     shapes: drawingData.shapes,
                     map: drawingData.map
                 });
             }
         }
-        if (this.$el.find('input[name=difficulty]:checked')){
-            var difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+        if (this.rockVisible) {
+            var canvasDrawing = this.rockView.serialize();
+            var canvasData = localStorage.setItem('tracks', JSON.stringify(canvasDrawing));
+            if (canvasDrawing) {
+                article.set({
+                    imgUrl: canvasDrawing.imageUrl,
+                    tracks: canvasDrawing.paths
+                });
+            }
         }
-        console.log(difficulty);
-        var duration = $('#duration').val();
-        var creationDate = this.getCurrentDate();
-        var article = new Article({
-            title: title,
-            route: route,
-            description: description,
-            difficulty: difficulty,
-            duration: duration,
-            creationDate: creationDate,
-            imgs: imgs
-        });
-        if (typeof shapesData !== "undefined"){
+        if (this.$el.find('input[name=difficulty]:checked')) {
             article.set({
                 difficulty: this.$el.find('input[name=difficulty]:checked').val()
             });
         }
-        this.collection.create(article, {silent: true});
+        this.collection.create(article, {
+            silent: true
+        });
         article.save();
         this.clearData();
         App.eventAggregator.trigger('show:list');
     },
-    loadMap: function(){
-        if (this.rockVisible){
+    loadMap: function() {
+        if (this.rockVisible) {
             this.rockContainer.hide();
             this.rockVisible = false;
         }
@@ -95,40 +92,47 @@ var AdminView = Backbone.View.extend({
         this.mapVisible = true;
         this.clearData();
         var map = new Map();
-        var mapView = new MapView({model: map});
-        var locationView = new LocationView({model: map});
-        var drawingView = new DrawingView({model: map});
+        var mapView = new MapView({
+            model: map
+        });
+        var locationView = new LocationView({
+            model: map
+        });
+        var drawingView = new DrawingView({
+            model: map
+        });
     },
-    getCurrentDate: function(){
+    getCurrentDate: function() {
         var today = new Date();
         var dd = today.getDate();
         var mm = today.getMonth() + 1;
         var yyyy = today.getFullYear();
-        if (dd < 10){
+        if (dd < 10) {
             dd = '0' + dd;
         }
-        if (mm < 10){
-            mm='0' + mm;
+        if (mm < 10) {
+            mm = '0' + mm;
         }
         return dd + '-' + mm + '-' + yyyy;
     },
-    loadRock: function(){
-        if (this.mapVisible){
+    loadRock: function() {
+        if (this.mapVisible) {
             this.mapContainer.hide();
             this.mapVisible = false;
         }
         this.urlField.show();
+        // this.urlField.focus();
         this.clearData();
-        $('#load_rock_image').on('click', (function(){
-            if ($('#url')[0].checkValidity() && $('#url').val()){
+        $('#load_rock_image').on('click', (function() {
+            if ($('#url')[0].checkValidity() && $('#url').val()) {
                 this.urlField.hide();
                 this.rockContainer.show();
                 this.rockVisible = true;
                 this.canvasEl.show();
-                var rockView = new RockView({
+                this.rockView = new RockView({
                     imageUrl: $('#url').val()
                 });
-            } else{
+            } else {
                 $('#error').text('Invalid url');
             }
         }).bind(this));
@@ -136,21 +140,22 @@ var AdminView = Backbone.View.extend({
     loadImages: function() {
             imgURL = $('#imgs_url').val();
             if(imgURL) {
-                imgs.push(imgURL);
+                this.imgs.push(imgURL);
             }
-            console.log(imgs);
             $('#imgs_url').val('');
     },
-    clearData: function(){
-        if (localStorage.getItem('shapesData') != null){
+    clearData: function() {
+        if (localStorage.getItem('shapesData') != null) {
             localStorage.removeItem('shapesData');
         }
-        if (localStorage.getItem('tracks') != null){
+        if (localStorage.getItem('tracks') != null) {
             localStorage.removeItem('tracks');
         }
     },
-    showAdminEditListView: function(){
-        var adminEditListView = new AdminEditListView({collection: this.collection});
+    showAdminEditListView: function() {
+        var adminEditListView = new AdminEditListView({
+            collection: this.collection
+        });
     }
 });
 module.exports = AdminView;

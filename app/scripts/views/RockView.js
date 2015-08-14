@@ -1,4 +1,5 @@
 var $ = require('jquery'),
+    _ = require('underscore'),
     Backbone = require('backbone'),
     Path = require('../models/RockPath'),
     RockPathesCollection = require('../collections/RockPathesCollection');
@@ -10,6 +11,20 @@ var RockView = Backbone.View.extend({
         this.pathesCollection = new RockPathesCollection();
         this.context = this.el.getContext('2d');
         this.render();
+        this.checkColor();
+
+        _.bindAll(this, 'saveTrack');
+        $('#saveTrack').on('click', this.saveTrack);
+
+        $('.color-button').click(function(e) {
+            this.color = e.target.style.backgroundColor;
+        }.bind(this));
+    },
+    serialize: function() {
+        return {
+            imageUrl: this.imageUrl,
+            paths: this.pathesCollection.toJSON()
+        };
     },
     render: function() {
         this.draw = false;
@@ -20,13 +35,13 @@ var RockView = Backbone.View.extend({
             var height = document.getElementById('rock_container').offsetHeight;
             this.el.width = width;
             this.el.height = height;
-            this.context.drawImage(imageObj, 0, 0, width, height);
+            // this.context.drawImage(imageObj, 0, 0, width, height);
+            this.context.drawImage(imageObj, 0, 0, 800, 540);
         }).bind(this));
         return this;
     },
     events: {
-        'click': 'drawTrack',
-        'dblclick': 'saveTrack'
+        'click': 'drawTrack'
     },
     drawTrack: function(event) {
         var x = event.offsetX;
@@ -53,7 +68,10 @@ var RockView = Backbone.View.extend({
         this.draw = true;
     },
     position: function(x, y) {
+        this.path.set('trackColor', this.color);
+
         this.context.beginPath();
+        this.context.fillStyle = this.color;
         this.context.arc(x, y, 3, 0, 2 * Math.PI);
         this.context.fill();
         this.context.restore();
@@ -62,6 +80,7 @@ var RockView = Backbone.View.extend({
         this.context.lineWidth = 2;
         this.context.beginPath();
         if (this.posCoords.length > 1) {
+            this.context.strokeStyle = this.color;
             this.context.moveTo(this.posCoords[this.posCoords.length - 2].x, this.posCoords[this.posCoords.length - 2].y);
             this.context.lineTo(this.posCoords[this.posCoords.length - 1].x, this.posCoords[this.posCoords.length - 1].y);
         }
@@ -70,7 +89,26 @@ var RockView = Backbone.View.extend({
     },
     saveTrack: function() {
         this.draw = false;
-        localStorage.setItem('tracks', JSON.stringify(this.pathesCollection.models));
+        this.tracksDetails();
+
+        this.$el.next().find('#trackComplexity').val('');
+        this.$el.next().find('#trackDescription').val('');
     },
+    tracksDetails: function() {
+        this.tracksComplexity = this.$el.next().find('#trackComplexity').val();
+        this.path.set('complexity', this.tracksComplexity);
+
+        this.tracksDescription = this.$el.next().find('#trackDescription').val();
+        this.path.set('description', this.tracksDescription);
+    },
+    checkColor: function() {
+        var colors = ['#026871', '#EC5F3E', '#F9CB3E', '#464646', '#FF6600', '#C7D70E', '#91A30E', '#524656', '#D14643', '#C10000', '#3A000D', '#01151A', '#003A48', '#007892', '#357D25', '#6FAF0B', '#455A64', '##009688'];
+
+        colors.forEach(function(color) {
+            var button = $('<div class="color-button"></div>');
+            button.css('background-color', color);
+            this.$el.next().find('.color_panel').append(button);
+        }.bind(this));
+    }
 });
 module.exports = RockView;
