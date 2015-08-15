@@ -13,16 +13,17 @@ var $ = require('jquery'),
 $(document).ready(function() {
     window.App = {};
     var articleCollection = new ArticleCollection();
-    articleCollection.fetch();
-    if (!localStorage.getItem('articleData')){
+    if (!localStorage.length){
         data.forEach(function(el){
         var article = new Article(el);
         articleCollection.add(article);
+        var itemName = _.uniqueId('articleData');
+        localStorage.setItem(itemName, JSON.stringify(article));
     });
     }
     var idArray = [];
     for (var key in localStorage){
-        if (key !== 'articleData' && key != 'shapesData' && key != 'tracks'){
+        if (key !== 'articleData' && key != 'shapesData' && key != 'tracks' && localStorage.getItem(key)){
             var obj = JSON.parse(localStorage.getItem(key));
             if (obj.id) {
                 idArray.push(obj.id);
@@ -62,6 +63,23 @@ $(document).ready(function() {
     App.eventAggregator.on('search:results', function(searchString){
         var urlPath = 'search/' + searchString;
         router.navigate(urlPath, {
+            trigger: true
+        });
+    });
+    App.eventAggregator.on('edit:article', function(id){
+        var urlPath = 'admin/edit/' + id;
+        router.navigate(urlPath, {
+            trigger: true
+        });
+    });
+    App.eventAggregator.on('add:article', function(){
+        var urlPath = 'admin/add';
+        router.navigate(urlPath, {
+            trigger: true
+        });
+    });
+    App.eventAggregator.on('admin:main', function(){
+        router.navigate('admin', {
             trigger: true
         });
     });

@@ -16,7 +16,6 @@ var AdminView = Backbone.View.extend({
     events: {
         'click #add_map': 'loadMap',
         'click #add_rock': 'loadRock',
-        'click #showArticlesTable': 'showAdminEditListView',
         'click #load': 'loadImages'
     },
     initialize: function() {
@@ -82,7 +81,7 @@ var AdminView = Backbone.View.extend({
         });
         article.save();
         this.clearData();
-        App.eventAggregator.trigger('show:list');
+        App.eventAggregator.trigger('admin:main');
     },
     loadMap: function() {
         if (this.rockVisible) {
@@ -152,11 +151,6 @@ var AdminView = Backbone.View.extend({
         if (localStorage.getItem('tracks') != null) {
             localStorage.removeItem('tracks');
         }
-    },
-    showAdminEditListView: function() {
-        var adminEditListView = new AdminEditListView({
-            collection: this.collection
-        });
     }
 });
 module.exports = AdminView;

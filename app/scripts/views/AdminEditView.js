@@ -14,14 +14,21 @@ var AdminEditView = Backbone.View.extend({
         'click #add_map': 'loadMap',
         'click #add_rock': 'loadRock'
     },
-    initialize: function(options){
-        this.keyInDb = options.keyInDb;
+    initialize: function(){
+        for (var key in localStorage) {
+            if (key !== 'articleData' && key != 'shapesData' && key != 'tracks' && localStorage.getItem(key)) {
+                var obj = JSON.parse(localStorage.getItem(key));
+                if (obj.title === this.model.attributes.title) {
+                    this.keyInDb = key;
+                }
+            }
+        }
         this.render();
         _.bindAll(this, 'updateArticle');
         $('#submit').on('click', this.updateArticle);
     },
     render: function(){
-        $('#addForm').hide();
+        $('.east_side').empty();
         var tmpl = _.template($('.admin').html());
         this.$el.html(tmpl({}));
         $('.east_side').prepend(this.el);
@@ -85,7 +92,7 @@ var AdminEditView = Backbone.View.extend({
             map: this.model.attributes.map
         });
         localStorage.setItem(this.keyInDb, updatedData);
-        App.eventAggregator.trigger('show:list');
+        App.eventAggregator.trigger('admin:main');
     },
     loadMap: function(){
         if (this.rockVisible){

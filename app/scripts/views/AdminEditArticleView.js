@@ -9,7 +9,7 @@ var AdminEditArticleView = Backbone.View.extend({
     template: template,
     initialize: function() {
         for (var key in localStorage) {
-            if (key !== 'articleData' && key != 'shapesData' && key != 'tracks') {
+            if (key !== 'articleData' && key != 'shapesData' && key != 'tracks' && localStorage.getItem(key)) {
                 var obj = JSON.parse(localStorage.getItem(key));
                 if (obj.id === this.model.attributes.id) {
                     this.keyInDb = key;
@@ -31,10 +31,7 @@ var AdminEditArticleView = Backbone.View.extend({
         this.remove();
     },
     editArticle: function(){
-        var adminEditView = new AdminEditView({
-            model: this.model,
-            keyInDb: this.keyInDb
-        });
+        App.eventAggregator.trigger('edit:article', this.model.attributes.id);
     }
 });
 module.exports = AdminEditArticleView;

@@ -9,10 +9,14 @@ var AdminEditListView = Backbone.View.extend({
         this.render();
     },
     render: function(){
-        $('#articles_table').empty();
+        $('.east_side').empty();
         this.collection.forEach(function(article){
             this.renderArticle(article);
         }, this);
+        $('<button type="button" id="add_new_article"/>').text('Add new article').prependTo('.east_side');
+        $('#add_new_article').on('click', function(){
+            App.eventAggregator.trigger('add:article');
+        });
         return this;
     },
     renderArticle: function(article){
