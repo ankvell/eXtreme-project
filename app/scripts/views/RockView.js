@@ -15,10 +15,10 @@ var RockView = Backbone.View.extend({
 
         _.bindAll(this, 'saveTrack', 'undoTrack');
         $('#save_track').on('click', this.saveTrack);
-        $('#alter_track').on('click', function() {
+        $('#alter_track').on('click', function(){
             setTimeout(function() {
                 this.undoTrack();
-            }.bind(this));
+            }.bind(this))
         }.bind(this));
 
 
@@ -97,27 +97,15 @@ var RockView = Backbone.View.extend({
         this.context.closePath();
     },
     saveTrack: function() {
+        this.draw = false;
+        this.tracksDetails();
 
-        if ($.trim($('#trackComplexity').val()).length > 1 && $.trim($('#trackDescription').val()).length > 1) {
-            this.draw = false;
-            this.tracksDetails();
-            debugger;
-
-            $('#trackComplexity').css('border-color', 'green');
-            $('#trackDescription').css('border-color', 'green');
-
-            this.$el.next().find('#trackComplexity').val('');
-            this.$el.next().find('#trackDescription').val('');
-
-        } else {
-            $('#trackComplexity').css('border-color', '#DE5635');
-            $('#trackDescription').css('border-color', '#DE5635');
-
-        }
-
+        this.$el.next().find('#trackComplexity').val('');
+        this.$el.next().find('#trackDescription').val('');
     },
     undoTrack: function() {
         this.render();
+
         var allCoords = this.pathesCollection.models;
         allCoords.pop();
         allCoords.forEach(function(el) {
