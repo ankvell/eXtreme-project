@@ -1,0 +1,52 @@
+<div class="topic">
+    <div class="topic_cont">
+        <div class="left">
+            <p class="h1"><%= title %></p>
+            <p class="info"><%= route %></p>
+        </div>
+        <div class="right">
+            <div class="clock_block">
+                <img src="images/clock.png" />
+                <p class="time">~<%= duration %></p>
+            </div>
+            <div class="diff_block">
+                <div class="m_imgs">
+                    <img src="images/half_mount.png" class="one <% if(difficulty >= 1) { %>active<% } %> " />
+                    <img src="images/half_mount.png" class="two <% if(difficulty >= 2) { %>active<% } %>" />
+                    <img src="images/half_mount.png" class="three <% if(difficulty >= 3) { %>active<% } %>" />
+                    <img src="images/half_mount.png" class="four <% if(difficulty >= 4) { %>active<% } %>" />
+                    <img src="images/half_mount.png" class="five <% if(difficulty >= 5) { %>active<% } %>" />
+                    <img src="images/half_mount.png" class="six <% if(difficulty >= 6) { %>active<% } %>" />
+                    <img src="images/full_mount.png" class="seven <% if(difficulty >= 7) { %>active<% } %>" />
+                </div>
+                <p class="diff"><%= difficulty %></p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="description">
+    <div class="description_cont">
+        <p class="h2">Опис</p>
+        <div class="descr_info"><%= description %>
+        </div>
+    </div>
+</div>
+<div class="itinerary">
+    <p class="h2">Маршрут</p>
+    <div class="itinerary_cont"></div>
+</div>
+<div class="itinerary_rock">
+    <div class="track_complement"></div>
+</div>
+<div class="blocks">
+    <% if (imgs) { %>
+    <div id="owl-demo" class="owl-carousel">
+        <% imgs.forEach(function(imgSrc) { %>
+            <div class="item">
+                <img src="<%= imgSrc %>">
+            </div>
+        <% }); %>
+    </div>
+    <% } %>
+</div>
+<div class="date"><%= creationDate %></div>

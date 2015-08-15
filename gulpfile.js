@@ -1,5 +1,6 @@
 // generic tools
 var _ = require('underscore');
+var underscorify = require("node-underscorify");
 var del = require('del');
 var concat = require('gulp-concat');
 var gulpIf = require('gulp-if');
@@ -68,8 +69,8 @@ gulp.task('build', function() {
 gulp.task('serve', ['startDevServer', 'browserifyWatch', 'appWatch']);
 
 // SUB TASKS
-gulp.task('cleanBuildFolder', function() {
-  del(paths.buildDir);
+gulp.task('cleanBuildFolder', function(cb) {
+  del(paths.buildDir, cb);
 });
 
 gulp.task('appWatch', function() {
@@ -156,9 +157,11 @@ var browserifyOptions = {
 };
 
 var bundler = browserify(browserifyOptions);
+bundler.transform(underscorify.transform({extensions: ['html']}));
 
 var watchifyOptions = assign({}, watchify.args, browserifyOptions);
 var watchBundler = watchify(browserify(watchifyOptions));
+watchBundler.transform(underscorify.transform({extensions: ['html']}));
 
 gulp.task('buildScripts', function() {
   return bundler.bundle()

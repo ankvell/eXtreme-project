@@ -1,10 +1,12 @@
 var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    AdminEditView = require('./AdminEditView');
+    AdminEditView = require('./AdminEditView'),
+    template = require('./templates/editArticleTemplate.html');
 
 var AdminEditArticleView = Backbone.View.extend({
     tagName: 'tr',
+    template: template,
     initialize: function() {
         for (var key in localStorage) {
             if (key !== 'articleData' && key != 'shapesData' && key != 'tracks') {
@@ -16,8 +18,7 @@ var AdminEditArticleView = Backbone.View.extend({
         }
     },
     render: function() {
-        var tmpl = _.template($('#editable_article').html());
-        this.$el.html(tmpl(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
         return this;
     },
     events: {

@@ -7,9 +7,11 @@ var $ = require('jquery'),
     LocationView = require('./LocationView'),
     DrawingView = require('./DrawingView'),
     RockView = require('./RockView'),
-    AdminEditListView = require('./AdminEditListView');
+    AdminEditListView = require('./AdminEditListView'),
+    template = require('./templates/adminTemplate.html');
 
 var AdminView = Backbone.View.extend({
+    template: template,
     id: 'addForm',
     events: {
         'click #add_map': 'loadMap',
@@ -24,8 +26,7 @@ var AdminView = Backbone.View.extend({
     },
     render: function() {
         $('.east_side').empty();
-        var tmpl = _.template($('.admin').html());
-        this.$el.html(tmpl({}));
+        this.$el.html(this.template({}));
         $('.east_side').append(this.el);
         CKEDITOR.replace('description');
         this.titleEl = $('#caption');

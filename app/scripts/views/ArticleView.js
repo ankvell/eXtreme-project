@@ -4,10 +4,12 @@ var $ = require('jquery'),
     Map = require('../models/Map'),
     ShapesView = require('./ShapesView'),
     RenderCanvasView = require('./RenderCanvasView'),
-    carousel = require('../carousel/owl-carousel');
+    carousel = require('../carousel/owl-carousel'),
+    template = require('./templates/articleTemplate.html');
 
 var ArticleView = Backbone.View.extend({
     el: $('.east_side'),
+    template: template,
     initialize: function() {
         if (this.model.attributes.map) {
             this.model.map = new Map({
@@ -20,8 +22,7 @@ var ArticleView = Backbone.View.extend({
     },
     render: function() {
         this.$el.empty();
-        var tmpl = _.template($('.article-template').html());
-        this.$el.html(tmpl(this.model.toJSON()));
+        this.$el.html(this.template(this.model.toJSON()));
         if (this.model.attributes.map) {
             var mapContainer = document.getElementsByClassName('itinerary_cont')[0];
             var shapesView = new ShapesView({
