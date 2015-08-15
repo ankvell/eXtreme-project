@@ -1,26 +1,49 @@
-.header_cont .nav_btn {
-    display: none;
-    cursor: pointer;
-    position: absolute;
-    width: 45px;
-    height: 40px;
-    overflow: hidden;
-    top: 16px;
-    left: 5px;
-    button {
-        color: #404040;
-        line-height: 6px;
-        font-size: 24px;
-        font-weight: 500;
-        text-align: center;
-        width: 45px;
-        height: 40px;
+.header_cont {
+    .nav_toggle {
+        cursor: pointer;
+        width: 35px;
+        height: 4px;
+        display: block;
+        border-radius: 2px;
+        background: #464646;
+        position: absolute;
         outline: none;
         border: none;
-        background: none;
-        cursor: pointer;
-        &.menu_btn_active {
-            color: #fdfffe;
+        transition: all .5  s ease-in-out;
+        &:before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            display: block;
+            height: 4px;
+            width: 35px;
+            background: #464646;
+            border-radius: 2px;
+            cursor: pointer;
+            transition: all .5 ease-in-out;
+        }
+        &:after {
+            position: absolute;
+            bottom: -10px;
+            display: block;
+            width: 35px;
+            height: 4px;
+            border-radius: 2px;
+            background: #464646;
+            content: '';
+            cursor: pointer;
+            transition: all .5 ease-in-out;
+        }
+        &.active {
+            background-color: transparent;
+        }
+        &.active:before {
+            top: 0;
+            transform: rotate(45deg);
+        }
+        &.active:after {
+            top: 0;
+            transform: rotate(-45deg);
         }
     }
 }

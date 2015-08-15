@@ -73,7 +73,9 @@ gulp.task('cleanBuildFolder', function() {
 });
 
 gulp.task('appWatch', function() {
-  gulp.watch(paths.css, ['buildStyles']);
+  gulp.watch(paths.scssFiles, ['buildStyles']);
+  gulp.watch(paths.html, ['buildHtml']);
+  gulp.watch(paths.imgSrc, ['images']);
 });
 
 gulp.task('startDevServer', function() {
