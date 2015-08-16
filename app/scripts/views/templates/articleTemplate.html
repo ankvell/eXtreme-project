@@ -47,7 +47,7 @@
 <% } %>
 
 <div class="blocks">
-    <% if (imgs) { %>
+    <% if (typeof imgs !== 'undefined') { %>
     <div id="owl-demo" class="owl-carousel">
         <% imgs.forEach(function(imgSrc) { %>
             <div class="item">
