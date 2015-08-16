@@ -13,7 +13,8 @@ var AdminEditFormView = Backbone.View.extend({
     template: template,
     events: {
         'click #add_map': 'loadMap',
-        'click #add_rock': 'loadRock'
+        'click #add_rock': 'loadRock',
+        'change #gps_file': 'loadGPSTrack'
     },
     initialize: function(){
         for (var key in localStorage) {
@@ -29,7 +30,6 @@ var AdminEditFormView = Backbone.View.extend({
         $('#submit').on('click', this.updateArticle);
     },
     render: function(){
-        debugger;
         $('.east_side').empty();
         this.$el.html(this.template(this.model.toJSON()));
         $('.east_side').prepend(this.el);
@@ -41,7 +41,7 @@ var AdminEditFormView = Backbone.View.extend({
         this.mapAutocompleteField = $('#autocomplete');
         this.mapContainer = $('#map_container');
         this.rockContainer = $('#rock_container');
-        this.urlField = $('choose_url');
+        this.urlField = $('#choose_url');
         this.canvasEl = $('#canvas');
         this.mapContainer.hide();
         this.mapVisible = false;
@@ -71,6 +71,7 @@ var AdminEditFormView = Backbone.View.extend({
         this.model.attributes.duration = this.durationEl.val();
         this.model.attributes.creationDate = this.getCurrentDate();
         if (this.mapVisible){
+            this.model.attributes.type = 'routs';
             var drawingData = JSON.parse(localStorage.getItem('shapesData'));
             if (drawingData && drawingData.shapes.length > 0){
                 this.model.attributes.shapes = drawingData.shapes;
@@ -90,7 +91,8 @@ var AdminEditFormView = Backbone.View.extend({
             duration: this.model.attributes.duration,
             creationDate: this.model.attributes.creationDate,
             shapes: this.model.attributes.shapes,
-            map: this.model.attributes.map
+            map: this.model.attributes.map,
+            type: this.model.attributes.type
         });
         localStorage.setItem(this.keyInDb, updatedData);
         App.eventAggregator.trigger('admin:main');
@@ -107,8 +109,27 @@ var AdminEditFormView = Backbone.View.extend({
         var map = new Map();
         $('#map').empty();
         this.model.map = new google.maps.Map(document.getElementById('map'), map.attributes.mapOptions);
-        var mapLocationView = new MapLocationView({model: map});
-        var drawMapView = new DrawMapView({model: map});
+        var mapLocationView = new MapLocationView({model: this.model});
+        this.drawMapView = new DrawMapView({model: this.model});
+    },
+    loadGPSTrack: function(e){
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        var lines, coordinatesArray, singlePoint;
+        reader.onload = (function(e){
+            lines = e.target.result.split('\n').splice(6);
+            lines.pop();
+            coordinatesArray = [];
+            lines.forEach(function(line){
+                singlePoint = {
+                    lat: parseFloat(line.split(',')[0]),
+                    lng: parseFloat(line.split(',')[1])
+                }
+                coordinatesArray.push(singlePoint);
+            });
+            this.drawMapView.drawGPSTrack(coordinatesArray);
+        }).bind(this);
+        reader.readAsText(file);
     },
     loadRock: function(){
         if (this.mapVisible){
@@ -117,7 +138,7 @@ var AdminEditFormView = Backbone.View.extend({
         }
         this.urlField.show();
         this.clearData();
-        $('#load_rock_image').on('click', function(){
+        $('#load_rock_image').on('click', (function(){
             if ($('#url')[0].checkValidity() && $('#url').val()){
                 this.urlField.hide();
                 this.rockContainer.show();
@@ -129,7 +150,7 @@ var AdminEditFormView = Backbone.View.extend({
             } else{
                 $('#error').text('Invalid url');
             }
-        });
+        }).bind(this));
     },
     clearData: function(){
         if (localStorage.getItem('shapesData') != null){

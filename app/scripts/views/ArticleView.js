@@ -15,7 +15,7 @@ var ArticleView = Backbone.View.extend({
             this.model.map = new Map({
                 'lat': this.model.attributes.map.lat,
                 'lng': this.model.attributes.map.lon,
-                'zoom': 13
+                'zoom': 14
             });
         }
         this.render();

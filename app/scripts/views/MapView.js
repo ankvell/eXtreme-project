@@ -9,6 +9,7 @@ var MapView = Backbone.View.extend({
     },
     jsonRead: function(json){
         var marker, rectangle, circle, polyline, polygon;
+        this.latLngBounds = new google.maps.LatLngBounds();
         json.shapes.forEach((function(shape, index){
             switch (shape.type) {
             case 'marker':
@@ -28,6 +29,7 @@ var MapView = Backbone.View.extend({
                 break;
             }
         }).bind(this));
+        this.model.map.fitBounds(this.latLngBounds);
     },
     jsonReadMarker: function(jsonMarker){
         var position, markerOptions, marker;
@@ -39,6 +41,7 @@ var MapView = Backbone.View.extend({
             map: this.model.map
         };
         marker = new google.maps.Marker(markerOptions);
+        this.latLngBounds.extend(position);
         return marker;
     },
     jsonReadRectangle: function(jsonRectangle){
@@ -55,6 +58,8 @@ var MapView = Backbone.View.extend({
             map: this.model.map
         };
         rectangle = new google.maps.Rectangle(rectangleOptions);
+        this.latLngBounds.extend(southWest);
+        this.latLngBounds.extend(northEast);
         return rectangle;
     },
     jsonReadCircle: function(jsonCircle){
@@ -70,6 +75,7 @@ var MapView = Backbone.View.extend({
             map: this.model.map
         };
         circle = new google.maps.Circle(circleOptions);
+        this.latLngBounds.union(circle.getBounds());
         return circle;
     },
     jsonReadPolyline: function(jsonPolyline){
@@ -82,6 +88,9 @@ var MapView = Backbone.View.extend({
             map: this.model.map
         };
         polyline = new google.maps.Polyline(polylineOptions);
+        path.forEach((function(el){
+            this.latLngBounds.extend(new google.maps.LatLng(el.G, el.K));
+        }).bind(this));
         return polyline;
     },
     jsonReadPolygon: function(jsonPolygon){
@@ -99,13 +108,16 @@ var MapView = Backbone.View.extend({
             map: this.model.map
         };
         polygon = new google.maps.Polygon(polygonOptions);
+        polygon.getPath().forEach((function(element,index){
+            this.latLngBounds.extend(element)
+        }).bind(this));
         return polygon;
     },
     jsonReadPath: function(jsonPath){
         var path = new google.maps.MVCArray();
-        jsonPath.path.forEach(function(el){
+        jsonPath.path.forEach((function(el){
             path.push(new google.maps.LatLng(el.lat, el.lon));
-        });
+        }).bind(this));
         return path;
     }
 });

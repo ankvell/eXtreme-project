@@ -14,7 +14,7 @@ var DrawMapView = Backbone.View.extend({
                 editable: true,
                 draggable: true
             };
-        var drawingManager = new google.maps.drawing.DrawingManager({
+        this.drawingManager = new google.maps.drawing.DrawingManager({
             map: this.model.map,
             markerOptions: {
                 draggable: true
@@ -30,11 +30,11 @@ var DrawMapView = Backbone.View.extend({
             polygonOptions: polyOptions,
         });
         this.shapes = [];
-        google.maps.event.addListener(drawingManager, 'overlaycomplete', (function(e) {
+        google.maps.event.addListener(this.drawingManager, 'overlaycomplete', (function(e) {
             var newShape = e.overlay;
             newShape.type = e.type;
             if (newShape.type !== 'marker') {
-                drawingManager.setDrawingMode(null);
+                this.drawingManager.setDrawingMode(null);
                 google.maps.event.addListener(newShape, 'click', (function(e) {
                     if (e.vertex != undefined) {
                         var path = newShape.getPath();
@@ -44,40 +44,48 @@ var DrawMapView = Backbone.View.extend({
                             this.shapesDelete(newShape);
                         }
                     }
-                    this.setSelection(drawingManager, newShape);
+                    this.setSelection(newShape);
                 }).bind(this));
-                this.setSelection(drawingManager, newShape);
+                this.setSelection(newShape);
             } else {
-                this.setSelection(drawingManager, newShape);
+                this.setSelection(newShape);
                 this.selectedShape.setLabel(labels[labelIndex]);
                 labelIndex++;
                 google.maps.event.addListener(newShape, 'click', (function() {
-                    this.setSelection(drawingManager, newShape);
+                    this.setSelection(newShape);
                 }).bind(this));
             }
             this.onNewShape(newShape);
         }).bind(this));
         _.bindAll(this, 'clearSelection', 'saveShapes');
-        google.maps.event.addListener(drawingManager, 'drawingmode_changed', this.clearSelection);
+        google.maps.event.addListener(this.drawingManager, 'drawingmode_changed', this.clearSelection);
         google.maps.event.addListener(this.model.map, 'click', this.clearSelection);
-        this.render(drawingManager, colors);
+        this.render(colors);
     },
-    render: function(drawingManager, colors) {
+    render: function(colors) {
         $('#drawing_controls').empty();
         var button, deleteButton;
         colors.forEach((function(color) {
             button = $('<div class="color-button"></div>');
             button.css('background-color', color);
             google.maps.event.addDomListener(button[0], 'click', (function() {
-                this.selectColor(drawingManager, color);
+                this.selectColor(color);
                 this.setSelectedShapeColor(color);
                 this.onColorChange();
             }).bind(this));
             $('#drawing_controls').append(button);
         }).bind(this));
+        saveShapeButton = $('<button/>', {
+            type: 'button',
+            class: 'saveShape-button'
+        }).text('Save Shape');
+        google.maps.event.addDomListener(saveShapeButton[0], 'click', (function(){
+            this.clearSelection();
+        }).bind(this));
+        $('#drawing_controls').append(saveShapeButton);
         deleteButton = $('<button/>', {
             type: 'button',
-            class: 'delete-button',
+            class: 'delete-button'
         }).text('Delete');
         google.maps.event.addDomListener(deleteButton[0], 'click', (function() {
             if (this.selectedShape) {
@@ -89,20 +97,20 @@ var DrawMapView = Backbone.View.extend({
         $('#drawing_controls').append(deleteButton);
         return this;
     },
-    selectColor: function(drawingManager, color) {
+    selectColor: function(color) {
         var polylineOptions, rectangleOptions, circleOptions, polygonOptions;
-        polylineOptions = drawingManager.get('polylineOptions');
+        polylineOptions = this.drawingManager.get('polylineOptions');
         polylineOptions.strokeColor = color;
-        drawingManager.set('polylineOptions', polylineOptions);
-        rectangleOptions = drawingManager.get('rectangleOptions');
+        this.drawingManager.set('polylineOptions', polylineOptions);
+        rectangleOptions = this.drawingManager.get('rectangleOptions');
         rectangleOptions.fillColor = color;
-        drawingManager.set('rectangleOptions', rectangleOptions);
-        circleOptions = drawingManager.get('circleOptions');
+        this.drawingManager.set('rectangleOptions', rectangleOptions);
+        circleOptions = this.drawingManager.get('circleOptions');
         circleOptions.fillColor = color;
-        drawingManager.set('circleOptions', circleOptions);
-        polygonOptions = drawingManager.get('polygonOptions');
+        this.drawingManager.set('circleOptions', circleOptions);
+        polygonOptions = this.drawingManager.get('polygonOptions');
         polygonOptions.fillColor = color;
-        drawingManager.set('polygonOptions', polygonOptions);
+        this.drawingManager.set('polygonOptions', polygonOptions);
     },
     setSelectedShapeColor: function(color) {
         if (this.selectedShape) {
@@ -113,11 +121,11 @@ var DrawMapView = Backbone.View.extend({
             }
         }
     },
-    setSelection: function(drawingManager, shape) {
+    setSelection: function(shape) {
         if (shape.type !== 'marker') {
             this.clearSelection();
             shape.setEditable(true);
-            this.selectColor(drawingManager, shape.get('fillColor') || shape.get('strokeColor'));
+            this.selectColor(shape.get('fillColor') || shape.get('strokeColor'));
         }
         this.selectedShape = shape;
     },
@@ -186,6 +194,36 @@ var DrawMapView = Backbone.View.extend({
                 found = true;
             }
         }
+    },
+    drawGPSTrack: function(trackCoordinates){
+        var latLngBounds = new google.maps.LatLngBounds();
+        trackCoordinates.forEach(function(point){
+            latLngBounds.extend(new google.maps.LatLng(point.lat, point.lng));
+        })
+        this.model.map.setCenter(latLngBounds.getCenter());
+        this.model.map.fitBounds(latLngBounds);
+        var track = new google.maps.Polyline({
+            map: this.model.map,
+            path: trackCoordinates,
+            editable: false,
+            strokeColor: '#000000',
+            strokeWeight: 3
+        });
+        track.type = 'polyline';
+        this.model.map.fitBounds(latLngBounds);
+        this.setSelection(track);
+        google.maps.event.addListener(track, 'click', (function(e) {
+                    if (e.vertex != undefined) {
+                        var path = track.getPath();
+                        path.removeAt(e.vertex);
+                        if (path.length < 2) {
+                            track.setMap(null);
+                            this.shapesDelete(track);
+                        }
+                    }
+                    this.setSelection(track);
+        }).bind(this));
+        this.onNewShape(track);
     },
     jsonMake: function(){
         var json = '{"shapes":[';

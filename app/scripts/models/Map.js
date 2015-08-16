@@ -2,7 +2,7 @@ var Backbone = require('backbone');
 
 var Map = Backbone.Model.extend({
     defaults: {
-        zoom: 13,
+        zoom: 14,
         mapTypeId: google.maps.MapTypeId.HYBRID,
         lat: 48.160643,
         lng: 24.499927

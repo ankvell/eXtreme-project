@@ -14,7 +14,8 @@ var AdminAddFormView = Backbone.View.extend({
     events: {
         'click #add_map': 'loadMap',
         'click #add_rock': 'loadRock',
-        'click #load': 'loadImages'
+        'click #load': 'loadImages',
+        'change #gps_file': 'loadGPSTrack'
     },
     initialize: function() {
         this.render();
@@ -93,14 +94,32 @@ var AdminAddFormView = Backbone.View.extend({
         this.clearData();
         var map = new Map();
         $('#map').empty();
-        console.log(map);
         map.map = new google.maps.Map(document.getElementById('map'), map.attributes.mapOptions);
         var mapLocationView = new MapLocationView({
             model: map
         });
-        var drawMapView = new DrawMapView({
+        this.drawMapView = new DrawMapView({
             model: map
         });
+    },
+    loadGPSTrack: function(e){
+        var file = e.target.files[0];
+        var reader = new FileReader();
+        var lines, coordinatesArray, singlePoint;
+        reader.onload = (function(e){
+            lines = e.target.result.split('\n').splice(6);
+            lines.pop();
+            coordinatesArray = [];
+            lines.forEach(function(line){
+                singlePoint = {
+                    lat: parseFloat(line.split(',')[0]),
+                    lng: parseFloat(line.split(',')[1])
+                }
+                coordinatesArray.push(singlePoint);
+            });
+            this.drawMapView.drawGPSTrack(coordinatesArray);
+        }).bind(this);
+        reader.readAsText(file);
     },
     getCurrentDate: function() {
         var today = new Date();
