@@ -1,87 +1,108 @@
 .east_side {
-    width: 79%;
+    width: 82%;
     float: right;
     background: #f1f1f1;
     height: auto;
-}
-.topic {
-    position: relative;
-    background: #cddbe6;
-    margin-bottom: 40px;
-    .topic_cont {
-        width: 96%;
-        margin: 0 auto;
-        padding: 50px 0 120px;
-        &:after {
-            content: "";
-            display: block;
-            clear: both;
+    .topic {
+        position: relative;
+        background: url('../../images/panorama.png') 100% 100%;
+        .topic_cont {
+            width: 96%;
+            margin: 0 auto;
+            padding: 50px 0 120px;
+            &:after {
+                content: "";
+                display: block;
+                clear: both;
+            }
+            .left {
+                width: 73%;
+                float: left;
+                padding-left: 4%;
+                .h1 {
+                    font-size: 41px;
+                    letter-spacing: -5px;
+                }
+                .info {
+                    font-size: 14px;
+                }
+            }
+            .right {
+                width: 27%;
+                float: left;
+                padding: 20px 0;
+                text-align: right;
+                p {
+                    display: table-cell;
+                    vertical-align: middle;
+                    line-height: 1;
+                    font-size: 15px;
+                    font-family: din-med;
+                }
+                .clock_block {
+                    text-align: left;
+                    display: table;
+                    float: left;
+                    margin-right: 10%;
+                    img {
+                        height: 25px;
+                        width: 20px;
+                        display: table-cell;
+                        vertical-align: middle;
+                    }
+                    p {
+                        padding-left: 10px;
+                    }
+                }
+            }
         }
     }
-}
-.topic .left {
-    width: 73%;
-    float: left;
-    padding-left: 1%;
-    .h1 {
-        font-size: 41px;
-        letter-spacing: -5px;
+    .date {
+        text-align: right;
+        color: #464646;
+        font-weight: bold;
+        margin: 25px 0 15px 0;
+        width: 96%;
     }
-    .info {
-        font-size: 14px;
-    }
-}
-.topic .right {
-    width: 27%;
-    float: left;
-    padding: 20px 0;
-    text-align: right;
-    p {
-        display: inline-block;
-        font-size: 14px;
-    }
-}
-.topic .right .clock_block {
-    text-align: left;
-    display: table;
-    float: left;
-    margin-right: 10%;
-    img {
-        height: 25px;
-        width: 20px;
-        display: table-cell;
-        vertical-align: middle;
-    }
-    p {
-        padding-left: 10px;
+    .google-icon {
+        position: absolute;
+        bottom: 20px;
     }
 }
 @media screen and (min-width: 2561px) {
-    .topic .left {
-        .h1 {
-            font-size: 75px;
-            letter-spacing: -5px;
+    .topic {
+        .left {
+            .h1 {
+                font-size: 75px;
+                letter-spacing: -5px;
+            }
+            .info {
+                font-size: 26px;
+            }
         }
-        .info {
+    }
+    .topic {
+        .right p {
             font-size: 26px;
         }
     }
-    .topic .right p {
-        font-size: 26px;
-    }
 }
 @media screen and (max-width: 2560px) and (min-width: 1440px){
-    .topic .left {
-        .h1 {
-            font-size: 2.9vw;
-            letter-spacing: -5px;
-        }
-        .info {
-            font-size: 1vw;
+    .topic {
+        .left {
+            .h1 {
+                font-size: 2.9vw;
+                letter-spacing: -5px;
+            }
+            .info {
+                font-size: 1vw;
+            }
         }
     }
-    .topic .right p {
-        font-size: 1vw;
+    .topic {
+        .right p {
+            font-size: 1vw;
+        }
     }
 }
 @media screen and (max-width: 767px) {

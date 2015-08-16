@@ -45,6 +45,8 @@ $(document).ready(function() {
         }
     });
     var router = new Router({articleCollection: articleCollection});
+        articleCollection: articleCollection
+    });
     Backbone.history.start();
     App.eventAggregator = _.extend({}, Backbone.Events);
     App.eventAggregator.on('article:selected', function(article) {

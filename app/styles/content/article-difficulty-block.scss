@@ -14,31 +14,28 @@
             height: 15px;
             top: 5px;
             opacity: 0.2;
-            img.one {
-                left: 0;
-            }
-            img.two {
-                left: 10px;
-            }
-            img.three {
-                left: 20px;
-            }
-            img.four {
-                left: 30px;
-            }
-            img.five {
-                left: 40px;
-            }
-            img.six {
-                left: 50px;
-            }
-            img.seven {
-                left: 60px;
-            }
-            .active {
-                opacity: 1;
-            }
+        }
+        .one {
+            left: 0;
+        }
+        .two {
+            left: 10px;
+        }
+        .three {
+            left: 20px;
+        }
+        .four {
+            left: 30px;
+        }
+        .five {
+            left: 40px;
+        }
+        .six {
+            left: 50px;
         }
 
+        .active {
+            opacity: 1;
+        }
     }
 }

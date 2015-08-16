@@ -14,10 +14,10 @@ var ArticleInListView = Backbone.View.extend({
         this.$el.html(this.template(this.model.attributes));
 
         if (this.model.attributes.map){
-            this.$el.find('.article-container').append($('<img/>').attr({
-                src: 'http://sinomobi.ru/packages/img/thumbnails/1437595775-googleMaps_transito.jpg',
-                width: '200px',
-                height: '100px'
+            this.$el.find('.article-container').append($('<img class="google-icon"/>').attr({
+                src: '../images/Google_Maps_Icon.png',
+                width: '30px',
+                height: '30px'
             }));
         }
         return this;

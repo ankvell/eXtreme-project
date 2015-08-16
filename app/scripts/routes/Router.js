@@ -36,6 +36,21 @@ var Router = Backbone.Router.extend({
             });
             var searchView = new SearchView();
         },
+        showNews: function() {
+            var newsView =  new ListView({
+                collection: this.articleCollection.byType('news')
+            });
+        },
+        showRouts: function() {
+            var routsView = new ListView({
+                collection: this.articleCollection.byType('routs')
+            })
+        },
+        showRocks: function() {
+            var rocksView = new ListView({
+                collection: this.articleCollection.byType('rocks')
+            })
+        },
         viewArticle: function(title) {
             // api.getArticle(title, function(article) {
             //     new ArticleView({model: new Article(article)});
