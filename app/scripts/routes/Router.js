@@ -44,12 +44,12 @@ var Router = Backbone.Router.extend({
         showRouts: function() {
             var routsView = new ListView({
                 collection: this.articleCollection.byType('routs')
-            })
+            });
         },
         showRocks: function() {
             var rocksView = new ListView({
                 collection: this.articleCollection.byType('rocks')
-            })
+            });
         },
         viewArticle: function(title) {
             // api.getArticle(title, function(article) {
@@ -63,9 +63,11 @@ var Router = Backbone.Router.extend({
             });
         },
         showAdminMainView: function(){
+            // document.getElementsByTagName('header')[0].style.display = 'none';
+            document.getElementsByTagName('header')[0].style.background = '#222';
             var adminMainView = new AdminMainView({
                 collection: this.articleCollection
-            })
+            });
         },
         viewSearchResult: function(searchItem){
             var filter = new Filter({collection: this.articleCollection, searchString: searchItem});
@@ -90,12 +92,12 @@ var Router = Backbone.Router.extend({
         showRouts: function() {
             var routsView = new ListView({
                 collection: this.articleCollection.byType('routs')
-            })
+            });
         },
         showRocks: function() {
             var rocksView = new ListView({
                 collection: this.articleCollection.byType('rocks')
-            })
+            });
         }
     });
 module.exports = Router;

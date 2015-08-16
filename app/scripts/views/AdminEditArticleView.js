@@ -5,6 +5,7 @@ var $ = require('jquery'),
 
 var AdminEditArticleView = Backbone.View.extend({
     tagName: 'tr',
+    className: 'row',
     template: template,
     initialize: function() {
         for (var key in localStorage) {
@@ -15,9 +16,9 @@ var AdminEditArticleView = Backbone.View.extend({
                 }
             }
         }
+
     },
     render: function() {
-        debugger;
         this.$el.html(this.template(this.model.toJSON()));
         return this;
     },

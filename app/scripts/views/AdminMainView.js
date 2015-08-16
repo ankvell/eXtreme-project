@@ -9,7 +9,7 @@ var AdminMainView = Backbone.View.extend({
         this.render();
     },
     render: function(){
-        $('.east_side').empty();
+        $('#articles_table').empty();
         this.collection.forEach(function(article){
             this.renderArticle(article);
         }, this);
@@ -23,7 +23,7 @@ var AdminMainView = Backbone.View.extend({
         var adminEditArticleView = new AdminEditArticleView({
             model: article
         });
-        $('.east_side').append(adminEditArticleView.render().el);
+        $('#articles_table').append(adminEditArticleView.render().el);
     }
 });
 module.exports = AdminMainView;

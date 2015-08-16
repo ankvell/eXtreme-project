@@ -1,0 +1,73 @@
+#tracksInfo ,
+.track_complement  {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 235px;
+    height: 540px;
+    padding: 5px;
+    display: inline-block;
+    background-color: rgba(109, 97, 97, 0.7);
+    font: 300 16px 'Roboto', 'Arial', sans-serif;
+}
+ #trackComplexity,
+ #trackDescription {
+    box-sizing: border-box;
+    width: 200px;
+    margin: 0 auto;
+    height: 32px;
+    padding: 0 14px;
+    border-width: 1px 1px 0 0;
+    border-color: #555;
+    border-style: solid;
+    background: none;
+    outline: none;
+    transition: all .5s ease 0s;
+    color: #fff;
+}
+
+#trackDescription {
+    display: block;
+    height: 320px;
+    padding-top: 8px;
+}
+#tracksInfo h4 {
+    margin: 5px;
+    text-align: center;
+    font: 16px Arial, Helvetica, sans-serif;
+    color: #fff;
+}
+#saveTrack,
+#alter {
+    width: 90px;
+    height: 30px;
+    border-radius: 12px 5px;
+    background-color: #329A21;
+    border: 1px solid #226317;
+    color: #EFECEA;
+}
+#alter {
+    background-color: #B34E30;
+    border: 1px solid #8E4017;
+}
+
+.color_marker {
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ccc;
+    border-radius: 50%;
+    text-align: center;
+    padding: 6px;
+    color: #fff;
+    box-sizing: border-box;
+}
+.complexity_hold {
+    display: inline-block;
+    padding: 5px;
+    color: #fff;
+}
+.description_hold {
+    color: #DCD2D2;
+    font-size: 14px;
+}
