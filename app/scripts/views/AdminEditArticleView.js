@@ -1,8 +1,7 @@
 var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
-    AdminEditView = require('./AdminEditView'),
-    template = require('./templates/editArticleTemplate.html');
+    template = require('./templates/mainAdminTemplate.html');
 
 var AdminEditArticleView = Backbone.View.extend({
     tagName: 'tr',
@@ -18,6 +17,7 @@ var AdminEditArticleView = Backbone.View.extend({
         }
     },
     render: function() {
+        debugger;
         this.$el.html(this.template(this.model.toJSON()));
         return this;
     },

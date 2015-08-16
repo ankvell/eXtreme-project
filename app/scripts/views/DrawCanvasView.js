@@ -4,7 +4,7 @@ var $ = require('jquery'),
     Path = require('../models/RockPath'),
     RockPathesCollection = require('../collections/RockPathesCollection');
 
-var RockView = Backbone.View.extend({
+var DrawCanvasView = Backbone.View.extend({
     el: '#canvas',
     initialize: function(options) {
         this.imageUrl = options.imageUrl;
@@ -146,4 +146,4 @@ var RockView = Backbone.View.extend({
         }.bind(this));
     }
 });
-module.exports = RockView;
+module.exports = DrawCanvasView;

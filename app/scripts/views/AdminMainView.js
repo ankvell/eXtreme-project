@@ -2,7 +2,7 @@ var $ = require('jquery'),
     Backbone = require('backbone'),
     AdminEditArticleView = require('./AdminEditArticleView');
 
-var AdminEditListView = Backbone.View.extend({
+var AdminMainView = Backbone.View.extend({
     initialize: function(){
         this.listenTo(this.collection, 'add', this.renderContact);
         this.listenTo(this.collection, 'change', this.render);
@@ -26,4 +26,4 @@ var AdminEditListView = Backbone.View.extend({
         $('.east_side').append(adminEditArticleView.render().el);
     }
 });
-module.exports = AdminEditListView;
+module.exports = AdminMainView;

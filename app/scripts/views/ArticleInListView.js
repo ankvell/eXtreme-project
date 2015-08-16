@@ -1,9 +1,9 @@
 var $ = require('jquery'),
     _ = require('underscore'),
-    Backbone = require('backbone');
+    Backbone = require('backbone'),
     template = require('./templates/articleListTemplate.html');
 
-var ArticleListView = Backbone.View.extend({
+var ArticleInListView = Backbone.View.extend({
     template : template,
     events: {
         'click': function(){
@@ -24,4 +24,4 @@ var ArticleListView = Backbone.View.extend({
     }
 });
 
-module.exports = ArticleListView;
+module.exports = ArticleInListView;

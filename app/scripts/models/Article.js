@@ -10,7 +10,8 @@ var Article = Backbone.Model.extend({
         shapes: '',
         difficulty: '',
         duration: '',
-        creationDate: ''
+        creationDate: '',
+        type: 'news'
     }
 });
 module.exports = Article;

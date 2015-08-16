@@ -1,6 +1,6 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
-    ArticleListView = require('./ArticleListView');
+    ArticleInListView = require('./ArticleInListView');
 
 var ListView = Backbone.View.extend({
     el: $('.east_side'),
@@ -17,10 +17,10 @@ var ListView = Backbone.View.extend({
     },
     renderArticle: function(article){
         this.shortenDescription(article, 700);
-        var articleListView = new ArticleListView({
+        var articleInListView = new ArticleInListView({
             model: article
         });
-        this.$el.append(articleListView.render().el);
+        this.$el.append(articleInListView.render().el);
         if (article.attributes.difficulty){
             $('.difficulty span').show();
         }

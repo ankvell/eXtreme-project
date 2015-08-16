@@ -1,6 +1,6 @@
 var Backbone = require('backbone');
 
-var InfoView = Backbone.View.extend({
+var MapInfoView = Backbone.View.extend({
     initialize: function() {
         var infoWindow, infoStr, address;
         infoWindow = new google.maps.InfoWindow();
@@ -31,4 +31,4 @@ var InfoView = Backbone.View.extend({
         });
     }
 });
-module.exports = InfoView;
+module.exports = MapInfoView;

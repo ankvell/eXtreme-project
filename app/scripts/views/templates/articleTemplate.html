@@ -16,14 +16,22 @@
                     <img src="images/half_mount.png" class="three <% if(difficulty >= 3) { %>active<% } %>" />
                     <img src="images/half_mount.png" class="four <% if(difficulty >= 4) { %>active<% } %>" />
                     <img src="images/half_mount.png" class="five <% if(difficulty >= 5) { %>active<% } %>" />
-                    <img src="images/half_mount.png" class="six <% if(difficulty >= 6) { %>active<% } %>" />
-                    <img src="images/full_mount.png" class="seven <% if(difficulty >= 7) { %>active<% } %>" />
+                    <img src="images/full_mount.png" class="six <% if(difficulty >= 7) { %>active<% } %>" />
                 </div>
                 <p class="diff"><%= difficulty %></p>
             </div>
         </div>
     </div>
 </div>
+
+<% if (type === "routs") { %>
+    <div class="itinerary">
+        <p class="h2">Маршрут</p>
+        <div class="itinerary_cont">
+        </div>
+    </div>
+<% } %>
+
 <div class="description">
     <div class="description_cont">
         <p class="h2">Опис</p>
@@ -31,13 +39,13 @@
         </div>
     </div>
 </div>
-<div class="itinerary">
-    <p class="h2">Маршрут</p>
-    <div class="itinerary_cont"></div>
-</div>
-<div class="itinerary_rock">
-    <div class="track_complement"></div>
-</div>
+
+<%  if(type === "rocks" ) {%>
+    <div class="itinerary_rock">
+        <div class="track_complement"></div>
+    </div>
+<% } %>
+
 <div class="blocks">
     <% if (imgs) { %>
     <div id="owl-demo" class="owl-carousel">

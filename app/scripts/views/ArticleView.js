@@ -2,8 +2,8 @@ var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     Map = require('../models/Map'),
-    ShapesView = require('./ShapesView'),
-    RenderCanvasView = require('./RenderCanvasView'),
+    MapView = require('./MapView'),
+    CanvasView = require('./CanvasView'),
     carousel = require('../carousel/owl-carousel'),
     template = require('./templates/articleTemplate.html');
 
@@ -25,7 +25,7 @@ var ArticleView = Backbone.View.extend({
         this.$el.html(this.template(this.model.toJSON()));
         if (this.model.attributes.map) {
             var mapContainer = document.getElementsByClassName('itinerary_cont')[0];
-            var shapesView = new ShapesView({
+            var mapView = new MapView({
                 model: this.model,
                 mapContainer: mapContainer
             });
@@ -34,7 +34,7 @@ var ArticleView = Backbone.View.extend({
         }
 
         if (this.model.attributes.imgUrl && this.model.attributes.tracks) {
-            this.renderCanvas = new RenderCanvasView({
+            this.canvasView = new CanvasView({
                 model: this.model
             });
         }

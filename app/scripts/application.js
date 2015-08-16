@@ -7,7 +7,6 @@ var $ = require('jquery'),
     ArticleView = require('./views/ArticleView'),
     ArticleCollection = require('./collections/ArticleCollection'),
     ListView = require('./views/ListView'),
-    AdminView = require('./views/AdminView'),
     data = require('../../data.js');
 
 $(document).ready(function() {

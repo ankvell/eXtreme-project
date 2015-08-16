@@ -2,14 +2,15 @@ var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     Map = require('../models/Map'),
+    MapLocationView = require('./MapLocationView'),
+    DrawMapView = require('./DrawMapView'),
     MapView = require('./MapView'),
-    LocationView = require('./LocationView'),
-    DrawingView = require('./DrawingView'),
-    ShapesView = require('./ShapesView'),
-    RockView = require('./RockView');
+    DrawCanvasView = require('./DrawCanvasView'),
+    template = require('./templates/articleFormTemplate.html');
 
-var AdminEditView = Backbone.View.extend({
+var AdminEditFormView = Backbone.View.extend({
     id: 'editForm',
+    template: template,
     events: {
         'click #add_map': 'loadMap',
         'click #add_rock': 'loadRock'
@@ -28,9 +29,9 @@ var AdminEditView = Backbone.View.extend({
         $('#submit').on('click', this.updateArticle);
     },
     render: function(){
+        debugger;
         $('.east_side').empty();
-        var tmpl = _.template($('.admin').html());
-        this.$el.html(tmpl({}));
+        this.$el.html(this.template(this.model.toJSON()));
         $('.east_side').prepend(this.el);
         CKEDITOR.replace('description');
         this.titleEl = $('#caption');
@@ -59,7 +60,7 @@ var AdminEditView = Backbone.View.extend({
             this.mapVisible = true;
             this.mapAutocompleteField.hide();
             this.model.map = new Map({'lat': this.model.attributes.map.lat, 'lng': this.model.attributes.map.lon});
-            var shapesView = new ShapesView({model: this.model, mapContainer: $('#map')[0]});
+            var mapView = new MapView({model: this.model, mapContainer: $('#map')[0]});
         }
         $('#radio' + this.model.attributes.difficulty).prop('checked',true);
     },
@@ -104,9 +105,10 @@ var AdminEditView = Backbone.View.extend({
         this.mapVisible = true;
         this.clearData();
         var map = new Map();
-        var mapView = new MapView({model: map});
-        var locationView = new LocationView({model: map});
-        var drawingView = new DrawingView({model: map});
+        $('#map').empty();
+        this.model.map = new google.maps.Map(document.getElementById('map'), map.attributes.mapOptions);
+        var mapLocationView = new MapLocationView({model: map});
+        var drawMapView = new DrawMapView({model: map});
     },
     loadRock: function(){
         if (this.mapVisible){
@@ -121,7 +123,7 @@ var AdminEditView = Backbone.View.extend({
                 this.rockContainer.show();
                 this.rockVisible = true;
                 this.canvasEl.show();
-                var rockView = new RockView({
+                var drawCanvasView = new DrawCanvasView({
                     imageUrl: $('#url').val()
                 });
             } else{
@@ -151,4 +153,4 @@ var AdminEditView = Backbone.View.extend({
         return dd + '-' + mm + '-' + yyyy;
     },
 });
-module.exports = AdminEditView;
+module.exports = AdminEditFormView;

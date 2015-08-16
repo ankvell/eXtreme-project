@@ -3,10 +3,10 @@ var _ = require('underscore'),
     Backbone = require('backbone'),
     ListView = require('../views/ListView'),
     ArticleView = require('../views/ArticleView'),
-    AdminEditListView = require('../views/AdminEditListView'),
+    AdminMainView = require('../views/AdminMainView'),
     Filter = require('../models/Filter'),
-    AdminEditView = require('../views/AdminEditView'),
-    AdminView = require('../views/AdminView'),
+    AdminEditFormView = require('../views/AdminEditFormView'),
+    AdminAddFormView = require('../views/AdminAddFormView'),
     SearchView = require('../views/SearchView');
 
 var Router = Backbone.Router.extend({
@@ -16,11 +16,14 @@ var Router = Backbone.Router.extend({
         routes: {
             '': 'showArticleList',
             'articles': 'showArticleList',
-            'admin': 'showAdminEditListView',
+            'admin': 'showAdminMainView',
             'view/:title': 'viewArticle',
             'search/:searchItem': 'viewSearchResult',
             'admin/edit/:title': 'editArticle',
-            'admin/add': 'addArticle'
+            'admin/add': 'addArticle',
+            'news': 'showNews',
+            'routs': 'showRouts',
+            'rocks': 'showRocks'
         },
         showArticleList: function() {
             // api.getArticles(function(data) {
@@ -44,8 +47,8 @@ var Router = Backbone.Router.extend({
                 model: selectedArticle
             });
         },
-        showAdminEditListView: function(){
-            var adminEditListView = new AdminEditListView({
+        showAdminMainView: function(){
+            var adminMainView = new AdminMainView({
                 collection: this.articleCollection
             })
         },
@@ -57,12 +60,27 @@ var Router = Backbone.Router.extend({
             var selectedArticle = _(this.articleCollection.models).find(function(article) {
                 return article.get('id') === id;
             });
-            var adminEditView = new AdminEditView({
+            var adminEditFormView = new AdminEditFormView({
                 model: selectedArticle
             });
         },
         addArticle: function(){
-            var adminView = new AdminView({collection: this.articleCollection});
+            var adminAddFormView = new AdminAddFormView({collection: this.articleCollection});
+        },
+        showNews: function() {
+            var newsView =  new ListView({
+                collection: this.articleCollection.byType('news')
+            });
+        },
+        showRouts: function() {
+            var routsView = new ListView({
+                collection: this.articleCollection.byType('routs')
+            })
+        },
+        showRocks: function() {
+            var rocksView = new ListView({
+                collection: this.articleCollection.byType('rocks')
+            })
         }
     });
 module.exports = Router;

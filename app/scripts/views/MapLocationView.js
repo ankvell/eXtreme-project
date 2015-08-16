@@ -1,11 +1,11 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
     MarkerView = require('./MarkerView'),
-    InfoView = require('./InfoView');
+    MapInfoView = require('./MapInfoView');
 
-var LocationView = Backbone.View.extend({
+var MapLocationView = Backbone.View.extend({
     initialize: function() {
-        var markerView, infoView;
+        var markerView, mapInfoView;
         var autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'));
         autocomplete.setTypes(['geocode']);
         google.maps.event.addListener(autocomplete, 'place_changed', (function() {
@@ -14,10 +14,10 @@ var LocationView = Backbone.View.extend({
             markerView = new MarkerView({
                 model: this.model
             });
-            infoView = new InfoView({
+            mapInfoView = new MapInfoView({
                 model: this.model
             });
         }).bind(this));
     }
 });
-module.exports = LocationView;
+module.exports = MapLocationView;

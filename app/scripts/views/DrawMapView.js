@@ -2,7 +2,7 @@ var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone');
 
-var DrawingView = Backbone.View.extend({
+var DrawMapView = Backbone.View.extend({
     initialize: function() {
         var colors = ['#000000','#2980B9', '#27AE60', '#E67E22', '#E74C3C', '#8E44AD'],
             labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -305,4 +305,4 @@ var DrawingView = Backbone.View.extend({
         return '"lat": ' + this.model.map.getCenter().G + ',"lon": ' + this.model.map.getCenter().K
     }
 });
-module.exports = DrawingView;
+module.exports = DrawMapView;

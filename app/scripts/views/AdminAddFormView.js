@@ -3,14 +3,12 @@ var $ = require('jquery'),
     Article = require('../models/Article'),
     Backbone = require('backbone'),
     Map = require('../models/Map'),
-    MapView = require('./MapView'),
-    LocationView = require('./LocationView'),
-    DrawingView = require('./DrawingView'),
-    RockView = require('./RockView'),
-    AdminEditListView = require('./AdminEditListView'),
-    template = require('./templates/adminTemplate.html');
+    MapLocationView = require('./MapLocationView'),
+    DrawMapView = require('./DrawMapView'),
+    DrawCanvasView = require('./DrawCanvasView'),
+    template = require('./templates/articleFormTemplate.html');
 
-var AdminView = Backbone.View.extend({
+var AdminAddFormView = Backbone.View.extend({
     template: template,
     id: 'addForm',
     events: {
@@ -57,17 +55,19 @@ var AdminView = Backbone.View.extend({
             if (drawingData && drawingData.shapes.length > 0) {
                 article.set({
                     shapes: drawingData.shapes,
-                    map: drawingData.map
+                    map: drawingData.map,
+                    type: 'routs'
                 });
             }
         }
         if (this.rockVisible) {
-            var canvasDrawing = this.rockView.serialize();
+            var canvasDrawing = this.drawCanvasView.serialize();
             var canvasData = localStorage.setItem('tracks', JSON.stringify(canvasDrawing));
             if (canvasDrawing) {
                 article.set({
                     imgUrl: canvasDrawing.imageUrl,
-                    tracks: canvasDrawing.paths
+                    tracks: canvasDrawing.paths,
+                    type: 'rocks'
                 });
             }
         }
@@ -92,13 +92,13 @@ var AdminView = Backbone.View.extend({
         this.mapVisible = true;
         this.clearData();
         var map = new Map();
-        var mapView = new MapView({
+        $('#map').empty();
+        console.log(map);
+        map.map = new google.maps.Map(document.getElementById('map'), map.attributes.mapOptions);
+        var mapLocationView = new MapLocationView({
             model: map
         });
-        var locationView = new LocationView({
-            model: map
-        });
-        var drawingView = new DrawingView({
+        var drawMapView = new DrawMapView({
             model: map
         });
     },
@@ -129,7 +129,7 @@ var AdminView = Backbone.View.extend({
                 this.rockContainer.show();
                 this.rockVisible = true;
                 this.canvasEl.show();
-                this.rockView = new RockView({
+                this.drawCanvasView = new DrawCanvasView({
                     imageUrl: $('#url').val()
                 });
             } else {
@@ -153,4 +153,4 @@ var AdminView = Backbone.View.extend({
         }
     }
 });
-module.exports = AdminView;
+module.exports = AdminAddFormView;

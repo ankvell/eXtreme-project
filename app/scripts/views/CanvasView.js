@@ -1,7 +1,7 @@
 var $ = require('jquery'),
     Backbone = require('backbone');
 
-var RenderCanvasView = Backbone.View.extend({
+var CanvasView = Backbone.View.extend({
     el: '.itinerary_rock',
     template: '<canvas class="rocks"></canvas>',
 
@@ -60,4 +60,4 @@ var RenderCanvasView = Backbone.View.extend({
     }
 });
 
-module.exports = RenderCanvasView;
+module.exports = CanvasView;
