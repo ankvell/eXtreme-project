@@ -1,0 +1,42 @@
+.article-container {
+    margin: 20px auto;
+    background: #fff;
+    border-bottom: 1px solid #d9d9d9;
+    width: 96%;
+    position: relative;
+    padding: 20px;
+    cursor: pointer;
+    transition: .2s;
+    &:hover {
+        -webkit-box-shadow: 0px 0px 22px -3px rgba(179,173,179,0.59);
+        -moz-box-shadow: 0px 0px 22px -3px rgba(179,173,179,0.59);
+        box-shadow: 0px 0px 22px -3px rgba(179,173,179,0.59);
+    }
+    h2 {
+        color: #464646;
+        margin-bottom: 10px;
+    }
+    .route, .difficulty, .duration {
+        display: inline-block;
+        background-color: #464646;
+        color: #fff;
+        text-transform: uppercase;
+        line-height: 1;
+        padding: 7px 28px;
+        font-weight: bold;
+        margin-bottom: 3px;
+        font-size: 12px;
+    }
+    .short-description {
+        margin-bottom: 30px;
+        border-bottom: 3px double #e3e3e3;
+        padding-bottom: 30px;
+        padding-top: 15px;
+    }
+    .creationDate {
+        margin: 25px 0 0 0;
+        text-align: right;
+        color: #464646;
+        font-weight: bold;
+    }
+}
