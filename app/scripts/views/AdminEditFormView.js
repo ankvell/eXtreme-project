@@ -79,7 +79,7 @@ var AdminEditFormView = Backbone.View.extend({
             }
         }
         if (this.$el.find('input[name=difficulty]:checked')){
-            this.model.attributes.difficulty = this.$el.find('input[name=difficulty]:checked').val()
+            this.model.attributes.difficulty = this.$el.find('input[name=difficulty]:checked').val();
         }
         localStorage.removeItem(this.keyInDb);
         var updatedData = JSON.stringify({

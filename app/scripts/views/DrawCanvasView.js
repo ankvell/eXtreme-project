@@ -18,7 +18,7 @@ var DrawCanvasView = Backbone.View.extend({
         $('#alter_track').on('click', function(){
             setTimeout(function() {
                 this.undoTrack();
-            }.bind(this))
+            }.bind(this));
         }.bind(this));
 
 
