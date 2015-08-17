@@ -13,8 +13,8 @@ var AdminMainView = Backbone.View.extend({
         this.collection.forEach(function(article) {
             this.renderArticle(article);
         }, this);
-        $('<button type="button" id="add_new_article"/>').text('Добавити статтю').prependTo('.east_side');
-        $('#add_new_article').on('click', function() {
+        $('<div class="sidebar"><button type="button" id="add_new_article">Додати нову статтю</button></div>').prependTo('.east_side');
+        $('#add_new_article').on('click', function(){
             App.eventAggregator.trigger('add:article');
         });
         return this;

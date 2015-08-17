@@ -40,4 +40,62 @@
     display: block;
     font-size: 20px;
   }
+  input[type="radio"] {
+    margin-left: 5px;
+    margin-right: 2px;
+  }
+  #add_map, #add_rock, .add_gps_track, .add_images{
+      position: fixed;
+      z-index: 1;
+      width: 200px;
+      height: 60px;
+      padding-left: 40px;
+      margin-top: 80px;
+      border: none;
+      border-bottom: 1px dotted #696161;
+      color: #fff;
+      text-align: left;
+      outline: none;
+      background-color: #383E4B;
+      transition: all .5s ease-out;
+      &:before, &:after {
+        border-right: 1px solid;
+        content: '';
+        display: block;
+        height: 8px;
+        margin-top: -6px;
+        position: absolute;
+        transform: rotate(45deg);
+        right: 12px;
+        top: 50%;
+        width: 0;
+      }
+      &:after {
+        margin-top: -1px;
+        transform: rotate(135deg);
+      }
+      &:hover {
+        background-color: #2D323D;
+        color: #F1F1F1;
+      }
+  }
+  #add_map {
+    top: -4px;
+    left: 0;
+
+  }
+  .add_gps_track {
+    top: 56px;
+    left: 0;
+  }
+  #add_rock {
+    top: 116px;
+    left: 0;
+  }
+  .add_images {
+    top: 176px;
+    left: 0;
+  }
 }
+
+

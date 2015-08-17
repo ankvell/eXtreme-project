@@ -13,6 +13,7 @@ var AdminEditFormView = Backbone.View.extend({
     template: template,
     events: {
         'click #add_map': 'loadMap',
+        'click #add_gps_track': 'loadMap',
         'click #add_rock': 'loadRock',
         'change #gps_file': 'loadGPSTrack'
     },
@@ -124,7 +125,7 @@ var AdminEditFormView = Backbone.View.extend({
                 singlePoint = {
                     lat: parseFloat(line.split(',')[0]),
                     lng: parseFloat(line.split(',')[1])
-                }
+                };
                 coordinatesArray.push(singlePoint);
             });
             this.drawMapView.drawGPSTrack(coordinatesArray);
@@ -153,10 +154,10 @@ var AdminEditFormView = Backbone.View.extend({
         }).bind(this));
     },
     clearData: function(){
-        if (localStorage.getItem('shapesData') != null){
+        if (localStorage.getItem('shapesData') !== null){
             localStorage.removeItem('shapesData');
         }
-        if (localStorage.getItem('tracks') != null){
+        if (localStorage.getItem('tracks') !== null){
             localStorage.removeItem('tracks');
         }
     },

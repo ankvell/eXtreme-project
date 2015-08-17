@@ -1,12 +1,14 @@
 var _ = require('underscore'),
     $ = require('jquery'),
     Backbone = require('backbone'),
+    Filter = require('../models/Filter'),
     ListView = require('../views/ListView'),
     ArticleView = require('../views/ArticleView'),
     AdminMainView = require('../views/AdminMainView'),
-    Filter = require('../models/Filter'),
     AdminEditFormView = require('../views/AdminEditFormView'),
     AdminAddFormView = require('../views/AdminAddFormView'),
+    StartPageView = require('../views/StartPageView'),
+    NavigationView = require('../views/NavigationView'),
     SearchView = require('../views/SearchView');
 
 var Router = Backbone.Router.extend({
@@ -21,9 +23,15 @@ var Router = Backbone.Router.extend({
             'search/:searchItem': 'viewSearchResult',
             'admin/edit/:id': 'editArticle',
             'admin/add': 'addArticle',
+        'all': 'showArticleList',
             'news': 'showNews',
             'routs': 'showRouts',
             'rocks': 'showRocks'
+    },
+    showStartPage: function() {
+        new StartPageView();
+        new NavigationView();
+        new SearchView();
         },
         showArticleList: function() {
             // api.getArticles(function(data) {

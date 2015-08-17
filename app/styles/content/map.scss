@@ -1,0 +1,52 @@
+#map_container {
+    width: 100%;
+    height: 420px;
+    position: relative;
+    .track-gps {
+        display: block;
+        width: 100%;
+        height: 60px;
+        margin-top: 20px;
+    }
+    #autocomplete {
+        display: block;
+        width: 100%;
+        outline: none;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        margin-bottom: 10px;
+    }
+    #drawing_controls {
+        position: absolute;
+        top: 12px;
+        right: 1%;
+        z-index: 1;
+        .color-button {
+            width: 23px;
+            height: 23px;
+            border-radius: 0px;
+            border: 1px solid lightgrey;
+            float: left;
+        }
+        button {
+            position: absolute;
+            top: 350px;
+            right: 6px;
+            padding: 6px;
+            width: 100px;
+        }
+        .saveShape-button {
+            top: 440px;
+            right: 110px;
+        }
+    }
+    #map {
+        width: 100%;
+        height: 400px;
+    }
+    .difficulty span,
+    .duration span {
+        display: none;
+    }
+}

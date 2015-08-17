@@ -14,8 +14,10 @@ var AdminAddFormView = Backbone.View.extend({
     events: {
         'click #add_map': 'loadMap',
         'click #add_rock': 'loadRock',
-        'click #load': 'loadImages',
-        'change #gps_file': 'loadGPSTrack'
+        'click .add_gps_track': 'loadMap',
+        'change #gps_file': 'loadGPSTrack',
+        'click .add_images': 'loadImages',
+        'click #load': 'loadImages'
     },
     initialize: function() {
         this.render();
@@ -35,11 +37,13 @@ var AdminAddFormView = Backbone.View.extend({
         this.rockContainer = $('#rock_container');
         this.urlField = $('#choose_url');
         this.canvasEl = $('#canvas');
+        this.loadImgContainer = $('#carousel_imgs');
         this.imgs = [];
         this.mapContainer.hide();
         this.mapVisible = false;
         this.rockContainer.hide();
         this.rockVisible = false;
+        this.loadImgContainer.hide();
         this.canvasEl.hide();
         this.urlField.hide();
     },
@@ -99,19 +103,19 @@ var AdminAddFormView = Backbone.View.extend({
             model: map
         });
     },
-    loadGPSTrack: function(e){
+    loadGPSTrack: function(e) {
         var file = e.target.files[0];
         var reader = new FileReader();
         var lines, coordinatesArray, singlePoint;
-        reader.onload = (function(e){
+        reader.onload = (function(e) {
             lines = e.target.result.split('\n').splice(6);
             lines.pop();
             coordinatesArray = [];
-            lines.forEach(function(line){
+            lines.forEach(function(line) {
                 singlePoint = {
                     lat: parseFloat(line.split(',')[0]),
                     lng: parseFloat(line.split(',')[1])
-                }
+                };
                 coordinatesArray.push(singlePoint);
             });
             this.drawMapView.drawGPSTrack(coordinatesArray);
@@ -153,11 +157,21 @@ var AdminAddFormView = Backbone.View.extend({
         }).bind(this));
     },
     loadImages: function() {
-            imgURL = $('#imgs_url').val();
-            if(imgURL) {
-                this.imgs.push(imgURL);
-            }
-            $('#imgs_url').val('');
+        this.loadImgContainer.show();
+        imgURL = $('#imgs_url').val();
+        if (imgURL) {
+            this.imgs.push(imgURL);
+        }
+        $('#imgs_url').val('');
+
+    },
+    clearData: function() {
+        if (localStorage.getItem('shapesData') !== null) {
+            localStorage.removeItem('shapesData');
+        }
+        if (localStorage.getItem('tracks') !== null) {
+            localStorage.removeItem('tracks');
+        }
     }
 });
 module.exports = AdminAddFormView;
