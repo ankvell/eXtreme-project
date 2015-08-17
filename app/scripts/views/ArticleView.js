@@ -33,7 +33,7 @@ var ArticleView = Backbone.View.extend({
             this.$el.find('.itinerary').hide();
         }
 
-        if (this.model.attributes.imgUrl && this.model.attributes.tracks) {
+        if (this.model.attributes.rockImgUrl && this.model.attributes.tracks) {
             this.canvasView = new CanvasView({
                 model: this.model
             });

@@ -52,21 +52,20 @@ var AdminAddFormView = Backbone.View.extend({
             creationDate: this.getCurrentDate()
         });
         if (this.mapVisible) {
-            var drawingData = JSON.parse(localStorage.getItem('shapesData'));
-            if (drawingData && drawingData.shapes.length > 0) {
+            var mapDrawing = this.drawMapView.serialize();
+            if (mapDrawing.shapes.length > 0) {
                 article.set({
-                    shapes: drawingData.shapes,
-                    map: drawingData.map,
+                    shapes: mapDrawing.shapes,
+                    map: mapDrawing.map,
                     type: 'routs'
                 });
             }
         }
         if (this.rockVisible) {
             var canvasDrawing = this.drawCanvasView.serialize();
-            var canvasData = localStorage.setItem('tracks', JSON.stringify(canvasDrawing));
             if (canvasDrawing) {
                 article.set({
-                    imgUrl: canvasDrawing.imageUrl,
+                    rockImgUrl: canvasDrawing.imageUrl,
                     tracks: canvasDrawing.paths,
                     type: 'rocks'
                 });
@@ -81,7 +80,6 @@ var AdminAddFormView = Backbone.View.extend({
             silent: true
         });
         article.save();
-        this.clearData();
         App.eventAggregator.trigger('admin:main');
     },
     loadMap: function() {
@@ -91,7 +89,6 @@ var AdminAddFormView = Backbone.View.extend({
         }
         this.mapContainer.show();
         this.mapVisible = true;
-        this.clearData();
         var map = new Map();
         $('#map').empty();
         map.map = new google.maps.Map(document.getElementById('map'), map.attributes.mapOptions);
@@ -141,7 +138,6 @@ var AdminAddFormView = Backbone.View.extend({
         }
         this.urlField.show();
         // this.urlField.focus();
-        this.clearData();
         $('#load_rock_image').on('click', (function() {
             if ($('#url')[0].checkValidity() && $('#url').val()) {
                 this.urlField.hide();
@@ -162,14 +158,6 @@ var AdminAddFormView = Backbone.View.extend({
                 this.imgs.push(imgURL);
             }
             $('#imgs_url').val('');
-    },
-    clearData: function() {
-        if (localStorage.getItem('shapesData') != null) {
-            localStorage.removeItem('shapesData');
-        }
-        if (localStorage.getItem('tracks') != null) {
-            localStorage.removeItem('tracks');
-        }
     }
 });
 module.exports = AdminAddFormView;

@@ -17,7 +17,7 @@ var CanvasView = Backbone.View.extend({
             imageObj = new Image(),
             allCoords = this.model.attributes.tracks;
 
-        imageObj.src = this.model.attributes.imgUrl;
+        imageObj.src = this.model.attributes.rockImgUrl;
         imageObj.addEventListener('load', (function() {
             canvas.width = 800;
             canvas.height = 540;

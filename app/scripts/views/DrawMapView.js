@@ -1,6 +1,8 @@
 var $ = require('jquery'),
     _ = require('underscore'),
-    Backbone = require('backbone');
+    Backbone = require('backbone'),
+    Shape = require('../models/MapShape'),
+    ShapesCollection = require('../collections/MapShapesCollection');
 
 var DrawMapView = Backbone.View.extend({
     initialize: function() {
@@ -30,6 +32,7 @@ var DrawMapView = Backbone.View.extend({
             polygonOptions: polyOptions,
         });
         this.shapes = [];
+        this.shapesCollection = new ShapesCollection();
         google.maps.event.addListener(this.drawingManager, 'overlaycomplete', (function(e) {
             var newShape = e.overlay;
             newShape.type = e.type;
@@ -182,8 +185,28 @@ var DrawMapView = Backbone.View.extend({
         google.maps.event.addListener(path, 'set_at', this.saveShapes);
     },
     saveShapes: function(){
-        var shapesData = this.jsonMake();
-        localStorage.setItem('shapesData', shapesData);
+        this.shapesCollection.reset();
+        this.shapes.forEach((function(shape, index){
+            switch(shape.type){
+                case 'marker':
+                    this.makeMarker(shape);
+                    break;
+                case 'rectangle':
+                    this.makeRectangle(shape);
+                    break;
+                case 'circle':
+                    this.makeCircle(shape);
+                    break;
+                case 'polyline':
+                    this.makePolyline(shape);
+                    break;
+                case 'polygon':
+                    this.makePolygon(shape);
+                    break;
+                default:
+                    throw new Error('Shape type is incorrect');
+            }
+        }).bind(this));
     },
     shapesDelete: function(shape){
         var found = false,
@@ -194,6 +217,98 @@ var DrawMapView = Backbone.View.extend({
                 found = true;
             }
         }
+    },
+    makeMarker: function(marker){
+        var shape = new Shape({
+            type: marker.type,
+            position: {
+                lat: marker.getPosition().lat(),
+                lon: marker.getPosition().lng()
+            },
+            label: marker.label
+        });
+        this.shapesCollection.add(shape);
+    },
+    makeRectangle: function(rectangle){
+        var shape = new Shape({
+            type: rectangle.type,
+            color: rectangle.fillColor,
+            bounds: {
+                northEast: {
+                    lat: rectangle.bounds.getNorthEast().lat(),
+                    lon: rectangle.bounds.getNorthEast().lng()
+                },
+                southWest: {
+                    lat: rectangle.bounds.getSouthWest().lat(),
+                    lon: rectangle.bounds.getSouthWest().lng()
+                }
+            }
+        });
+        this.shapesCollection.add(shape);
+    },
+    makeCircle: function(circle){
+        var shape = new Shape({
+            type: circle.type,
+            color: circle.fillColor,
+            center: {
+                lat: circle.center.lat(),
+                lon: circle.center.lng()
+            },
+            radius: circle.radius
+        });
+        this.shapesCollection.add(shape);
+    },
+    makePolyline: function(polyline){
+        var path = this.makePath(polyline.getPath());
+        var shape = new Shape({
+            type: polyline.type,
+            color: polyline.strokeColor,
+            path: path
+        });
+        this.shapesCollection.add(shape);
+    },
+    makePolygon: function(polygon){
+        var paths = this.makePaths(polygon.getPaths());
+        var shape = new Shape({
+            type: polygon.type,
+            color: polygon.fillColor,
+            paths: paths
+        });
+        this.shapesCollection.add(shape);
+    },
+    makePath: function(path){
+        var n = path.getLength(),
+            coordinatesArray = [],
+            point;
+        for (var i = 0; i < n; i++) {
+            point = {
+                lat: path.getAt(i).lat(),
+                lon: path.getAt(i).lng()
+            }
+            coordinatesArray.push(point);
+        }
+        return coordinatesArray;
+    },
+    makePaths: function(paths){
+        var n = paths.getLength(),
+            pathsArray = [],
+            pathObj;
+        for (var i = 0; i < n; i++) {
+            pathObj = {
+                path: this.makePath(paths.getAt(i))
+            }
+            pathsArray.push(pathObj);
+        }
+        return pathsArray;
+    },
+    serialize: function() {
+        return {
+            shapes: this.shapesCollection.toJSON(),
+            map: {
+                lat: this.model.map.getCenter().G,
+                lon: this.model.map.getCenter().K
+            }
+        };
     },
     drawGPSTrack: function(trackCoordinates){
         var latLngBounds = new google.maps.LatLngBounds();
@@ -224,123 +339,6 @@ var DrawMapView = Backbone.View.extend({
                     this.setSelection(track);
         }).bind(this));
         this.onNewShape(track);
-    },
-    jsonMake: function(){
-        var json = '{"shapes":[';
-        this.shapes.forEach((function(shape, index){
-            if (index !== 0){
-                json += ',';
-            }
-            switch(shape.type){
-                case 'marker':
-                    json += '{' + this.jsonMakeMarker(shape) + '}';
-                    break;
-                case 'rectangle':
-                    json += '{' + this.jsonMakeRectangle(shape) + '}';
-                    break;
-                case 'circle':
-                    json += '{' + this.jsonMakeCircle(shape) + '}';
-                    break;
-                case 'polyline':
-                    json += '{' + this.jsonMakePolyline(shape) + '}';
-                    break;
-                case 'polygon':
-                    json += '{' + this.jsonMakePolygon(shape) + '}';
-                    break;
-                default:
-                    throw new Error('Shape type is incorrect');
-            }
-        }).bind(this));
-        json += '], "map": {' + this.jsonMakeMapData() + '}}';
-        return json;
-    },
-    jsonMakeMarker: function(marker){
-        var json =    this.jsonMakeType(marker) + ','
-                    + '"position":{"lat":"' + marker.getPosition().lat() + '",'
-                                + '"lon":"' + marker.getPosition().lng() + '"},'
-                    + '"label":"' + marker.label + '"';
-        return json;
-    },
-    jsonMakeRectangle: function(rectangle){
-        var json =    this.jsonMakeType(rectangle) + ','
-                    + this.jsonMakeColor(rectangle.fillColor) + ','
-                    + this.jsonMakeBounds(rectangle);
-        return json;
-    },
-    jsonMakeCircle: function(circle){
-        var json =    this.jsonMakeType(circle) + ','
-                    + this.jsonMakeColor(circle.fillColor) + ','
-                    + this.jsonMakeCenter(circle) + ','
-                    + this.jsonMakeRadius(circle);
-        return json;
-    },
-    jsonMakePolyline: function(polyline){
-        var json =    this.jsonMakeType(polyline) + ','
-                    + this.jsonMakeColor(polyline.strokeColor) + ','
-                    + this.jsonMakePath(polyline.getPath());
-        return json;
-    },
-    jsonMakePolygon: function(polygon){
-        var json =    this.jsonMakeType(polygon) + ','
-                    + this.jsonMakeColor(polygon.fillColor) + ','
-                    + this.jsonMakePaths(polygon.getPaths());
-        return json;
-    },
-    jsonMakeType: function(shape){
-        return '"type":"' + shape.type + '"';
-    },
-    jsonMakeColor: function(color){
-        return '"color":"' + color + '"';
-    },
-    jsonMakeBounds: function(shape){
-        return '"bounds":{'
-                    + '"northEast":{'
-                        + '"lat":"' + shape.bounds.getNorthEast().lat() + '",'
-                        + '"lon":"' + shape.bounds.getNorthEast().lng() + '"},'
-                    + '"southWest":{'
-                        + '"lat":"' + shape.bounds.getSouthWest().lat() + '",'
-                        + '"lon":"' + shape.bounds.getSouthWest().lng() + '"}'
-                + '}';
-    },
-    jsonMakeCenter: function(circle){
-        return '"center":{'
-                    + '"lat":"' + circle.center.lat() + '",'
-                    + '"lon":"' + circle.center.lng() + '"'
-                + '}';
-    },
-    jsonMakeRadius: function(circle){
-        return '"radius":"' + circle.radius + '"';
-    },
-    jsonMakePath: function(path){
-        var n = path.getLength(),
-            latlon, json;
-        json = '"path":[';
-        for (var i = 0; i < n; i++) {
-            latlon = path.getAt(i);
-            if (i !== 0){
-                json += ',';
-            }
-            json += '{' + '"lat":"' + latlon.lat() + '",' + '"lon":"' + latlon.lng() + '"}';
-        }
-        json += ']';
-        return json;
-    },
-    jsonMakePaths: function(paths){
-        var n = paths.getLength(),
-            path, json;
-        json = '"paths":[';
-        for (var i = 0; i < n; i++) {
-            path = paths.getAt(i);
-            if (i !== 0){
-                json += ',';
-            }
-            json += '{' + this.jsonMakePath(path) + '}';
-        }
-        json += ']';
-        return json;
-    },
-    jsonMakeMapData: function(){
-        return '"lat": ' + this.model.map.getCenter().G + ',"lon": ' + this.model.map.getCenter().K
     }
 });
 module.exports = DrawMapView;

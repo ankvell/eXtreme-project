@@ -71,11 +71,11 @@ var AdminEditFormView = Backbone.View.extend({
         this.model.attributes.duration = this.durationEl.val();
         this.model.attributes.creationDate = this.getCurrentDate();
         if (this.mapVisible){
-            this.model.attributes.type = 'routs';
-            var drawingData = JSON.parse(localStorage.getItem('shapesData'));
-            if (drawingData && drawingData.shapes.length > 0){
-                this.model.attributes.shapes = drawingData.shapes;
-                this.model.attributes.map = drawingData.map;
+            var mapDrawing = this.drawMapView.serialize();
+            if (mapDrawing.shapes.length > 0){
+                this.model.attributes.shapes = mapDrawing.shapes;
+                this.model.attributes.map = mapDrawing.map;
+                this.model.attributes.type = 'routs';
             }
         }
         if (this.$el.find('input[name=difficulty]:checked')){
