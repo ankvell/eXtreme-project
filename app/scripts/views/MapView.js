@@ -2,58 +2,60 @@ var $ = require('jquery'),
     Backbone = require('backbone');
 
 var MapView = Backbone.View.extend({
-    initialize: function(options){
-        var json = this.model.attributes;
+    initialize: function(options) {
+        var shapes = this.model.attributes.shapes;
         this.model.map = new google.maps.Map(options.mapContainer, this.model.map.attributes.mapOptions);
-        this.jsonRead(json);
+        this.readShapes(shapes);
     },
-    jsonRead: function(json){
+    readShapes: function(shapes) {
         var marker, rectangle, circle, polyline, polygon;
         this.latLngBounds = new google.maps.LatLngBounds();
-        json.shapes.forEach((function(shape, index){
+        shapes.forEach((function(shape, index) {
             switch (shape.type) {
-            case 'marker':
-                marker = this.jsonReadMarker(shape);
-                break;
-            case 'rectangle':
-                rectangle = this.jsonReadRectangle(shape);
-                break;
-            case 'circle':
-                circle = this.jsonReadCircle(shape);
-                break;
-            case 'polyline':
-                polyline = this.jsonReadPolyline(shape);
-                break;
-            case 'polygon':
-                polygon = this.jsonReadPolygon(shape);
-                break;
+                case 'marker':
+                    marker = this.readMarker(shape);
+                    break;
+                case 'rectangle':
+                    rectangle = this.readRectangle(shape);
+                    break;
+                case 'circle':
+                    circle = this.readCircle(shape);
+                    break;
+                case 'polyline':
+                    polyline = this.readPolyline(shape);
+                    break;
+                case 'polygon':
+                    polygon = this.readPolygon(shape);
+                    break;
+                default:
+                    throw new Error('Shape type is incorrect');
             }
         }).bind(this));
         this.model.map.fitBounds(this.latLngBounds);
     },
-    jsonReadMarker: function(jsonMarker){
+    readMarker: function(markerData) {
         var position, markerOptions, marker;
-        position = new google.maps.LatLng(jsonMarker.position.lat, jsonMarker.position.lon);
+        position = new google.maps.LatLng(markerData.position.lat, markerData.position.lon);
         markerOptions = {
             position: position,
             editable: false,
-            label: jsonMarker.label,
+            label: markerData.label,
             map: this.model.map
         };
         marker = new google.maps.Marker(markerOptions);
         this.latLngBounds.extend(position);
         return marker;
     },
-    jsonReadRectangle: function(jsonRectangle){
-        var southWest, northEast, bounds, rectangleOptions;
-        southWest = new google.maps.LatLng(jsonRectangle.bounds.southWest.lat, jsonRectangle.bounds.southWest.lon);
-        northEast = new google.maps.LatLng(jsonRectangle.bounds.northEast.lat, jsonRectangle.bounds.northEast.lon);
+    readRectangle: function(rectangleData) {
+        var southWest, northEast, bounds, rectangleOptions, rectangle;
+        southWest = new google.maps.LatLng(rectangleData.bounds.southWest.lat, rectangleData.bounds.southWest.lon);
+        northEast = new google.maps.LatLng(rectangleData.bounds.northEast.lat, rectangleData.bounds.northEast.lon);
         bounds = new google.maps.LatLngBounds(southWest, northEast);
         rectangleOptions = {
             strokeWeight: 0,
             bounds: bounds,
             editable: false,
-            fillColor: jsonRectangle.color,
+            fillColor: rectangleData.color,
             fillOpacity: 0.4,
             map: this.model.map
         };
@@ -62,15 +64,15 @@ var MapView = Backbone.View.extend({
         this.latLngBounds.extend(northEast);
         return rectangle;
     },
-    jsonReadCircle: function(jsonCircle){
+    readCircle: function(circleData) {
         var center, circleOptions, circle;
-        center = new google.maps.LatLng(jsonCircle.center.lat, jsonCircle.center.lon);
+        center = new google.maps.LatLng(circleData.center.lat, circleData.center.lon);
         circleOptions = {
             strokeWeight: 0,
             center: center,
-            radius: parseFloat(jsonCircle.radius),
+            radius: parseFloat(circleData.radius),
             editable: false,
-            fillColor: jsonCircle.color,
+            fillColor: circleData.color,
             fillOpacity: 0.5,
             map: this.model.map
         };
@@ -78,44 +80,44 @@ var MapView = Backbone.View.extend({
         this.latLngBounds.union(circle.getBounds());
         return circle;
     },
-    jsonReadPolyline: function(jsonPolyline){
+    readPolyline: function(polylineData) {
         var path, polylineOptions, polyline;
-        path = this.jsonReadPath(jsonPolyline);
+        path = this.readPath(polylineData);
         polylineOptions = {
             path: path,
             editable: false,
-            strokeColor: jsonPolyline.color,
+            strokeColor: polylineData.color,
             map: this.model.map
         };
         polyline = new google.maps.Polyline(polylineOptions);
-        path.forEach((function(el){
+        path.forEach((function(el) {
             this.latLngBounds.extend(new google.maps.LatLng(el.G, el.K));
         }).bind(this));
         return polyline;
     },
-    jsonReadPolygon: function(jsonPolygon){
+    readPolygon: function(polygonData) {
         var paths, polygonOptions, polygon;
         paths = new google.maps.MVCArray();
-        jsonPolygon.paths.forEach((function(path){
-            paths.push(this.jsonReadPath(path));
+        polygonData.paths.forEach((function(path) {
+            paths.push(this.readPath(path));
         }).bind(this));
         polygonOptions = {
             strokeWeight: 0,
             paths: paths,
             editable: false,
-            fillColor: jsonPolygon.color,
+            fillColor: polygonData.color,
             fillOpacity: 0.5,
             map: this.model.map
         };
         polygon = new google.maps.Polygon(polygonOptions);
-        polygon.getPath().forEach((function(element,index){
-            this.latLngBounds.extend(element)
+        polygon.getPath().forEach((function(el) {
+            this.latLngBounds.extend(el);
         }).bind(this));
         return polygon;
     },
-    jsonReadPath: function(jsonPath){
+    readPath: function(pathData) {
         var path = new google.maps.MVCArray();
-        jsonPath.path.forEach((function(el){
+        pathData.path.forEach((function(el) {
             path.push(new google.maps.LatLng(el.lat, el.lon));
         }).bind(this));
         return path;

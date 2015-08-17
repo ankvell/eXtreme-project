@@ -1,5 +1,4 @@
 var $ = require('jquery'),
-    _ = require('underscore'),
     Backbone = require('backbone'),
     template = require('./templates/mainAdminTemplate.html');
 
@@ -9,14 +8,13 @@ var AdminEditArticleView = Backbone.View.extend({
     template: template,
     initialize: function() {
         for (var key in localStorage) {
-            if (key !== 'articleData' && key != 'shapesData' && key != 'tracks' && localStorage.getItem(key)) {
+            if (key !== 'articleData' && localStorage.getItem(key)) {
                 var obj = JSON.parse(localStorage.getItem(key));
                 if (obj.id === this.model.attributes.id) {
                     this.keyInDb = key;
                 }
             }
         }
-
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -31,7 +29,7 @@ var AdminEditArticleView = Backbone.View.extend({
         this.model.destroy();
         this.remove();
     },
-    editArticle: function(){
+    editArticle: function() {
         App.eventAggregator.trigger('edit:article', this.model.attributes.id);
     }
 });

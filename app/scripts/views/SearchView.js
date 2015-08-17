@@ -13,7 +13,7 @@ var SearchView = Backbone.View.extend({
         }, 200)
     },
     togleSearch: function() {
-        var toggleWidth = $("#search_field").width() == 0 ? "300px" : "0px";
+        var toggleWidth = $("#search_field").width() === 0 ? "300px" : "0px";
         $("#search_field").focus();
         $('#search_field').animate({
             width: toggleWidth

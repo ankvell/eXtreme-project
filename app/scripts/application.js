@@ -5,7 +5,7 @@ var $ = require('jquery'),
     Article = require('./models/Article'),
     ArticleCollection = require('./collections/ArticleCollection'),
     data = require('../../data.js');
-    //api = require('./configs/api'),
+//api = require('./configs/api')
 
 $(document).ready(function() {
     var article;
@@ -18,7 +18,7 @@ $(document).ready(function() {
         });
     } else {
         for (var key in localStorage) {
-            if (key !== 'articleData' && key != 'shapesData' && key != 'tracks' && localStorage.getItem(key)) {
+            if (key !== 'articleData' && localStorage.getItem(key)) {
                 var obj = JSON.parse(localStorage.getItem(key));
                 article = new Article(obj);
                 articleCollection.add(article);
@@ -32,8 +32,8 @@ $(document).ready(function() {
     //Creating an application level event aggregator
     window.App = {};
     App.eventAggregator = _.extend({}, Backbone.Events);
-    App.eventAggregator.on('article:selected', function(article) {
-        var urlPath = 'view/' + article.get('title');
+    App.eventAggregator.on('article:selected', function(title) {
+        var urlPath = 'view/' + title;
         router.navigate(urlPath, {
             trigger: true
         });

@@ -4,40 +4,42 @@ var $ = require('jquery'),
 
 var ListView = Backbone.View.extend({
     el: $('.east_side'),
-    initialize: function(){
+    initialize: function() {
         this.listenTo(this.collection, 'change', this.render);
         this.render();
     },
-    render: function(){
+    render: function() {
         this.$el.empty();
-        this.collection.forEach((function(article){
+        this.collection.forEach((function(article) {
             this.renderArticle(article);
         }).bind(this));
         return this;
     },
-    renderArticle: function(article){
+    renderArticle: function(article) {
         this.shortenDescription(article, 700);
         var articleInListView = new ArticleInListView({
             model: article
         });
         this.$el.append(articleInListView.render().el);
-        if (article.attributes.difficulty){
+        if (article.attributes.difficulty) {
             $('.difficulty span').show();
         }
-        if (article.attributes.duration){
+        if (article.attributes.duration) {
             $('.duration span').show();
         }
     },
-    shortenDescription: function(article, maxLength){
+    shortenDescription: function(article, maxLength) {
         var shortened = article.attributes.description;
         var index;
-        if (shortened.length > maxLength){
+        if (shortened.length > maxLength) {
             index = shortened.lastIndexOf(' ', maxLength - 3);
             shortened = shortened.substr(0, index) + '...';
         }
         article.set({
             shortDescription: shortened
-        }, {silent: true});
+        }, {
+            silent: true
+        });
     }
 });
 module.exports = ListView;

@@ -3,23 +3,23 @@ var $ = require('jquery'),
     AdminEditArticleView = require('./AdminEditArticleView');
 
 var AdminMainView = Backbone.View.extend({
-    initialize: function(){
+    initialize: function() {
         this.listenTo(this.collection, 'add', this.renderContact);
         this.listenTo(this.collection, 'change', this.render);
         this.render();
     },
-    render: function(){
+    render: function() {
         $('#articles_table').empty();
-        this.collection.forEach(function(article){
+        this.collection.forEach(function(article) {
             this.renderArticle(article);
         }, this);
-        $('<button type="button" id="add_new_article"/>').text('Add new article').prependTo('.east_side');
-        $('#add_new_article').on('click', function(){
+        $('<button type="button" id="add_new_article"/>').text('Добавити статтю').prependTo('.east_side');
+        $('#add_new_article').on('click', function() {
             App.eventAggregator.trigger('add:article');
         });
         return this;
     },
-    renderArticle: function(article){
+    renderArticle: function(article) {
         var adminEditArticleView = new AdminEditArticleView({
             model: article
         });

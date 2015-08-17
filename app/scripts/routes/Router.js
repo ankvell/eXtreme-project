@@ -19,7 +19,7 @@ var Router = Backbone.Router.extend({
             'admin': 'showAdminMainView',
             'view/:title': 'viewArticle',
             'search/:searchItem': 'viewSearchResult',
-            'admin/edit/:title': 'editArticle',
+            'admin/edit/:id': 'editArticle',
             'admin/add': 'addArticle',
             'news': 'showNews',
             'routs': 'showRouts',
@@ -63,7 +63,6 @@ var Router = Backbone.Router.extend({
             });
         },
         showAdminMainView: function(){
-            // document.getElementsByTagName('header')[0].style.display = 'none';
             document.getElementsByTagName('header')[0].style.background = '#222';
             var adminMainView = new AdminMainView({
                 collection: this.articleCollection
@@ -74,7 +73,7 @@ var Router = Backbone.Router.extend({
             var listView = new ListView({collection: filter.filtered});
         },
         editArticle: function(id){
-            var selectedArticle = _(this.articleCollection.models).find(function(article) {
+            var selectedArticle = _.find(this.articleCollection.models, function(article) {
                 return article.get('id') === id;
             });
             var adminEditFormView = new AdminEditFormView({

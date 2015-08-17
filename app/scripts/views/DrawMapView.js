@@ -6,16 +6,16 @@ var $ = require('jquery'),
 
 var DrawMapView = Backbone.View.extend({
     initialize: function() {
-        var colors = ['#000000','#2980B9', '#27AE60', '#E67E22', '#E74C3C', '#8E44AD'],
+        var colors = ['#000000', '#2980B9', '#27AE60', '#E67E22', '#E74C3C', '#8E44AD'],
             labels = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
             labelIndex = 0;
         var polyOptions = {
-                strokeWeight: 0,
-                fillColor: '#000000',
-                fillOpacity: 0.4,
-                editable: true,
-                draggable: true
-            };
+            strokeWeight: 0,
+            fillColor: '#000000',
+            fillOpacity: 0.4,
+            editable: true,
+            draggable: true
+        };
         this.drawingManager = new google.maps.drawing.DrawingManager({
             map: this.model.map,
             markerOptions: {
@@ -29,7 +29,7 @@ var DrawMapView = Backbone.View.extend({
             },
             rectangleOptions: polyOptions,
             circleOptions: polyOptions,
-            polygonOptions: polyOptions,
+            polygonOptions: polyOptions
         });
         this.shapes = [];
         this.shapesCollection = new ShapesCollection();
@@ -80,16 +80,16 @@ var DrawMapView = Backbone.View.extend({
         }).bind(this));
         saveShapeButton = $('<button/>', {
             type: 'button',
-            class: 'saveShape-button'
-        }).text('Save Shape');
-        google.maps.event.addDomListener(saveShapeButton[0], 'click', (function(){
+            'class': 'saveShape-button'
+        }).text('Зберегти');
+        google.maps.event.addDomListener(saveShapeButton[0], 'click', (function() {
             this.clearSelection();
         }).bind(this));
         $('#drawing_controls').append(saveShapeButton);
         deleteButton = $('<button/>', {
             type: 'button',
-            class: 'delete-button'
-        }).text('Delete');
+            'class': 'delete-button'
+        }).text('Видалити');
         google.maps.event.addDomListener(deleteButton[0], 'click', (function() {
             if (this.selectedShape) {
                 this.selectedShape.setMap(null);
@@ -140,54 +140,54 @@ var DrawMapView = Backbone.View.extend({
             this.selectedShape = null;
         }
     },
-    onNewShape: function(shape){
+    onNewShape: function(shape) {
         this.newShapeAddListeners(shape);
         this.shapes.push(shape);
         this.saveShapes();
     },
-    onColorChange: function(){
-        if (this.selectedShape){
+    onColorChange: function() {
+        if (this.selectedShape) {
             this.saveShapes();
         }
     },
-    newShapeAddListeners: function(shape){
+    newShapeAddListeners: function(shape) {
         var path, paths, pathsLength;
         switch (shape.type) {
-        case 'marker':
-            google.maps.event.addListener(shape, 'dragend', this.saveShapes);
-            break;
-        case 'rectangle':
-            google.maps.event.addListener(shape, 'bounds_changed', this.saveShapes);
-            break;
-        case 'circle':
-            google.maps.event.addListener(shape, 'center_changed', this.saveShapes);
-            google.maps.event.addListener(shape, 'radius_changed', this.saveShapes);
-            break;
-        case 'polyline':
-            path = shape.getPath();
-            this.newShapeAddPathListeners(shape, path);
-            break;
-        case 'polygon':
-            paths = shape.getPaths();
-            pathsLength = paths.getLength();
-            for (var i = 0; i < pathsLength; i++) {
-                path = paths.getAt(i);
+            case 'marker':
+                google.maps.event.addListener(shape, 'dragend', this.saveShapes);
+                break;
+            case 'rectangle':
+                google.maps.event.addListener(shape, 'bounds_changed', this.saveShapes);
+                break;
+            case 'circle':
+                google.maps.event.addListener(shape, 'center_changed', this.saveShapes);
+                google.maps.event.addListener(shape, 'radius_changed', this.saveShapes);
+                break;
+            case 'polyline':
+                path = shape.getPath();
                 this.newShapeAddPathListeners(shape, path);
-            }
-            break;
-        default:
-            throw new Error('Shape type is incorrect');
+                break;
+            case 'polygon':
+                paths = shape.getPaths();
+                pathsLength = paths.getLength();
+                for (var i = 0; i < pathsLength; i++) {
+                    path = paths.getAt(i);
+                    this.newShapeAddPathListeners(shape, path);
+                }
+                break;
+            default:
+                throw new Error('Shape type is incorrect');
         }
     },
-    newShapeAddPathListeners: function(shape, path){
+    newShapeAddPathListeners: function(shape, path) {
         google.maps.event.addListener(path, 'insert_at', this.saveShapes);
         google.maps.event.addListener(path, 'remove_at', this.saveShapes);
         google.maps.event.addListener(path, 'set_at', this.saveShapes);
     },
-    saveShapes: function(){
+    saveShapes: function() {
         this.shapesCollection.reset();
-        this.shapes.forEach((function(shape, index){
-            switch(shape.type){
+        this.shapes.forEach((function(shape, index) {
+            switch (shape.type) {
                 case 'marker':
                     this.makeMarker(shape);
                     break;
@@ -208,7 +208,7 @@ var DrawMapView = Backbone.View.extend({
             }
         }).bind(this));
     },
-    shapesDelete: function(shape){
+    shapesDelete: function(shape) {
         var found = false,
             shapesLength = this.shapes.length;
         for (var i = 0; i < shapesLength && !found; i++) {
@@ -218,7 +218,7 @@ var DrawMapView = Backbone.View.extend({
             }
         }
     },
-    makeMarker: function(marker){
+    makeMarker: function(marker) {
         var shape = new Shape({
             type: marker.type,
             position: {
@@ -229,7 +229,7 @@ var DrawMapView = Backbone.View.extend({
         });
         this.shapesCollection.add(shape);
     },
-    makeRectangle: function(rectangle){
+    makeRectangle: function(rectangle) {
         var shape = new Shape({
             type: rectangle.type,
             color: rectangle.fillColor,
@@ -246,7 +246,7 @@ var DrawMapView = Backbone.View.extend({
         });
         this.shapesCollection.add(shape);
     },
-    makeCircle: function(circle){
+    makeCircle: function(circle) {
         var shape = new Shape({
             type: circle.type,
             color: circle.fillColor,
@@ -258,7 +258,7 @@ var DrawMapView = Backbone.View.extend({
         });
         this.shapesCollection.add(shape);
     },
-    makePolyline: function(polyline){
+    makePolyline: function(polyline) {
         var path = this.makePath(polyline.getPath());
         var shape = new Shape({
             type: polyline.type,
@@ -267,7 +267,7 @@ var DrawMapView = Backbone.View.extend({
         });
         this.shapesCollection.add(shape);
     },
-    makePolygon: function(polygon){
+    makePolygon: function(polygon) {
         var paths = this.makePaths(polygon.getPaths());
         var shape = new Shape({
             type: polygon.type,
@@ -276,7 +276,7 @@ var DrawMapView = Backbone.View.extend({
         });
         this.shapesCollection.add(shape);
     },
-    makePath: function(path){
+    makePath: function(path) {
         var n = path.getLength(),
             coordinatesArray = [],
             point;
@@ -284,19 +284,19 @@ var DrawMapView = Backbone.View.extend({
             point = {
                 lat: path.getAt(i).lat(),
                 lon: path.getAt(i).lng()
-            }
+            };
             coordinatesArray.push(point);
         }
         return coordinatesArray;
     },
-    makePaths: function(paths){
+    makePaths: function(paths) {
         var n = paths.getLength(),
             pathsArray = [],
             pathObj;
         for (var i = 0; i < n; i++) {
             pathObj = {
                 path: this.makePath(paths.getAt(i))
-            }
+            };
             pathsArray.push(pathObj);
         }
         return pathsArray;
@@ -310,14 +310,15 @@ var DrawMapView = Backbone.View.extend({
             }
         };
     },
-    drawGPSTrack: function(trackCoordinates){
+    drawGPSTrack: function(trackCoordinates) {
+        var track;
         var latLngBounds = new google.maps.LatLngBounds();
-        trackCoordinates.forEach(function(point){
+        trackCoordinates.forEach(function(point) {
             latLngBounds.extend(new google.maps.LatLng(point.lat, point.lng));
-        })
+        });
         this.model.map.setCenter(latLngBounds.getCenter());
         this.model.map.fitBounds(latLngBounds);
-        var track = new google.maps.Polyline({
+        track = new google.maps.Polyline({
             map: this.model.map,
             path: trackCoordinates,
             editable: false,
@@ -325,18 +326,17 @@ var DrawMapView = Backbone.View.extend({
             strokeWeight: 3
         });
         track.type = 'polyline';
-        this.model.map.fitBounds(latLngBounds);
         this.setSelection(track);
         google.maps.event.addListener(track, 'click', (function(e) {
-                    if (e.vertex != undefined) {
-                        var path = track.getPath();
-                        path.removeAt(e.vertex);
-                        if (path.length < 2) {
-                            track.setMap(null);
-                            this.shapesDelete(track);
-                        }
-                    }
-                    this.setSelection(track);
+            if (e.vertex != undefined) {
+                var path = track.getPath();
+                path.removeAt(e.vertex);
+                if (path.length < 2) {
+                    track.setMap(null);
+                    this.shapesDelete(track);
+                }
+            }
+            this.setSelection(track);
         }).bind(this));
         this.onNewShape(track);
     }

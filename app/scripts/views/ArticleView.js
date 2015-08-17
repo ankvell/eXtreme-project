@@ -1,5 +1,4 @@
 var $ = require('jquery'),
-    _ = require('underscore'),
     Backbone = require('backbone'),
     Map = require('../models/Map'),
     MapView = require('./MapView'),
@@ -29,16 +28,11 @@ var ArticleView = Backbone.View.extend({
                 model: this.model,
                 mapContainer: mapContainer
             });
-        } else {
-            this.$el.find('.itinerary').hide();
-        }
-
-        if (this.model.attributes.rockImgUrl && this.model.attributes.tracks) {
+        } else if (this.model.attributes.rockImgUrl && this.model.attributes.tracks) {
             this.canvasView = new CanvasView({
                 model: this.model
             });
         }
-
         $("#owl-demo").owlCarousel({
             autoPlay: 3000,
             items: 4,

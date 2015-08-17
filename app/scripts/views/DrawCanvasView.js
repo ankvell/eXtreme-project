@@ -12,20 +12,12 @@ var DrawCanvasView = Backbone.View.extend({
         this.context = this.el.getContext('2d');
         this.render();
         this.checkColor();
-
         _.bindAll(this, 'saveTrack', 'undoTrack');
         $('#save_track').on('click', this.saveTrack);
-        $('#alter_track').on('click', function(){
-            setTimeout(function() {
-                this.undoTrack();
-            }.bind(this));
-        }.bind(this));
-
-
-
-        $('.color-button').click(function(e) {
+        $('#alter_track').on('click', this.undoTrack);
+        $('.color-button').on('click', (function(e) {
             this.color = e.target.style.backgroundColor;
-        }.bind(this));
+        }).bind(this));
     },
     serialize: function() {
         return {
@@ -36,15 +28,14 @@ var DrawCanvasView = Backbone.View.extend({
     render: function() {
         this.draw = false;
         var imageObj = new Image();
-        imageObj.src = this.imageUrl;
-        imageObj.addEventListener('load', (function() {
+        imageObj.onload = (function() {
             var width = document.getElementById('rock_container').offsetWidth;
             var height = document.getElementById('rock_container').offsetHeight;
             this.el.width = width;
             this.el.height = height;
-            // this.context.drawImage(imageObj, 0, 0, width, height);
             this.context.drawImage(imageObj, 0, 0, 800, 540);
-        }).bind(this));
+        }).bind(this);
+        imageObj.src = this.imageUrl;
         return this;
     },
     events: {
@@ -75,10 +66,8 @@ var DrawCanvasView = Backbone.View.extend({
         this.draw = true;
     },
     position: function(x, y) {
-
         // this.color = this.path.get('trackColor');
         this.path.set('trackColor', this.color);
-
         this.context.beginPath();
         this.context.fillStyle = this.color;
         this.context.arc(x, y, 3, 0, 2 * Math.PI);
@@ -99,46 +88,49 @@ var DrawCanvasView = Backbone.View.extend({
     saveTrack: function() {
         this.draw = false;
         this.tracksDetails();
-
         this.$el.next().find('#trackComplexity').val('');
         this.$el.next().find('#trackDescription').val('');
     },
     undoTrack: function() {
-        this.render();
-
-        var allCoords = this.pathesCollection.models;
-        allCoords.pop();
-        allCoords.forEach(function(el) {
-            var toPoints = el.attributes.track;
-            this.drawColor = el.attributes.trackColor;
-            toPoints.forEach(function(elem) {
+        var imageObj = new Image();
+        imageObj.onload = (function() {
+            var width = document.getElementById('rock_container').offsetWidth;
+            var height = document.getElementById('rock_container').offsetHeight;
+            this.el.width = width;
+            this.el.height = height;
+            this.context.drawImage(imageObj, 0, 0, 800, 540);
+            var allCoords = this.pathesCollection.models;
+            allCoords.pop();
+            allCoords.forEach(function(el) {
+                var toPoints = el.attributes.track;
+                this.drawColor = el.attributes.trackColor;
+                toPoints.forEach(function(elem) {
+                    this.context.beginPath();
+                    this.context.fillStyle = this.drawColor;
+                    this.context.arc(elem.x, elem.y, 3, 0, 2 * Math.PI);
+                    this.context.fill();
+                    this.context.restore();
+                }.bind(this));
                 this.context.beginPath();
-                this.context.fillStyle = this.drawColor;
-                this.context.arc(elem.x, elem.y, 3, 0, 2 * Math.PI);
-                this.context.fill();
-                this.context.restore();
+                toPoints.forEach(function(elem) {
+                    this.context.strokeStyle = this.drawColor;
+                    this.context.lineWidth = 2;
+                    this.context.lineTo(elem.x, elem.y);
+                }.bind(this));
+                this.context.stroke();
+                this.context.closePath();
             }.bind(this));
-
-            this.context.beginPath();
-            toPoints.forEach(function(elem) {
-                this.context.strokeStyle = this.drawColor;
-                this.context.lineWidth = 2;
-                this.context.lineTo(elem.x, elem.y);
-            }.bind(this));
-            this.context.stroke();
-            this.context.closePath();
-        }.bind(this));
+        }).bind(this);
+        imageObj.src = this.imageUrl;
     },
     tracksDetails: function() {
         this.tracksComplexity = this.$el.next().find('#trackComplexity').val();
         this.path.set('complexity', this.tracksComplexity);
-
         this.tracksDescription = this.$el.next().find('#trackDescription').val();
         this.path.set('description', this.tracksDescription);
     },
     checkColor: function() {
         var colors = ['#026871', '#EC5F3E', '#F9CB3E', '#464646', '#FF6600', '#C7D70E', '#91A30E', '#524656', '#D14643', '#C10000', '#3A000D', '#01151A', '#003A48', '#007892', '#357D25', '#6FAF0B', '#455A64', '##009688'];
-
         colors.forEach(function(color) {
             var button = $('<div class="color-button"></div>');
             button.css('background-color', color);
