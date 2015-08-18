@@ -16,14 +16,14 @@ var Router = Backbone.Router.extend({
             this.articleCollection = options.articleCollection;
         },
         routes: {
-            '': 'showArticleList',
+            '': 'showStartPage',
             'articles': 'showArticleList',
             'admin': 'showAdminMainView',
             'view/:title': 'viewArticle',
             'search/:searchItem': 'viewSearchResult',
             'admin/edit/:id': 'editArticle',
             'admin/add': 'addArticle',
-        'all': 'showArticleList',
+            'all': 'showArticleList',
             'news': 'showNews',
             'routs': 'showRouts',
             'rocks': 'showRocks'
