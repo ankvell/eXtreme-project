@@ -62,17 +62,17 @@
         border-right: 1px solid;
         content: '';
         display: block;
+        width: 0;
         height: 8px;
         margin-top: -6px;
         position: absolute;
-        transform: rotate(45deg);
-        right: 12px;
         top: 50%;
-        width: 0;
+        left: 16px;
+        transform: rotate(135deg);
       }
       &:after {
         margin-top: -1px;
-        transform: rotate(135deg);
+        transform: rotate(45deg);
       }
       &:hover {
         background-color: #2D323D;

@@ -1,44 +1,41 @@
-.itinerary_rock {
-    width: 100%;
-    position: relative;
-    #tracksInfo ,
-    .track_complement  {
-        position: absolute;
-        right: 0;
-        top: 0;
-        width: 235px;
-        height: 540px;
-        padding: 5px;
-        overflow: auto;
+#tracksInfo ,
+.track_complement  {
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 235px;
+    height: 540px;
+    padding: 5px;
+    overflow: auto;
+    display: inline-block;
+    background-color: rgba(109, 97, 97, 0.7);
+    font: 300 16px 'Roboto', 'Arial', sans-serif;
+    #trackComplexity,
+    #trackDescription {
+        box-sizing: border-box;
+        width: 200px;
+        margin: 0 auto;
+        height: 32px;
+        padding: 0 14px;
+        border-width: 1px 1px 0 0;
+        border-color: #555;
+        border-style: solid;
+        background: none;
+        outline: none;
+        transition: all .5s ease 0s;
+        color: #fff;
+        .complexity_hold {
         display: inline-block;
-        background-color: rgba(109, 97, 97, 0.7);
-        font: 300 16px 'Roboto', 'Arial', sans-serif;
-        #trackComplexity,
-        #trackDescription {
-            box-sizing: border-box;
-            width: 200px;
-            margin: 0 auto;
-            height: 32px;
-            padding: 0 14px;
-            border-width: 1px 1px 0 0;
-            border-color: #555;
-            border-style: solid;
-            background: none;
-            outline: none;
-            transition: all .5s ease 0s;
-            color: #fff;
-            .complexity_hold {
-            display: inline-block;
-            padding: 5px;
-            color: #fff;
-            }
-            .description_hold {
-                color: #DCD2D2;
-                font-size: 14px;
-            }
+        padding: 5px;
+        color: #fff;
+        }
+        .description_hold {
+            color: #DCD2D2;
+            font-size: 14px;
         }
     }
 }
+
 
 
 

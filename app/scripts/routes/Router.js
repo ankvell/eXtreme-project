@@ -29,9 +29,9 @@ var Router = Backbone.Router.extend({
             'rocks': 'showRocks'
     },
     showStartPage: function() {
-        new StartPageView();
-        new NavigationView();
-        new SearchView();
+        var startPageView = new StartPageView();
+        var navigationView = new NavigationView();
+        var searchView = new SearchView();
         },
         showArticleList: function() {
             // api.getArticles(function(data) {
