@@ -111,7 +111,7 @@
             if (this.$el.find('input[name=difficulty]:checked')) {
                 this.model.attributes.difficulty = this.$el.find('input[name=difficulty]:checked').val();
             }
-            localStorage.removeItem(this.keyInDb);
+            api.removeArticle(this.keyInDb);
             var updatedData = JSON.stringify({
                 id: this.model.attributes.id,
                 title: this.model.attributes.title,
@@ -124,7 +124,7 @@
                 map: this.model.attributes.map,
                 type: this.model.attributes.type
             });
-            localStorage.setItem(this.keyInDb, updatedData);
+            api.addArticle(this.keyInDb, updatedData);
             App.eventAggregator.trigger('admin:main');
         },
         loadMap: function() {
