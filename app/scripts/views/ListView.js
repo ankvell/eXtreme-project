@@ -3,7 +3,7 @@ var $ = require('jquery'),
     ArticleInListView = require('./ArticleInListView');
 
 var ListView = Backbone.View.extend({
-    el: $('.east_side'),
+    el: $('.content'),
     initialize: function() {
         this.listenTo(this.collection, 'change', this.render);
         this.render();

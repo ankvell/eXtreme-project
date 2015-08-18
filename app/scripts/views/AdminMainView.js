@@ -9,12 +9,12 @@ var AdminMainView = Backbone.View.extend({
         this.render();
     },
     render: function(){
-        $('.east_side').empty();
-        $('.east_side').append('<table id="articles_table"></table>')
+        $('.content').empty();
+        $('.content').append('<div class="east_side"><table id="articles_table"></table></div>')
         this.collection.forEach(function(article){
             this.renderArticle(article);
         }, this);
-        $('<div class="sidebar"><button type="button" id="add_new_article">Додати нову статтю</button></div>').prependTo('.east_side');
+        $('<div class="sidebar"><button type="button" id="add_new_article">Додати нову статтю</button></div>').prependTo('.content');
         $('#add_new_article').on('click', function(){
             App.eventAggregator.trigger('add:article');
         });

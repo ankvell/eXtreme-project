@@ -7,7 +7,7 @@ var $ = require('jquery'),
     template = require('./templates/articleTemplate.html');
 
 var ArticleView = Backbone.View.extend({
-    el: $('.east_side'),
+    el: $('.content'),
     template: template,
     initialize: function() {
         if (this.model.attributes.map) {

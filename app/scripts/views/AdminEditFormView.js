@@ -31,9 +31,9 @@ var AdminEditFormView = Backbone.View.extend({
         $('#submit').on('click', this.updateArticle);
     },
     render: function(){
-        $('.east_side').empty();
+        $('.content').empty();
         this.$el.html(this.template(this.model.toJSON()));
-        $('.east_side').prepend(this.el);
+        $('.content').prepend(this.el);
         CKEDITOR.replace('description');
         this.titleEl = $('#caption');
         this.routeEl = $('#route_description');

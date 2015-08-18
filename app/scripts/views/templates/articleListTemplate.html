@@ -1,4 +1,5 @@
-<div class="article-container">
+<div class="east_side">
+   <div class="article-container">
     <h2 class="article-title"><%= title %></h2>
     <% if (type == "routs") { %>
         <% if(route) { %>
@@ -14,13 +15,14 @@
         <% if(route) { %>
             <div class="duration"><span>Тривалість: </span>
                 <%= duration %>
-            </div>
-        <% } %>
+    </div>
     <% } %>
-    <div class="short-description">
-        <%= shortDescription %>
-    </div>
-    <div class="creationDate">
-        <%= creationDate %>
-    </div>
+<% } %>
+<div class="short-description">
+    <%= shortDescription %>
+</div>
+<div class="creationDate">
+    <%= creationDate %>
+</div>
+</div>
 </div>
