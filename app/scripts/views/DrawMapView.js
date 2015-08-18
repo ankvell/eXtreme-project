@@ -80,7 +80,7 @@ var DrawMapView = Backbone.View.extend({
         }).bind(this));
         saveShapeButton = $('<button/>', {
             type: 'button',
-            'class': 'saveShape-button'
+            'class': 'saveShape-button btn_style'
         }).text('Зберегти');
         google.maps.event.addDomListener(saveShapeButton[0], 'click', (function() {
             this.clearSelection();
@@ -88,7 +88,7 @@ var DrawMapView = Backbone.View.extend({
         $('#drawing_controls').append(saveShapeButton);
         deleteButton = $('<button/>', {
             type: 'button',
-            'class': 'delete-button'
+            'class': 'delete-button btn_style'
         }).text('Видалити');
         google.maps.event.addDomListener(deleteButton[0], 'click', (function() {
             if (this.selectedShape) {

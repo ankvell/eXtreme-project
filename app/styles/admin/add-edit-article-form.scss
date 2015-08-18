@@ -1,5 +1,7 @@
 #addForm, #editForm {
-  margin: 0 20px 0 220px;
+  width: 77%;
+  float: right;
+  margin: 20px 0 0 10px;
   #article_form {
     margin-top: 80px;
       label{
@@ -54,7 +56,7 @@
   #add_map, #add_rock, .add_gps_track, .add_images{
       position: fixed;
       z-index: 1;
-      width: 200px;
+      width: 22%;
       height: 60px;
       padding-left: 40px;
       margin-top: 80px;
