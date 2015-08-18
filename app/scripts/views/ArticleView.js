@@ -3,7 +3,7 @@ var $ = require('jquery'),
     Map = require('../models/Map'),
     MapView = require('./MapView'),
     CanvasView = require('./CanvasView'),
-    carousel = require('../carousel/owl-carousel'),
+    bxSlider = require('../carousel/bx-slider'),
     sidebarTemplate = require('./templates/sidebar.html'),
     template = require('./templates/articleTemplate.html');
 
@@ -35,12 +35,9 @@ var ArticleView = Backbone.View.extend({
             this.canvasView = new CanvasView({
             });
         }
-        $("#owl-demo").owlCarousel({
-            autoPlay: 3000,
-            items: 4,
-            itemsDesktop: [1199, 3],
-            itemsDesktopSmall: [480, 2],
-            itemTablet: [320, 1]
+        $('.bxslider').bxSlider({
+            mode: 'fade',
+            captions: true
         });
     }
 });

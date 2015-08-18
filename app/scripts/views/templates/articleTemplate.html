@@ -58,13 +58,11 @@
 
     <div class="blocks">
         <% if (typeof imgs !=='undefined' ) { %>
-            <div id="owl-demo" class="owl-carousel">
+            <ul class="bxslider">
                 <% imgs.forEach(function(imgSrc) { %>
-                    <div class="item">
-                        <img src="<%= imgSrc %>">
-                    </div>
-                    <% }); %>
-            </div>
+                    <li><img src="<%= imgSrc %>" /></li>
+                <% }); %>
+            </ul>
         <% } %>
     </div>
     <div class="date">
