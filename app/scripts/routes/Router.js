@@ -1,6 +1,8 @@
 var _ = require('underscore'),
     $ = require('jquery'),
     Backbone = require('backbone'),
+
+    HeaderView = require('../views/HeaderView'),
     Filter = require('../models/Filter'),
     ListView = require('../views/ListView'),
     ArticleView = require('../views/ArticleView'),
@@ -13,6 +15,7 @@ var _ = require('underscore'),
 
 var Router = Backbone.Router.extend({
     initialize: function(options) {
+        var headerView = new HeaderView();
         this.articleCollection = options.articleCollection;
     },
     routes: {
@@ -32,6 +35,7 @@ var Router = Backbone.Router.extend({
         var startPageView = new StartPageView();
         var navigationView = new NavigationView();
         var searchView = new SearchView();
+
     },
     showArticleList: function() {
         // api.getArticles(function(data) {
@@ -71,6 +75,7 @@ var Router = Backbone.Router.extend({
         });
     },
     showAdminMainView: function() {
+
         document.getElementsByTagName('header')[0].style.background = '#222';
         var adminMainView = new AdminMainView({
             collection: this.articleCollection

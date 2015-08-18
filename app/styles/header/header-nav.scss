@@ -8,6 +8,7 @@
         display: block;
         clear: both;
     }
+}
 
 .nav_toggle {
     display: none;
@@ -29,19 +30,6 @@
     }
 }
 
-
-        // &.active {
-        //     background-color: transparent;
-        // }
-        // &.active:before {
-        //     top: 0;
-        //     transform: rotate(45deg);
-        // }
-        // &.active:after {
-        //     top: 0;
-        //     transform: rotate(-45deg);
-        // }
-    }
 
 @media screen and (max-width: 767px) {
     .header_cont .nav_toggle {

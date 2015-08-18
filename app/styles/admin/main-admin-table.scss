@@ -5,6 +5,7 @@
     left: 0;
     top: 5%;
     background-color: #383E4B;
+
     #add_new_article {
       display: block;
       position: fixed;
@@ -20,22 +21,6 @@
       border-bottom: 1px dotted #696161;
       background: url(../../images/article-icon.png)no-repeat 18px;
       transition: all .5s ease-out;
-      // &:before, &:after {
-      //   border-right: 1px solid;
-      //   content: '';
-      //   display: block;
-      //   height: 8px;
-      //   margin-top: -6px;
-      //   position: absolute;
-      //   transform: rotate(45deg);
-      //   right: 12px;
-      //   top: 50%;
-      //   width: 0;
-      // }
-      // &:after {
-      //   margin-top: -1px;
-      //   transform: rotate(135deg);
-      // }
       &:hover {
         background-color: #2D323D;
         color: #F1F1F1;
@@ -84,12 +69,17 @@
     }
   }
 }
+.toggle_sidebar {
+  .sidebar {
+    transform: translateX(0);
+  }
+}
 
 @media screen and (max-width: 767px) {
     .header_cont .nav_btn {
         display: block;
     }
     .sidebar {
-        display: none;
+      transform: translateX(-100%);
     }
 }

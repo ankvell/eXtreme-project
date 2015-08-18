@@ -54,7 +54,7 @@
   #add_map, #add_rock, .add_gps_track, .add_images{
       position: fixed;
       z-index: 1;
-      width: 15%;
+      width: 200px;
       height: 60px;
       padding-left: 40px;
       margin-top: 80px;
@@ -104,17 +104,20 @@
       left: 0;
     }
 }
+.toggle_sidebar {
+    .sidebar {
+      top: 0;
+      transofrm: translateX(0);
+    }
+}
 
 @media screen and (max-width: 767px) {
     #addForm, #editForm {
-      float: none;
-      margin: 0 auto;
+      margin: 20px;
     }
     .sidebar {
+      top: 0;
       transform:translateX(-100%);
       transition: all .5s ease 0s;
-      &.toggled {
-        transofrm: translateX(0);
-      }
     }
 }

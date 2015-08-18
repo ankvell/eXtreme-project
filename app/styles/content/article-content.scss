@@ -1,10 +1,7 @@
 .east_side {
-    width: 82%;
-    float: right;
-    height: auto;
-    padding: 0;
-    margin-top: 75px;
-    padding-top: 0;
+    margin: 0 20px 0 220px;
+    padding: 2%;
+    margin-top: 80px;
     .topic {
         position: relative;
         background: url('../../images/panorama.png') 100% 100%;
@@ -109,7 +106,6 @@
 }
 @media screen and (max-width: 767px) {
     .east_side {
-        width: 100%;
-        float: none;
+        margin: 80px 20px 20px;
     }
 }
