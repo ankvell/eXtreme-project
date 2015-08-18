@@ -5,13 +5,14 @@ var $ = require('jquery'),
     RockPathesCollection = require('../collections/RockPathesCollection');
 
 var DrawCanvasView = Backbone.View.extend({
-    el: '#canvas',
+    // el: '.itinenary_rock',
+    template: '<canvas class="rocks"></canvas>',
     initialize: function(options) {
-        this.imageUrl = options.imageUrl;
-        this.pathesCollection = new RockPathesCollection();
-        this.context = this.el.getContext('2d');
         this.render();
         this.checkColor();
+        this.pathesCollection = new RockPathesCollection();
+        this.imageUrl = options.imageUrl;
+
         _.bindAll(this, 'saveTrack', 'undoTrack');
         $('#save_track').on('click', this.saveTrack);
         $('#alter_track').on('click', this.undoTrack);
@@ -26,6 +27,11 @@ var DrawCanvasView = Backbone.View.extend({
         };
     },
     render: function() {
+        this.$el.append(this.template);
+        debugger;
+        var canvas = this.$el.find(".rocks")[0];
+        this.context = canvas.getContext('2d');
+
         this.draw = false;
         var imageObj = new Image();
         imageObj.onload = (function() {

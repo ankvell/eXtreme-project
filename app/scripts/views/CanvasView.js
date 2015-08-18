@@ -14,6 +14,7 @@ var CanvasView = Backbone.View.extend({
             context = canvas.getContext('2d'),
             imageObj = new Image(),
             allCoords = this.model.attributes.tracks;
+            allCoords = this.model.attributes.tracks;
 
         imageObj.src = this.model.attributes.rockImgUrl;
         imageObj.addEventListener('load', (function() {

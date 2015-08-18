@@ -10,40 +10,46 @@
         api = require('../configs/api'),
         template = require('./templates/articleFormTemplate.html');
 
-var AdminEditFormView = Backbone.View.extend({
-    id: 'editForm',
-    template: template,
-    events: {
-        'click #add_map': 'loadMap',
-        'click #add_gps_track': 'loadMap',
-        'click #add_rock': 'loadRock',
-        'change #gps_file': 'loadGPSTrack'
-    },
-    initialize: function(){
-        api.eachArticle((function(key){
-            var obj = JSON.parse(api.getArticle(key));
-            if (obj.id === this.model.attributes.id) {
-                this.keyInDb = key;
-            }
-        }).bind(this));
-        this.render();
-        _.bindAll(this, 'updateArticle');
-        $('#submit').on('click', this.updateArticle);
-    },
-    render: function(){
-        $('.content').empty();
-        this.$el.html(this.template(this.model.toJSON()));
-        $('.content').prepend(this.el);
-        CKEDITOR.replace('description');
-        this.titleEl = $('#caption');
-        this.routeEl = $('#route_description');
-        this.durationEl = $('#duration');
-        this.editor = CKEDITOR.instances['description'];
-        this.mapAutocompleteField = $('#autocomplete');
-        this.mapContainer = $('#map_container');
-        this.rockContainer = $('#rock_container');
-        this.urlField = $('#choose_url');
-        this.canvasEl = $('#canvas');
+    var AdminEditFormView = Backbone.View.extend({
+        id: 'editForm',
+        template: template,
+        events: {
+            'click #add_map': 'loadMap',
+            'click #add_gps_track': 'loadMap',
+            'click #add_rock': 'loadRock',
+            'change #gps_file': 'loadGPSTrack'
+        },
+        initialize: function() {
+            // todo: move into separate method
+            api.eachArticle(function(key) {
+                var obj = JSON.parse(api.getArticle(key));
+                if (obj.id === this.model.get('id')) {
+                    this.keyInDb = key;
+                }
+            }.bind(this));
+
+            this.render();
+
+            _.bindAll(this, 'updateArticle', '_initCanvas');
+            // todo: move into attachEvents method
+            this.$el.on('click', '#load_rock_image', this._initCanvas);
+            // todo: check and move to events
+            $('#submit').on('click', this.updateArticle);
+        },
+        render: function() {
+            $('.content').empty();
+            this.$el.html(this.template(this.model.toJSON()));
+            $('.content').prepend(this.el);
+            CKEDITOR.replace('description');
+            this.titleEl = $('#caption');
+            this.routeEl = $('#route_description');
+            this.durationEl = $('#duration');
+            this.editor = CKEDITOR.instances.description;
+            this.mapAutocompleteField = $('#autocomplete');
+            this.mapContainer = $('#map_container');
+            this.rockContainer = $('#rock_container');
+            this.urlField = $('#choose_url');
+            this.canvasEl = $('#canvas');
             this.rockContainer.hide();
             this.mapContainer.hide();
             this.urlField.hide();
@@ -51,8 +57,8 @@ var AdminEditFormView = Backbone.View.extend({
             this.rockVisible = false;
             this.canvasEl.hide();
             this.populateForm();
-    },
-    populateForm: function() {
+        },
+        populateForm: function() {
             this.titleEl.val(this.model.attributes.title);
             this.routeEl.val(this.model.attributes.route);
             this.editor.setData(this.model.attributes.description);
@@ -163,24 +169,29 @@ var AdminEditFormView = Backbone.View.extend({
                 this.mapContainer.hide();
                 this.mapVisible = false;
             }
-            $('.itinerary_rock').empty();
-            if(this.rockVisible) {
-                this.rockContainer.hide();
-                this.urlField.show();
+            // $('.itinerary_rock').empty();
+
+            this.rockContainer.hide();
+            this.canvasView.remove();
+            this.urlField.show();
+        },
+        _initCanvas: function() {
+            var imageUrlInput = $('#url')[0];
+            var url = imageUrlInput.value;
+
+            if (imageUrlInput.checkValidity() && url) {
+                this.urlField.hide();
+                this.rockContainer.show();
+                this.rockVisible = true;
+
+                var canvasContainer = document.getElementsByClassName('itinerary_rock')[0];
+                this.drawCanvasView = new DrawCanvasView({
+                    imageUrl: url,
+                    canvasContainer: canvasContainer
+                });
+            } else {
+                $('#error').text('Invalid url');
             }
-            $('#load_rock_image').on('click', (function() {
-                if ($('#url')[0].checkValidity() && $('#url').val()) {
-                    this.urlField.hide();
-                    this.rockContainer.show();
-                    this.rockVisible = true;
-                    // this.canvasEl.show();
-                    this.drawCanvasView = new DrawCanvasView({
-                        imageUrl: $('#url').val()
-                    });
-                } else {
-                    $('#error').text('Invalid url');
-                }
-            }).bind(this));
         },
         getCurrentDate: function() {
             var today = new Date();

@@ -33,7 +33,6 @@ var ArticleView = Backbone.View.extend({
         }
         if (this.model.attributes.rockImgUrl && this.model.attributes.tracks) {
             this.canvasView = new CanvasView({
-                model: this.model
             });
         }
         $("#owl-demo").owlCarousel({
