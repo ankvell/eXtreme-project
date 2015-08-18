@@ -4,14 +4,12 @@ var $ = require('jquery'),
 var CanvasView = Backbone.View.extend({
     el: '.itinerary_rock',
     template: '<canvas class="rocks"></canvas>',
-
     initialize: function() {
         this.render();
         this.tracksComplement();
     },
     render: function() {
         this.$el.append(this.template);
-
         var canvas = this.$el.find(".rocks")[0],
             context = canvas.getContext('2d'),
             imageObj = new Image(),
@@ -22,7 +20,6 @@ var CanvasView = Backbone.View.extend({
             canvas.width = 800;
             canvas.height = 540;
             context.drawImage(imageObj, 0, 0, canvas.width, canvas.height);
-
             allCoords.forEach(function(el) {
                 var paths = el.track;
                 this.drawColor = el.trackColor;
@@ -33,7 +30,6 @@ var CanvasView = Backbone.View.extend({
                     context.fill();
                     context.restore();
                 });
-
                 context.beginPath();
                 paths.forEach(function(elem) {
                     context.strokeStyle = this.drawColor;
@@ -44,7 +40,6 @@ var CanvasView = Backbone.View.extend({
                 context.closePath();
             });
         }));
-
         return this;
     },
     tracksComplement: function() {
@@ -52,12 +47,11 @@ var CanvasView = Backbone.View.extend({
         var counter = 1;
         for (var ll = 0; ll < this.model.attributes.tracks.length; ll++) {
             var currentColor = this.model.attributes.tracks[ll].trackColor;
-            sidePanel.append('<p class="color_marker" style="background-color:' + currentColor + '">' + counter + '</p>')
+            sidePanel.append('<p class="color_marker" style="background-color:' + currentColor + '">' + counter + '</p>');
             sidePanel.append('<p class="complexity_hold">' + this.model.attributes.tracks[ll].complexity + '</p>');
             sidePanel.append('<p class="description_hold">' + this.model.attributes.tracks[ll].description + '</p>');
             counter++;
         }
     }
 });
-
 module.exports = CanvasView;

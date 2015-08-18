@@ -1,7 +1,7 @@
 var $ = require('jquery'),
     _ = require('underscore'),
-    Article = require('../models/Article'),
     Backbone = require('backbone'),
+    Article = require('../models/Article'),
     Map = require('../models/Map'),
     MapLocationView = require('./MapLocationView'),
     DrawMapView = require('./DrawMapView'),
@@ -83,7 +83,7 @@ var AdminAddFormView = Backbone.View.extend({
         this.collection.create(article, {
             silent: true
         });
-        article.save();
+        localStorage.setItem(_.uniqueId('articleData'), JSON.stringify(article));
         App.eventAggregator.trigger('admin:main');
     },
     loadMap: function() {
@@ -164,14 +164,6 @@ var AdminAddFormView = Backbone.View.extend({
         }
         $('#imgs_url').val('');
 
-    },
-    clearData: function() {
-        if (localStorage.getItem('shapesData') !== null) {
-            localStorage.removeItem('shapesData');
-        }
-        if (localStorage.getItem('tracks') !== null) {
-            localStorage.removeItem('tracks');
-        }
     }
 });
 module.exports = AdminAddFormView;

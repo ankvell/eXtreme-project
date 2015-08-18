@@ -5,6 +5,7 @@ var $ = require('jquery'),
     MapLocationView = require('./MapLocationView'),
     DrawMapView = require('./DrawMapView'),
     MapView = require('./MapView'),
+    CanvasView = require('./CanvasView'),
     DrawCanvasView = require('./DrawCanvasView'),
     template = require('./templates/articleFormTemplate.html');
 
@@ -19,7 +20,7 @@ var AdminEditFormView = Backbone.View.extend({
     },
     initialize: function(){
         for (var key in localStorage) {
-            if (key !== 'articleData' && key != 'shapesData' && key != 'tracks' && localStorage.getItem(key)) {
+            if (key !== 'articleData' && localStorage.getItem(key)) {
                 var obj = JSON.parse(localStorage.getItem(key));
                 if (obj.title === this.model.attributes.title) {
                     this.keyInDb = key;
@@ -62,6 +63,12 @@ var AdminEditFormView = Backbone.View.extend({
             this.mapAutocompleteField.hide();
             this.model.map = new Map({'lat': this.model.attributes.map.lat, 'lng': this.model.attributes.map.lon});
             var mapView = new MapView({model: this.model, mapContainer: $('#map')[0]});
+        }
+        if (this.model.attributes.tracks){
+            this.rockContainer.show();
+            this.rockVisible = true;
+            this.canvasEl.show();
+            var canvasView = new CanvasView({model: this.model});
         }
         $('#radio' + this.model.attributes.difficulty).prop('checked',true);
     },
@@ -106,7 +113,6 @@ var AdminEditFormView = Backbone.View.extend({
         this.mapAutocompleteField.show();
         this.mapContainer.show();
         this.mapVisible = true;
-        this.clearData();
         var map = new Map();
         $('#map').empty();
         this.model.map = new google.maps.Map(document.getElementById('map'), map.attributes.mapOptions);
@@ -137,8 +143,8 @@ var AdminEditFormView = Backbone.View.extend({
             this.mapContainer.hide();
             this.mapVisible = false;
         }
+        $('.itinerary_rock').empty();
         this.urlField.show();
-        this.clearData();
         $('#load_rock_image').on('click', (function(){
             if ($('#url')[0].checkValidity() && $('#url').val()){
                 this.urlField.hide();
@@ -152,14 +158,6 @@ var AdminEditFormView = Backbone.View.extend({
                 $('#error').text('Invalid url');
             }
         }).bind(this));
-    },
-    clearData: function(){
-        if (localStorage.getItem('shapesData') !== null){
-            localStorage.removeItem('shapesData');
-        }
-        if (localStorage.getItem('tracks') !== null){
-            localStorage.removeItem('tracks');
-        }
     },
     getCurrentDate: function(){
         var today = new Date();

@@ -66,7 +66,6 @@ var DrawCanvasView = Backbone.View.extend({
         this.draw = true;
     },
     position: function(x, y) {
-        // this.color = this.path.get('trackColor');
         this.path.set('trackColor', this.color);
         this.context.beginPath();
         this.context.fillStyle = this.color;
@@ -131,6 +130,7 @@ var DrawCanvasView = Backbone.View.extend({
     },
     checkColor: function() {
         var colors = ['#026871', '#EC5F3E', '#F9CB3E', '#464646', '#FF6600', '#C7D70E', '#91A30E', '#524656', '#D14643', '#C10000', '#3A000D', '#01151A', '#003A48', '#007892', '#357D25', '#6FAF0B', '#455A64', '##009688'];
+        //this.$el.next().find('.color_panel').empty();
         colors.forEach(function(color) {
             var button = $('<div class="color-button"></div>');
             button.css('background-color', color);
