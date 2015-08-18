@@ -140,8 +140,8 @@ var AdminEditFormView = Backbone.View.extend({
     loadRock: function(){
         if (this.mapVisible){
             this.mapContainer.hide();
+            this.urlField.hide();
             this.mapVisible = false;
-            this.rockContainer.hide();
             this.rockVisible = false;
             this.canvasEl.hide();
             this.populateForm();
@@ -168,7 +168,7 @@ var AdminEditFormView = Backbone.View.extend({
             if (this.model.attributes.tracks) {
                 this.rockContainer.show();
                 this.rockVisible = true;
-                this.canvasEl.show();
+                // this.canvasEl.show();
                 this.canvasView = new CanvasView({
                     model: this.model
                 });
@@ -191,7 +191,6 @@ var AdminEditFormView = Backbone.View.extend({
             }
 
             if (this.rockVisible) {
-                debugger;
                 var canvasDraving = this.drawCanvasView.serialize();
                 if (canvasDraving) {
                     this.model.attributes.tracks = canvasDraving.tracks;
@@ -261,13 +260,16 @@ var AdminEditFormView = Backbone.View.extend({
                 this.mapVisible = false;
             }
             $('.itinerary_rock').empty();
-            this.urlField.show();
+            if(this.rockVisible) {
+                this.rockContainer.hide();
+                this.urlField.show();
+            }
             $('#load_rock_image').on('click', (function() {
                 if ($('#url')[0].checkValidity() && $('#url').val()) {
                     this.urlField.hide();
                     this.rockContainer.show();
                     this.rockVisible = true;
-                    this.canvasEl.show();
+                    // this.canvasEl.show();
                     this.drawCanvasView = new DrawCanvasView({
                         imageUrl: $('#url').val()
                     });
