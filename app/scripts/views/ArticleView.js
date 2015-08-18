@@ -28,9 +28,12 @@ var ArticleView = Backbone.View.extend({
                 model: this.model,
                 mapContainer: mapContainer
             });
-        } else if (this.model.attributes.rockImgUrl && this.model.attributes.tracks) {
+        }
+        if (this.model.attributes.rockImgUrl && this.model.attributes.tracks) {
+            var canvasContainer = document.getElementsByClassName('itinerary_rock')[0];
             this.canvasView = new CanvasView({
-                model: this.model
+                model: this.model,
+                canvasContainer: canvasContainer
             });
         }
         $("#owl-demo").owlCarousel({

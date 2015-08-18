@@ -2,9 +2,10 @@ var $ = require('jquery'),
     Backbone = require('backbone');
 
 var CanvasView = Backbone.View.extend({
-    el: '.itinerary_rock',
+    // el: '#rock_container',
     template: '<canvas class="rocks"></canvas>',
-    initialize: function() {
+    initialize: function(options) {
+        this.canvasContainer = options.canvasContainer;
         this.render();
         this.tracksComplement();
     },
