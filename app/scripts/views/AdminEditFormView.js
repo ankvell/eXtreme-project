@@ -34,7 +34,23 @@
             // todo: move into attachEvents method
             this.$el.on('click', '#load_rock_image', this._initCanvas);
             // todo: check and move to events
-            $('#submit').on('click', this.updateArticle);
+            $('#submit').on('click', (function(){
+                if (!this.titleEl.val()){
+                    this.titleEl.addClass('error');
+                     this.titleEl.on('keyup', (function(){
+                        this.titleEl.removeClass('error');
+                    }).bind(this));
+                }
+                if (!this.editor.getData()){
+                    $('<div class="error" style="height: 1px"><div>').insertAfter('#description');
+                    this.editor.on('change', function(){
+                        $('div.error').remove();
+                    });
+                }
+                if (this.titleEl.val() && this.editor.getData()){
+                    this.updateArticle();
+                }
+            }).bind(this));
         },
         render: function() {
             $('.content').empty();
@@ -91,7 +107,7 @@
             this.model.attributes.description = this.editor.getData();
             this.model.attributes.duration = this.durationEl.val();
             this.model.attributes.creationDate = this.getCurrentDate();
-            if (this.mapVisible) {
+            if (this.drawMapView) {
                 var mapDrawing = this.drawMapView.serialize();
                 if (mapDrawing.shapes.length > 0) {
                     this.model.attributes.shapes = mapDrawing.shapes;
