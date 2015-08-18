@@ -7,7 +7,7 @@
         MapView = require('./MapView'),
         CanvasView = require('./CanvasView'),
         DrawCanvasView = require('./DrawCanvasView'),
-    api = require('../configs/api'),
+        api = require('../configs/api'),
         template = require('./templates/articleFormTemplate.html');
 
 var AdminEditFormView = Backbone.View.extend({
@@ -73,7 +73,6 @@ var AdminEditFormView = Backbone.View.extend({
             if (this.model.attributes.tracks) {
                 this.rockContainer.show();
                 this.rockVisible = true;
-                this.canvasEl.show();
                 this.canvasView = new CanvasView({
                     model: this.model
                 });

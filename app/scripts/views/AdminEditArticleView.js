@@ -1,6 +1,6 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
-    api = require('../configs/api')
+    api = require('../configs/api'),
     template = require('./templates/mainAdminTemplate.html');
 
 var AdminEditArticleView = Backbone.View.extend({

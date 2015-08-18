@@ -1,49 +1,56 @@
-#article_form {
-  label{
-    font-size: 20px;
-    line-height: 38px;
-    border-collapse: collapse;
-  }
-  #caption, #route_description,
-  #imgs_url, #duration, #url{
-    display: block;
-    width: 100%;
-    outline: none;
-    padding: 10px;
-    border-radius: 3px;
-    border: none;
-    margin-bottom: 10px;
-  }
-  .btn_style {
-    width: 140px;
-    height: 36px;
-    border: 2px solid #827E7E;
-    background-color: #F1F1F1;
-    outline: none;
-    border-radius: 3px;
-    overflow: hidden;
-    margin: 10px 15px 10px 0;
-    border-width: 1px 2px 2px 1px;
-    background-color: #F1F1F1;
-    color: #66716D;
-    font-size: 14px;
-    transition: all .5s ease-out;
-    &:hover {
-      border-color: #D8622B;
-      color: #94947C;
+#addForm, #editForm {
+  margin: 0 20px 0 220px;
+  #article_form {
+    margin-top: 80px;
+      label{
+        font-size: 20px;
+        margin-top: 80px;
+        line-height: 38px;
+        border-collapse: collapse;
+      }
+      #caption, #route_description,
+      #imgs_url, #duration, #url{
+        display: block;
+        width: 100%;
+        outline: none;
+        padding: 10px;
+        border-radius: 3px;
+        border: none;
+        margin-bottom: 10px;
+      }
+      .btn_style {
+        width: 140px;
+        height: 36px;
+        border: 2px solid #827E7E;
+        background-color: #F1F1F1;
+        outline: none;
+        border-radius: 3px;
+        overflow: hidden;
+        margin: 10px 15px 10px 0;
+        border-width: 1px 2px 2px 1px;
+        background-color: #F1F1F1;
+        color: #66716D;
+        font-size: 14px;
+        transition: all .5s ease-out;
+        &:hover {
+          border-color: #D8622B;
+          color: #94947C;
+        }
+        &:active {
+          margin-top: 1px;
+        }
+      .stl {
+          display: block;
+          font-size: 20px;
+        }
+        input[type="radio"] {
+          margin-left: 5px;
+          margin-right: 2px;
+        }
     }
-    &:active {
-      margin-top: 1px;
-    }
   }
-  .stl {
-    display: block;
-    font-size: 20px;
-  }
-  input[type="radio"] {
-    margin-left: 5px;
-    margin-right: 2px;
-  }
+}
+.sidebar {
   #add_map, #add_rock, .add_gps_track, .add_images{
       position: fixed;
       z-index: 1;
@@ -78,28 +85,36 @@
         background-color: #2D323D;
         color: #F1F1F1;
       }
-  }
-  #add_map {
-    top: -4px;
-    left: 0;
+    }
+    #add_map {
+      top: -4px;
+      left: 0;
 
-  }
-  .add_gps_track {
-    top: 56px;
-    left: 0;
-  }
-  #add_rock {
-    top: 116px;
-    left: 0;
-  }
-  .add_images {
-    top: 176px;
-    left: 0;
-  }
+    }
+    .add_gps_track {
+      top: 56px;
+      left: 0;
+    }
+    #add_rock {
+      top: 116px;
+      left: 0;
+    }
+    .add_images {
+      top: 176px;
+      left: 0;
+    }
 }
 
 @media screen and (max-width: 767px) {
-    #add_map, .add_gps_track, #add_rock, .add_images {
-        display: none;
+    #addForm, #editForm {
+      float: none;
+      margin: 0 auto;
+    }
+    .sidebar {
+      transform:translateX(-100%);
+      transition: all .5s ease 0s;
+      &.toggled {
+        transofrm: translateX(0);
+      }
     }
 }

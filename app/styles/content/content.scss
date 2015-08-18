@@ -1,8 +1,11 @@
 .content {
+    position: relative;
+    width: 100%;
+    height: auto;
     .content_cont {
-        max-width: 2560px;
-        margin: 0 auto;
-        position: relative;
+    // max-width: 2560px;
+    // margin: 0 auto;
+    // position: relative;
         &:after {
             content: "";
             display: block;
