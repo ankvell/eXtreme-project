@@ -15,7 +15,7 @@
         template: template,
         events: {
             'click #add_map': 'loadMap',
-            'click #add_gps_track': 'loadMap',
+            'click .add_gps_track': 'loadMap',
             'click #add_rock': 'loadRock',
             'change #gps_file': 'loadGPSTrack'
         },
@@ -143,7 +143,12 @@
             api.addArticle(this.keyInDb, updatedData);
             App.eventAggregator.trigger('admin:main');
         },
-        loadMap: function() {
+        loadMap: function(e) {
+            if (e.target.id === 'add_map'){
+                $('.track-gps').hide();
+            } else {
+                $('.track-gps').show();
+            }
             if (this.rockVisible) {
                 this.rockContainer.hide();
                 this.rockVisible = false;

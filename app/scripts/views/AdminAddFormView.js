@@ -109,7 +109,12 @@ var AdminAddFormView = Backbone.View.extend({
             $('div.error').remove();
         });
     },
-    loadMap: function() {
+    loadMap: function(e) {
+        if (e.target.id === 'add_map'){
+            $('.track-gps').hide();
+        } else {
+            $('.track-gps').show();
+        }
         if (this.rockVisible) {
             this.rockContainer.hide();
             this.rockVisible = false;
