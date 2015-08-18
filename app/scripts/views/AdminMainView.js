@@ -8,9 +8,10 @@ var AdminMainView = Backbone.View.extend({
         this.listenTo(this.collection, 'change', this.render);
         this.render();
     },
-    render: function() {
-        $('#articles_table').empty();
-        this.collection.forEach(function(article) {
+    render: function(){
+        $('.east_side').empty();
+        $('.east_side').append('<table id="articles_table"></table>')
+        this.collection.forEach(function(article){
             this.renderArticle(article);
         }, this);
         $('<div class="sidebar"><button type="button" id="add_new_article">Додати нову статтю</button></div>').prependTo('.east_side');
