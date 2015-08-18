@@ -1,7 +1,6 @@
 var _ = require('underscore'),
     $ = require('jquery'),
     Backbone = require('backbone'),
-
     HeaderView = require('../views/HeaderView'),
     Filter = require('../models/Filter'),
     ListView = require('../views/ListView'),
@@ -35,18 +34,11 @@ var Router = Backbone.Router.extend({
         var startPageView = new StartPageView();
         var navigationView = new NavigationView();
         var searchView = new SearchView();
-
     },
     showArticleList: function() {
-        // api.getArticles(function(data) {
-        //     new ListView({
-        //         collection: new ArticleCollection(data)
-        //     });
-        // });
         var listView = new ListView({
             collection: this.articleCollection
         });
-        var searchView = new SearchView();
     },
     showNews: function() {
         var newsView = new ListView({
@@ -64,9 +56,6 @@ var Router = Backbone.Router.extend({
         });
     },
     viewArticle: function(title) {
-        // api.getArticle(title, function(article) {
-        //     new ArticleView({model: new Article(article)});
-        // });
         var selectedArticle = _(this.articleCollection.models).find(function(article) {
             return article.get('title') === title;
         });

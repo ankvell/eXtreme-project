@@ -13,11 +13,16 @@ var ListView = Backbone.View.extend({
     render: function() {
         this.$el.empty();
         this.$el.append('<div class="east_side"></div>');
-        this.collection.forEach((function(article) {
-            this.renderArticle(article);
-        }).bind(this));
-
-        this.$el.append(this.template({}));
+        console.log(this.collection);
+        if (this.collection.length > 0){
+            this.collection.forEach((function(article) {
+                this.renderArticle(article);
+            }).bind(this));
+            this.$el.append(this.template({}));
+        } else {
+            var noResultsTemplate = '<div class="article-container"><h2 class="article-title">За результатами вашого пошуку нічого не знайдено</h2></div>';
+            this.$el.append(noResultsTemplate);
+        }
         return this;
     },
     renderArticle: function(article) {
