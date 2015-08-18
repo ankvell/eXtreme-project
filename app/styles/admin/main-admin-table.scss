@@ -1,6 +1,6 @@
 .sidebar {
     position: fixed;
-    width: 200px;
+    width: 15%;
     height: 100%;
     left: 0;
     top: 5%;
@@ -12,7 +12,7 @@
       left: 0;
       padding-left: 15px;
       margin-top: 80px;
-      width: 200px;
+      width: 15%;
       height: 60px;
       outline: none;
       color: #fff;
@@ -58,7 +58,7 @@
       padding-right: 5px;
       .edit, .delete {
         background: #ADADAD url(../../images/edit-icon.png) no-repeat 26px;
-        width: 100px;
+        width: 130px;
         height: 32px;
         outline: none;
         border-radius: 3px;
@@ -83,4 +83,13 @@
       }
     }
   }
+}
+
+@media screen and (max-width: 767px) {
+    .header_cont .nav_btn {
+        display: block;
+    }
+    .sidebar {
+        display: none;
+    }
 }

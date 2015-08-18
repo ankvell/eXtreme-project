@@ -47,7 +47,7 @@
   #add_map, #add_rock, .add_gps_track, .add_images{
       position: fixed;
       z-index: 1;
-      width: 200px;
+      width: 15%;
       height: 60px;
       padding-left: 40px;
       margin-top: 80px;
@@ -98,4 +98,8 @@
   }
 }
 
-
+@media screen and (max-width: 767px) {
+    #add_map, .add_gps_track, #add_rock, .add_images {
+        display: none;
+    }
+}

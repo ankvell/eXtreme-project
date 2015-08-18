@@ -1,54 +1,57 @@
-<form action="#" id="article_form">
-    <label for="caption">Заголовок</label><input type="text" id="caption" placeholder="Заголовок статті" required />
-    <label for="description">Опис</label><textarea id="description" required></textarea>
-    <button type="button" id="add_map">Додати мапу</button>
-    <button type="button" class="add_gps_track">Додати GPS-трек</button>
+<div class="east_side">
+    <form action="#" id="article_form">
+        <label for="caption">Заголовок</label><input type="text" id="caption" placeholder="Заголовок статті" required />
+        <label for="description">Опис</label><textarea id="description" required></textarea>
+        <button type="button" id="add_map">Додати мапу</button>
+        <button type="button" class="add_gps_track">Додати GPS-трек</button>
 
-    <div id="map_container">
-        <label class="track-gps"><span>Завантажити GPS-трек</span><input type="file" id="gps_file" accept=".plt"/></label>
-        <input type="text" name="autocompete" id="autocomplete" />
-        <div id="drawing_controls"></div>
-        <div id="map"></div>
+        <div id="map_container">
+            <label class="track-gps"><span>Завантажити GPS-трек</span><input type="file" id="gps_file" accept=".plt"/></label>
+            <input type="text" name="autocompete" id="autocomplete" />
+            <div id="drawing_controls"></div>
+            <div id="map"></div>
 
-        <label for="route_description">Опис маршруту</label><input type="text" id="route_description" placeholder="с. Кваси - г. Петрос(2020м) - г. Говерла(2061м) - г. Піп Іван(2028м) - с. Дземброня" />
-        <label class="stl">Складність</label>
+            <label for="route_description">Опис маршруту</label><input type="text" id="route_description" placeholder="с. Кваси - г. Петрос(2020м) - г. Говерла(2061м) - г. Піп Іван(2028м) - с. Дземброня" />
+            <label class="stl">Складність</label>
 
-        <label><input type="radio" name="difficulty" id="radio1" value="1" />1</label>
-        <label><input type="radio" name="difficulty" id="radio2" value="2" />2</label>
-        <label><input type="radio" name="difficulty" id="radio3" value="3" />3</label>
-        <label><input type="radio" name="difficulty" id="radio4" value="4" />4</label>
-        <label><input type="radio" name="difficulty" id="radio5" value="5" />5</label>
-        <label for="duration" class="stl">Тривалість</label><input type="text" placeholder="15год" id="duration" />
-    </div>
+            <label><input type="radio" name="difficulty" id="radio1" value="1" />1</label>
+            <label><input type="radio" name="difficulty" id="radio2" value="2" />2</label>
+            <label><input type="radio" name="difficulty" id="radio3" value="3" />3</label>
+            <label><input type="radio" name="difficulty" id="radio4" value="4" />4</label>
+            <label><input type="radio" name="difficulty" id="radio5" value="5" />5</label>
+            <label for="duration" class="stl">Тривалість</label><input type="text" placeholder="15год" id="duration" />
+        </div>
 
-    <button type="button" id="add_rock" >Додати скелю</button>
-    <div id="choose_url">
-        <label for="url" class="stl">Введіть url адресу знимка скали:</label><input type="url" id="url" placeholder="Url goes here" /><span id="error"></span>
-        <button type="button" id="load_rock_image" class="btn_style">Завантажити знимок</button>
-    </div>
+        <button type="button" id="add_rock" >Додати скелю</button>
+        <div id="choose_url">
+            <label for="url" class="stl">Введіть url адресу знимка скали:</label><input type="url" id="url" placeholder="Url goes here" /><span id="error"></span>
+            <button type="button" id="load_rock_image" class="btn_style">Завантажити знимок</button>
+        </div>
 
-    <div id="rock_container">
-        <div class="itinerary_rock"></div>
-            <canvas id="canvas"><span>Unfortunately your browser doesn&#39;t support canvas. Use the latest version of a browser</span></canvas>
-            <div id="tracksInfo">
-                <div class="color_panel"></div>
-                <h4>Indicate the level of complexity of the route</h4>
-                <input type="text" id="trackComplexity" />
-                <h4>Add a description of the route</h4>
-                <textarea id="trackDescription" /></textarea>
-                <button type="button" id="save_track" class="btn_style">Save track</button>
-                <button type="button" id="alter_track" class="btn_style">Cancel</button>
-            </div>
-    </div>
+        <div id="rock_container">
+            <div class="itinerary_rock"></div>
+                <canvas id="canvas"><span>Unfortunately your browser doesn&#39;t support canvas. Use the latest version of a browser</span></canvas>
+                <div id="tracksInfo">
+                    <div class="color_panel"></div>
+                    <h4>Indicate the level of complexity of the route</h4>
+                    <input type="text" id="trackComplexity" />
+                    <h4>Add a description of the route</h4>
+                    <textarea id="trackDescription" /></textarea>
+                    <button type="button" id="save_track" class="btn_style">Save track</button>
+                    <button type="button" id="alter_track" class="btn_style">Cancel</button>
+                </div>
+        </div>
 
-    <button type="button" class="add_images">Додати зображення</button>
-    <div id="carousel_imgs">
-        <lable for="imgs_url" class="stl">Введіть url адресу зображення місцевості:</lable><br>
-        <input type="url" id="imgs_url" placeholder="Url goes here" />
-        <button type="button" id="load" class="btn_style">Завантажити</button>
-    </div>
+        <button type="button" class="add_images">Додати зображення</button>
+        <div id="carousel_imgs">
+            <lable for="imgs_url" class="stl">Введіть url адресу зображення місцевості:</lable><br>
+            <input type="url" id="imgs_url" placeholder="Url goes here" />
+            <button type="button" id="load" class="btn_style">Завантажити</button>
+        </div>
 
-    <button type="button" id="submit" class="btn_style">Зберегти</button>
-    <input type="reset" id="reset" value="Очистити" class="btn_style" />
-</form>
+        <button type="button" id="submit" class="btn_style">Зберегти</button>
+        <input type="reset" id="reset" value="Очистити" class="btn_style" />
+    </form>    
+</div>
+
 <div class="sidebar"></div>
