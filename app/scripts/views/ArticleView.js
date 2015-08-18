@@ -4,6 +4,7 @@ var $ = require('jquery'),
     MapView = require('./MapView'),
     CanvasView = require('./CanvasView'),
     carousel = require('../carousel/owl-carousel'),
+    sidebarTemplate = require('./templates/sidebar.html'),
     template = require('./templates/articleTemplate.html');
 
 var ArticleView = Backbone.View.extend({
@@ -22,6 +23,7 @@ var ArticleView = Backbone.View.extend({
     render: function() {
         this.$el.empty();
         this.$el.html(this.template(this.model.toJSON()));
+        this.$el.append(sidebarTemplate({}));
         if (this.model.attributes.map) {
             var mapContainer = document.getElementsByClassName('itinerary_cont')[0];
             var mapView = new MapView({

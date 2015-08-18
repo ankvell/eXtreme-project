@@ -109,6 +109,36 @@ nav {
         }
     }
 }
+nav.user_sidebar{
+    position: fixed;
+    background-color: #464646;
+    top: 75px;
+    width: 15%;
+    height: 100%;
+    max-width: 465px;
+    left: 0;
+    margin-top: 0px;
+    li {
+        border-bottom: 1px dotted #696161;
+        list-style-type: none;
+        padding-left: 15px;
+        &:hover {
+            background-color: #F36523;
+        }
+        a {
+            text-transform: uppercase;
+            color: #fdfffe;
+            text-decoration: none;
+            font-size: 12px;
+            letter-spacing: 2px;
+            line-height: 4.1;
+            width: 74%;
+            margin: 0 auto;
+            display: block;
+            font-weight: bold;
+        }
+    }
+}
 
 /*@media screen and (min-width: 2561px) {
     nav {

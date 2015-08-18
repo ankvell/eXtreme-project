@@ -1,18 +1,23 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
+    template = require('./templates/sidebar.html'),
     ArticleInListView = require('./ArticleInListView');
 
 var ListView = Backbone.View.extend({
     el: $('.content'),
+    template: template,
     initialize: function() {
         this.listenTo(this.collection, 'change', this.render);
         this.render();
     },
     render: function() {
         this.$el.empty();
+        this.$el.append('<div class="east_side"></div>');
         this.collection.forEach((function(article) {
             this.renderArticle(article);
         }).bind(this));
+
+        this.$el.append(this.template({}));
         return this;
     },
     renderArticle: function(article) {
@@ -20,7 +25,7 @@ var ListView = Backbone.View.extend({
         var articleInListView = new ArticleInListView({
             model: article
         });
-        this.$el.append(articleInListView.render().el);
+        this.$el.find('.east_side').append(articleInListView.render().el);
         if (article.attributes.difficulty) {
             $('.difficulty span').show();
         }
