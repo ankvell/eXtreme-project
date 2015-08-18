@@ -6,6 +6,7 @@ var $ = require('jquery'),
     MapLocationView = require('./MapLocationView'),
     DrawMapView = require('./DrawMapView'),
     DrawCanvasView = require('./DrawCanvasView'),
+    api = require('../configs/api'),
     template = require('./templates/articleFormTemplate.html');
 
 var AdminAddFormView = Backbone.View.extend({
@@ -49,6 +50,7 @@ var AdminAddFormView = Backbone.View.extend({
     },
     saveArticle: function() {
         var article = new Article({
+            id : this.generateId(),
             title: this.titleEl.val(),
             route: this.routeEl.val(),
             description: this.editor.getData(),
@@ -80,10 +82,10 @@ var AdminAddFormView = Backbone.View.extend({
                 difficulty: this.$el.find('input[name=difficulty]:checked').val()
             });
         }
-        this.collection.create(article, {
+        this.collection.add(article, {
             silent: true
         });
-        localStorage.setItem(_.uniqueId('articleData'), JSON.stringify(article));
+        api.addArticle(_.uniqueId('articleData'), JSON.stringify(article));
         App.eventAggregator.trigger('admin:main');
     },
     loadMap: function() {
@@ -164,6 +166,12 @@ var AdminAddFormView = Backbone.View.extend({
         }
         $('#imgs_url').val('');
 
+    },
+    generateId: function(){
+        function s4() {
+            return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
+        }
+        return s4() + s4() + '-' + s4() + '-' + s4() + '-' + s4() + '-' + s4() + s4() + s4();
     }
 });
 module.exports = AdminAddFormView;

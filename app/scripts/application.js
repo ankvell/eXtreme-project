@@ -4,26 +4,23 @@
     Router = require('./routes/Router'),
     Article = require('./models/Article'),
     ArticleCollection = require('./collections/ArticleCollection'),
-    data = require('../../data.js');
-//api = require('./configs/api')
+    api = require('./configs/api');
 
 $(document).ready(function() {
     var article;
     var articleCollection = new ArticleCollection();
-    if (!localStorage.length) {
-        data.forEach(function(el) {
+    if (api.isEmpty()) {
+        api.initialDataEach(function(el) {
             article = new Article(el);
             articleCollection.add(article);
-            localStorage.setItem(_.uniqueId('articleData'), JSON.stringify(article));
-        });
+            api.setArticle(_.uniqueId('articleData'), article);
+        })
     } else {
-        for (var key in localStorage) {
-            if (key !== 'articleData' && localStorage.getItem(key)) {
-                var obj = JSON.parse(localStorage.getItem(key));
-                article = new Article(obj);
-                articleCollection.add(article);
-            }
-        }
+        api.eachArticle(function(key){
+            var obj = JSON.parse(api.getArticle(key));
+            article = new Article(obj);
+            articleCollection.add(article);
+        })
     }
     var router = new Router({
         articleCollection: articleCollection

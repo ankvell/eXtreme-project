@@ -1,5 +1,6 @@
 var $ = require('jquery'),
     Backbone = require('backbone'),
+    api = require('../configs/api')
     template = require('./templates/mainAdminTemplate.html');
 
 var AdminEditArticleView = Backbone.View.extend({
@@ -7,14 +8,12 @@ var AdminEditArticleView = Backbone.View.extend({
     className: 'row',
     template: template,
     initialize: function() {
-        for (var key in localStorage) {
-            if (key !== 'articleData' && localStorage.getItem(key)) {
-                var obj = JSON.parse(localStorage.getItem(key));
-                if (obj.id === this.model.attributes.id) {
-                    this.keyInDb = key;
-                }
+        api.eachArticle((function(key){
+            var obj = JSON.parse(api.getArticle(key));
+            if (obj.id === this.model.attributes.id) {
+                this.keyInDb = key;
             }
-        }
+        }).bind(this));
     },
     render: function() {
         this.$el.html(this.template(this.model.toJSON()));
@@ -25,7 +24,7 @@ var AdminEditArticleView = Backbone.View.extend({
         'click .delete': 'deleteArticle'
     },
     deleteArticle: function() {
-        localStorage.removeItem(this.keyInDb);
+        api.removeArticle(this.keyInDb);
         this.model.destroy();
         this.remove();
     },
