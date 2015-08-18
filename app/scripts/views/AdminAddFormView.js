@@ -22,8 +22,9 @@ var AdminAddFormView = Backbone.View.extend({
     },
     initialize: function() {
         this.render();
-        _.bindAll(this, 'saveArticle');
+        _.bindAll(this, 'saveArticle', '_initCanvas');
         $('#submit').on('click', this.saveArticle);
+        this.$el.on('click', '#load_rock_image', this._initCanvas);
     },
     render: function() {
         $('.content').empty();
@@ -168,21 +169,25 @@ var AdminAddFormView = Backbone.View.extend({
             this.mapContainer.hide();
             this.mapVisible = false;
         }
+        this.rockContainer.hide();
         this.urlField.show();
-        // this.urlField.focus();
-        $('#load_rock_image').on('click', (function() {
-            if ($('#url')[0].checkValidity() && $('#url').val()) {
-                this.urlField.hide();
-                this.rockContainer.show();
-                this.rockVisible = true;
-                this.canvasEl.show();
-                this.drawCanvasView = new DrawCanvasView({
-                    imageUrl: $('#url').val()
-                });
-            } else {
-                $('#error').text('Invalid url');
-            }
-        }).bind(this));
+    },
+    _initCanvas: function() {
+        var imageUrlInput = $('#url')[0];
+        var url = imageUrlInput.value;
+
+        if (imageUrlInput.checkValidity() && url) {
+            this.urlField.hide();
+            this.rockContainer.show();
+            this.rockVisible = true;
+
+            this.drawCanvasView = new DrawCanvasView({
+                imageUrl: url
+            });
+            this.rockContainer.html(this.drawCanvasView.el);
+        } else {
+            $('#error').text('Invalid url');
+        }
     },
     loadImages: function() {
         this.loadImgContainer.show();
@@ -193,7 +198,7 @@ var AdminAddFormView = Backbone.View.extend({
         $('#imgs_url').val('');
 
     },
-    generateId: function(){
+    generateId: function() {
         function s4() {
             return Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         }

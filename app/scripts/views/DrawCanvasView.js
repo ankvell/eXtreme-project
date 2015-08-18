@@ -2,23 +2,24 @@ var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     Path = require('../models/RockPath'),
-    RockPathesCollection = require('../collections/RockPathesCollection');
+    RockPathesCollection = require('../collections/RockPathesCollection'),
+    template = require('./templates/canvasDraw.html');
+
+var canvasWidth = 800;
+var canvasHeight = 540;
 
 var DrawCanvasView = Backbone.View.extend({
-    // el: '.itinenary_rock',
-    template: '<canvas class="rocks"></canvas>',
+    className: 'rock_edit_container',
     initialize: function(options) {
-        this.render();
-        this.checkColor();
         this.pathesCollection = new RockPathesCollection();
         this.imageUrl = options.imageUrl;
-
-        _.bindAll(this, 'saveTrack', 'undoTrack');
-        $('#save_track').on('click', this.saveTrack);
-        $('#alter_track').on('click', this.undoTrack);
-        $('.color-button').on('click', (function(e) {
-            this.color = e.target.style.backgroundColor;
-        }).bind(this));
+        this.render();
+    },
+    events: {
+        'click #save_track': 'saveTrack',
+        'click #alter_track': 'undoTrack',
+        'click canvas': 'drawTrack',
+        'click .color-button': 'setColor'
     },
     serialize: function() {
         return {
@@ -27,25 +28,18 @@ var DrawCanvasView = Backbone.View.extend({
         };
     },
     render: function() {
-        this.$el.append(this.template);
-        debugger;
-        var canvas = this.$el.find(".rocks")[0];
-        this.context = canvas.getContext('2d');
+        this.$el.html(template());
+        this.context = this.$el.find('canvas')[0].getContext('2d');
 
         this.draw = false;
         var imageObj = new Image();
-        imageObj.onload = (function() {
-            var width = document.getElementById('rock_container').offsetWidth;
-            var height = document.getElementById('rock_container').offsetHeight;
-            this.el.width = width;
-            this.el.height = height;
-            this.context.drawImage(imageObj, 0, 0, 800, 540);
-        }).bind(this);
+        imageObj.onload = function() {
+            this.context.drawImage(imageObj, 0, 0, canvasWidth, canvasHeight);
+        }.bind(this);
         imageObj.src = this.imageUrl;
+
+        this.checkColor();
         return this;
-    },
-    events: {
-        'click': 'drawTrack'
     },
     drawTrack: function(event) {
         var x = event.offsetX;
@@ -93,17 +87,13 @@ var DrawCanvasView = Backbone.View.extend({
     saveTrack: function() {
         this.draw = false;
         this.tracksDetails();
-        this.$el.next().find('#trackComplexity').val('');
-        this.$el.next().find('#trackDescription').val('');
+        this.$el.find('#trackComplexity').val('');
+        this.$el.find('#trackDescription').val('');
     },
     undoTrack: function() {
         var imageObj = new Image();
         imageObj.onload = (function() {
-            var width = document.getElementById('rock_container').offsetWidth;
-            var height = document.getElementById('rock_container').offsetHeight;
-            this.el.width = width;
-            this.el.height = height;
-            this.context.drawImage(imageObj, 0, 0, 800, 540);
+            this.context.drawImage(imageObj, 0, 0, canvasWidth, canvasHeight);
             var allCoords = this.pathesCollection.models;
             allCoords.pop();
             allCoords.forEach(function(el) {
@@ -129,19 +119,22 @@ var DrawCanvasView = Backbone.View.extend({
         imageObj.src = this.imageUrl;
     },
     tracksDetails: function() {
-        this.tracksComplexity = this.$el.next().find('#trackComplexity').val();
+        this.tracksComplexity = this.$el.find('#trackComplexity').val();
         this.path.set('complexity', this.tracksComplexity);
-        this.tracksDescription = this.$el.next().find('#trackDescription').val();
+        this.tracksDescription = this.$el.find('#trackDescription').val();
         this.path.set('description', this.tracksDescription);
     },
     checkColor: function() {
         var colors = ['#026871', '#EC5F3E', '#F9CB3E', '#464646', '#FF6600', '#C7D70E', '#91A30E', '#524656', '#D14643', '#C10000', '#3A000D', '#01151A', '#003A48', '#007892', '#357D25', '#6FAF0B', '#455A64', '##009688'];
-        this.$el.next().find('.color_panel').empty();
+        this.$el.find('.color_panel');
         colors.forEach(function(color) {
             var button = $('<div class="color-button"></div>');
             button.css('background-color', color);
-            this.$el.next().find('.color_panel').append(button);
+            this.$el.find('.color_panel').append(button);
         }.bind(this));
+    },
+    setColor: function(e) {
+         this.color = e.target.style.backgroundColor;
     }
 });
 module.exports = DrawCanvasView;

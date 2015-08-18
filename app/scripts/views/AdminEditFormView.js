@@ -193,7 +193,7 @@
             // $('.itinerary_rock').empty();
 
             this.rockContainer.hide();
-            this.canvasView.remove();
+            // this.canvasView.remove();
             this.urlField.show();
         },
         _initCanvas: function() {
@@ -205,11 +205,10 @@
                 this.rockContainer.show();
                 this.rockVisible = true;
 
-                var canvasContainer = document.getElementsByClassName('itinerary_rock')[0];
                 this.drawCanvasView = new DrawCanvasView({
-                    imageUrl: url,
-                    canvasContainer: canvasContainer
+                    imageUrl: url
                 });
+                this.rockContainer.html(this.drawCanvasView.el);
             } else {
                 $('#error').text('Invalid url');
             }
