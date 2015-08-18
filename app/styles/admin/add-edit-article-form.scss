@@ -110,6 +110,9 @@
       transform: translateX(0);
     }
 }
+.error {
+  box-shadow: 0 -2px 2px red;
+}
 
 @media screen and (max-width: 767px) {
     #addForm, #editForm {

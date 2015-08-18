@@ -49,7 +49,9 @@ var AdminAddFormView = Backbone.View.extend({
         this.urlField.hide();
     },
     saveArticle: function() {
-        var article = new Article({
+        var article = new Article();
+        this.setValidation(article);
+        article.set({
             id : this.generateId(),
             title: this.titleEl.val(),
             route: this.routeEl.val(),
@@ -82,11 +84,30 @@ var AdminAddFormView = Backbone.View.extend({
                 difficulty: this.$el.find('input[name=difficulty]:checked').val()
             });
         }
-        this.collection.add(article, {
-            silent: true
+        if (article.isValid()){
+            this.collection.add(article, {
+                silent: true
+            });
+            api.addArticle(_.uniqueId('articleData'), JSON.stringify(article));
+            App.eventAggregator.trigger('admin:main');
+        }
+    },
+    setValidation: function(article){
+        article.on('invalid', (function (model, errors) {
+            errors.forEach((function(error){
+                if (error.name == 'title'){
+                    this.titleEl.addClass('error');
+                } else if (error.name == 'description'){
+                    $('<div class="error" style="height: 1px"><div>').insertAfter('#description');
+                }
+            }).bind(this));
+        }).bind(this));
+        this.titleEl.on('keyup', (function(){
+            this.titleEl.removeClass('error');
+        }).bind(this));
+        this.editor.on('change', function(){
+            $('div.error').remove();
         });
-        api.addArticle(_.uniqueId('articleData'), JSON.stringify(article));
-        App.eventAggregator.trigger('admin:main');
     },
     loadMap: function() {
         if (this.rockVisible) {
