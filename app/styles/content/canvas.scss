@@ -1,3 +1,10 @@
+$button-width: 45px;
+$button-height: 35px;
+$bar-thickness: 3px;
+$button-pad: 9px;
+$button-bar-space: 6px;
+$button-transistion-duration: 0.3s;
+
 #rock_container {
     width: 100%;
     height: 540px;
@@ -14,14 +21,19 @@
         background-color: rgba(109, 97, 97, 0.7);
         font: 300 16px 'Roboto', 'Arial', sans-serif;
         .color_panel{
-            top: 6px;
+            top: 12px;
             position: absolute;
+            width: 220px;
+            left: 12px;
             .color-button{
                 width: 23px;
                 height: 23px;
                 border-radius: 0px;
                 border: 1px solid lightgrey;
                 float: left;
+                &:hover {
+                    transform: scale(1.2);
+                }
             }
         }
         h4 {
@@ -47,9 +59,9 @@
             transition: all .5s ease 0s;
             color: #fff;
             .complexity_hold {
-            display: inline-block;
-            padding: 5px;
-            color: #fff;
+                display: inline-block;
+                padding: 5px;
+                color: #fff;
             }
             #trackDescription {
                 display: block;
@@ -77,7 +89,11 @@
     }
 
 }
-.track_complement {
+
+.itinerary_rock {
+    width: 100%;
+    position: relative;
+    .track_complement {
         position: absolute;
         right: 0;
         top: 0;
@@ -86,7 +102,7 @@
         padding: 5px;
         overflow: auto;
         display: inline-block;
-        background-color: rgba(109, 97, 97, 0.7);
+        background-color: rgba(80, 71, 71, 0.47);
         font: 300 16px 'Roboto', 'Arial', sans-serif;
         .color_marker {
             display: inline-block;
@@ -97,8 +113,15 @@
             border-radius: 50%;
             text-align: center;
             padding: 6px;
+            margin-top: 20px;
+            margin-left: 20px;
             color: #fff;
             box-sizing: border-box;
+            &:hover {
+                transition: all .25s ease 0s;
+                transform: scale(1.4);
+
+            }
         }
         .complexity_hold {
             display: inline-block;
@@ -107,6 +130,30 @@
         }
         .description_hold {
             color: #DCD2D2;
+            padding-left: 10px;
             font-size: 14px;
         }
     }
+}
+
+
+@media screen and (max-width: 960px) {
+    .itinerary_rock {
+        width: 680px;
+        overflow: hidden;
+        canvas {
+            width: 700px;
+        }
+    }
+}
+/*@media screen and (max-width: 767px) {
+
+}*/
+
+@media screen and (max-width: 480px) {
+    .itinerary_rock {
+        canvas {
+            width: 350px;
+        }
+    }
+}
