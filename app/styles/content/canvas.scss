@@ -1,6 +1,6 @@
 #rock_container {
     width: 100%;
-    height: 540px;
+    height: auto;
     position: relative;
     #tracksInfo {
         position: absolute;
@@ -91,34 +91,6 @@
 .itinerary_rock {
     width: 100%;
     position: relative;
-    button {
-        width: 32px;
-        height: 32px;
-        background: none;
-        border: none;
-        outline: none;
-        cursor: pointer;
-        position: absolute;
-        right: 10px;
-        top: 10px;
-        &:before {
-            content: '';
-            position: absolute;
-            top: 7px;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: #fff;
-            transition: all .25s ease 0s;
-            box-shadow: 0 8px 0 0 #fff, 0 16px 0 0 #fff;
-        }
-        &:active{
-            &:before {
-                background: #DE5635;
-                box-shadow: 0 8px 0 0 #DE5635, 0 16px 0 0 #DE5635;
-            }
-        }
-    }
     .track_complement {
         position: absolute;
         right: 0;
@@ -166,7 +138,36 @@
 @media screen and (max-width: 960px) {
     .itinerary_rock {
         overflow: hidden;
-        .track_complement{
+        span {
+            width: 32px;
+            height: 32px;
+            display: block;
+            background: none;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            &:before {
+                content: '';
+                position: absolute;
+                top: 7px;
+                left: 0;
+                right: 0;
+                height: 3px;
+                background: #fff;
+                transition: all .25s ease 0s;
+                box-shadow: 0 8px 0 0 #fff, 0 16px 0 0 #fff;
+            }
+            &:active{
+                &:before {
+                    background: #DE5635;
+                    box-shadow: 0 8px 0 0 #DE5635, 0 16px 0 0 #DE5635;
+                }
+            }
+        }
+        .track_complement {
             transition: all .55s ease 0s;
             right: -100%;
         }

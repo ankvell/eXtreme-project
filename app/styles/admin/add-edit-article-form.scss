@@ -56,7 +56,6 @@
       width: 200px;
       height: 60px;
       padding-left: 40px;
-      margin-top: 80px;
       border: none;
       border-bottom: 1px dotted #696161;
       color: #fff;
@@ -86,20 +85,20 @@
       }
     }
     #add_map {
-      top: -4px;
+      top: 75px;
       left: 0;
 
     }
     .add_gps_track {
-      top: 56px;
+      top: 135px;
       left: 0;
     }
     #add_rock {
-      top: 116px;
+      top: 195px;
       left: 0;
     }
     .add_images {
-      top: 176px;
+      top: 254px;
       left: 0;
     }
 }
@@ -119,11 +118,32 @@
     #addForm, #editForm {
       margin: 80px 20px 0 220px;
     }
+  .sidebar{
+    #add_map {
+      top: 0px;
+      left: 0;
+
+    }
+    .add_gps_track {
+      top: 60px;
+      left: 0;
+    }
+    #add_rock {
+      top: 120px;
+      left: 0;
+    }
+    .add_images {
+      top: 180px;
+      left: 0;
+    }
+  }
 }
 @media screen and (max-width: 767px) {
   #addForm, #editForm {
       margin: 80px 20px;
     }
+
+
     .sidebar {
       top: 0;
       transform:translateX(-100%);

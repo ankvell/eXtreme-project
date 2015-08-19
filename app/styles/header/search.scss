@@ -1,9 +1,9 @@
 .search {
-    position: fixed;
-    right: 1.6%;
-    top: 3%;
+    position: absolute;
+    top: 20px;
+    transition: width .6s ease;
+    right: 20px;
     z-index: 10;
-    display: block;
     .search_cont {
         position: absolute;
         top: 0;
@@ -17,11 +17,11 @@
         background:  #464646  url(../../images/toolbar_find.png);
         background-repeat: no-repeat;
         &:hover {
-            opacity: .9;
+            background-color: #DE681D;
         }
     }
     #search_field {
-        width: 0px;
+        width: 0;
         height: 30px;
         border: none;
         border-radius: 5px;
@@ -30,25 +30,17 @@
         padding: 0 10px;
         outline: none;
         transition: width .4s ease;
-         /* &:focus {
-
-          } */
+        &.active {
+          width: 220px;
+        }
     }
-}
-
-@media screen and (max-width: 767px) {
-   .search {
-        // top: 3%!important;
-     #search_field {
-        // width: 180px;
-     }
-   }
 }
 
 @media screen and (max-width: 480px) {
   .search {
-     #search_field {
-        // width: 160px;
+    top: 94px;
+     #search_field .active{
+        width: 160px;
      }
    }
 }
