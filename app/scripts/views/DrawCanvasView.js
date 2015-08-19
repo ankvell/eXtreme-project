@@ -125,7 +125,7 @@ var DrawCanvasView = Backbone.View.extend({
         this.path.set('description', this.tracksDescription);
     },
     checkColor: function() {
-        var colors = ['#026871', '#EC5F3E', '#F9CB3E', '#464646', '#FF6600', '#C7D70E', '#91A30E', '#524656', '#D14643', '#C10000', '#3A000D', '#01151A', '#003A48', '#007892', '#357D25', '#6FAF0B', '#455A64', '##009688'];
+        var colors = ['#026871', '#EC5F3E', '#F9CB3E', '#c0392b', '#2980b9', '#16a085', '#9b59b6', '#34495e', '#27ae60', '#f39c12', '#95a5a6', '#2ecc71', '#d35400', '#7f8c8d', '#464646', '#FF6600', '#C7D70E', '#91A30E', '#524656', '#D14643', '#C10000', '#3A000D', '#01151A', '#003A48', '#007892', '#357D25', '#455A64'];
         this.$el.find('.color_panel');
         colors.forEach(function(color) {
             var button = $('<div class="color-button"></div>');
@@ -134,7 +134,7 @@ var DrawCanvasView = Backbone.View.extend({
         }.bind(this));
     },
     setColor: function(e) {
-         this.color = e.target.style.backgroundColor;
+        this.color = e.target.style.backgroundColor;
     }
 });
 module.exports = DrawCanvasView;

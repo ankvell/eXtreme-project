@@ -1,17 +1,18 @@
 .header_cont .logo {
     vertical-align: middle;
-    text-align: center;
     text-transform: uppercase;
     letter-spacing: 5px;
-    background-color: #F36523;
     font-family: din-med;
     width: 250px;
     position: absolute;
-    left: 0;
     top: 12px;
+    width: 200px;
+    left: 50px;
+    text-align: center;
     a {
         display: block;
         color: #fdfffe;
+
         text-decoration: none;
         .top{
             font-size: 27px;
@@ -47,15 +48,7 @@
         position: absolute;
         top: 12px;
         width: 200px;
-        left: -10px;
+        left: 50px;
         text-align: center;
-    }
-}
-
-@media screen and (max-width: 480px) {
-    .itinerary_rock {
-        canvas {
-            width: 350px;
-        }
     }
 }

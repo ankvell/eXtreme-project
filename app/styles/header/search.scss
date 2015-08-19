@@ -1,7 +1,7 @@
 .search {
     position: fixed;
     right: 1.6%;
-    top: 3%;
+    top: 5%;
     z-index: 10;
     display: block;
     .search_cont {
@@ -38,8 +38,17 @@
 
 @media screen and (max-width: 767px) {
    .search {
+        top: 3%!important;
      #search_field {
         width: 180px;
+     }
+   }
+}
+
+@media screen and (max-width: 480px) {
+  .search {
+     #search_field {
+        width: 160px;
      }
    }
 }

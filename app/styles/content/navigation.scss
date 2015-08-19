@@ -39,10 +39,10 @@ nav {
                 border-radius: 50%;
                 transition: all .35s ease 0s;
                 color: #fff;
-                box-shadow: inset 0px -1px 4px #f36523;
                 backface-visibility: hidden;
                 transform: scale(.5);
                 font-size: 0;
+                box-shadow: inset 0 0 8px #4E4A4A;
                 text-shadow: 1px 1px 0 rgba(0, 0, 0, .75);
                 background: #FE6A08;
                 span {
@@ -61,11 +61,12 @@ nav {
                     left: 0;
                 }
                 a {
-                    transform: scale(1);
+                    box-shadow: inset 0px -1px 4px #f36523;
+                    transform: scale(1.1);
                     background: none;
                     font-size: 20px;
                     span {
-                        transform: translate3d(-50%, -50%, 0) scale(1);
+                        transform: translate3d(-50%, -50%, 0) scale(1.1);
                         opacity: 1;
                     }
                 }

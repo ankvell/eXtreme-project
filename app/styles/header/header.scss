@@ -1,10 +1,11 @@
 header {
-    background: #f36523;
+    background: #2B2929;
     position: fixed;
     top: 0;
     overflow: hidden;
     z-index: 10;
     width: 100%;
+    box-shadow: 1px 0 10px #333;
     .header_cont {
         height: 75px;
         padding: 14px 0 18px;
