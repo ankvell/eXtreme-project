@@ -1,7 +1,7 @@
 .search {
     position: fixed;
     right: 1.6%;
-    top: 5%;
+    top: 3%;
     z-index: 10;
     display: block;
     .search_cont {
@@ -21,7 +21,7 @@
         }
     }
     #search_field {
-        width: 260px;
+        width: 0px;
         height: 30px;
         border: none;
         border-radius: 5px;
@@ -38,9 +38,9 @@
 
 @media screen and (max-width: 767px) {
    .search {
-        top: 3%!important;
+        // top: 3%!important;
      #search_field {
-        width: 180px;
+        // width: 180px;
      }
    }
 }
@@ -48,7 +48,7 @@
 @media screen and (max-width: 480px) {
   .search {
      #search_field {
-        width: 160px;
+        // width: 160px;
      }
    }
 }

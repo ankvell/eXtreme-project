@@ -1,9 +1,13 @@
 var Backbone = require('backbone'),
+	$ = require('jquery'),
     template = require('./templates/renderCanvasTemplate.html');
 
 var CanvasView = Backbone.View.extend({
     el: '.itinerary_rock',
     template: template,
+    events: {
+        'click .togg': 'toggleButt'
+    },
     initialize: function() {
         this.render();
         this.tracksComplement();
@@ -52,6 +56,10 @@ var CanvasView = Backbone.View.extend({
             sidePanel.append('<p class="description_hold">' + this.model.attributes.tracks[ll].description + '</p>');
             counter++;
         }
+    },
+    toggleButt: function() {
+        this.$el.toggleClass('active');
+
     }
 });
 module.exports = CanvasView;

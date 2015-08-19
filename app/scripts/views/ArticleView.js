@@ -38,7 +38,6 @@ var ArticleView = Backbone.View.extend({
         }
         $('.bxslider').bxSlider({
             mode: 'fade',
-            captions: true,
             adaptiveHeight: true,
             controls: false
         });
