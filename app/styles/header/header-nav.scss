@@ -59,12 +59,12 @@
         span::before {
           top: 0;
           transform: rotate(45deg);
-          transition: 0.35s 0.5s;
+          transition: 0.35s 0.2s;
         }
         span::after {
           bottom: 0;
           transform: rotate(-45deg);
-          transition: 0.35s 0.5s;
+          transition: 0.35s 0.2s;
         }
     }
 }

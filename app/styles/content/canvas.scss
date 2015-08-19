@@ -29,19 +29,23 @@
                 }
             }
         }
-        h4 {
+        h3, h4{
             display: block;
             margin: 5px;
-            margin-top: 70px;
+            margin-top: 120px;
             text-align: center;
             font: 16px Arial, Helvetica, sans-serif;
             color: #fff;
+        }
+        h4 {
+            margin-top: 20px;
         }
         #trackComplexity,
         #trackDescription {
             display: block;
             box-sizing: border-box;
             width: 200px;
+            height: 40px;
             margin: 0 auto;
             padding: 0 14px;
             border-width: 1px 1px 0 0;
@@ -60,6 +64,7 @@
                 display: block;
                 height: 320px;
                 padding-top: 8px;
+
             }
             #saveTrack,
             #alter {
@@ -135,7 +140,15 @@
         width: 680px;
         overflow: hidden;
         canvas {
-            width: 700px;
+            width: 100%;
+        }
+    }
+
+    #rock_container {
+        .rock_edit_container{
+            canvas {
+                width: 100%;
+            }
         }
     }
 }

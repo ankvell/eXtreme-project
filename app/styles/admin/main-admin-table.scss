@@ -42,9 +42,11 @@
       text-align: right;
       padding-right: 5px;
       .edit, .delete {
-        background: #ADADAD url(../../images/edit-icon.png) no-repeat 16px;
-        width: 100px;
+        background: #ADADAD url(../../images/edit-icon.png) no-repeat 12px;
+        width: 116px;
         height: 32px;
+        padding-left: 18px;
+
         outline: none;
         border-radius: 3px;
         overflow: hidden;
@@ -53,7 +55,7 @@
         border-color: #827E7E;
         background-color: #F1F1F1;
         color: #66716D;
-        font-size: 14px;
+        font-size: 13px;
         transition: all .5s ease-out;
         &:hover {
           border-color: #D8622B;
