@@ -17,7 +17,9 @@
             'click #add_map': 'loadMap',
             'click .add_gps_track': 'loadMap',
             'click #add_rock': 'loadRock',
-            'change #gps_file': 'loadGPSTrack'
+            'change #gps_file': 'loadGPSTrack',
+            'click .add_images': 'loadImages',
+            'click #load': 'loadImages'
         },
         initialize: function() {
             // todo: move into separate method
@@ -27,7 +29,6 @@
                     this.keyInDb = key;
                 }
             }.bind(this));
-
             this.render();
 
             _.bindAll(this, 'updateArticle', '_initCanvas');
@@ -66,12 +67,15 @@
             this.rockContainer = $('#rock_container');
             this.urlField = $('#choose_url');
             this.canvasEl = $('#canvas');
+            this.loadImgContainer = $('#carousel_imgs');
+            this.imgs = this.model.attributes.imgs;
             this.rockContainer.hide();
             this.mapContainer.hide();
             this.urlField.hide();
             this.mapVisible = false;
             this.rockVisible = false;
             this.canvasEl.hide();
+            this.loadImgContainer.hide();
             this.populateForm();
         },
         populateForm: function() {
@@ -121,7 +125,6 @@
 
             if (this.drawCanvasView) {
                 var canvasDrawing = this.drawCanvasView.serialize();
-                console.log(canvasDrawing);
                 if (canvasDrawing) {
                     this.model.attributes.rockImgUrl = canvasDrawing.imageUrl;
                     this.model.attributes.tracks = canvasDrawing.paths;
@@ -147,7 +150,8 @@
                 map: this.model.attributes.map,
                 type: this.model.attributes.type,
                 rockImgUrl: this.model.attributes.rockImgUrl,
-                tracks: this.model.attributes.tracks
+                tracks: this.model.attributes.tracks,
+                imgs: this.imgs
             });
             console.log(updatedData);
             api.addArticle(this.keyInDb, updatedData);
@@ -205,6 +209,16 @@
             this.rockContainer.hide();
             // this.canvasView.remove();
             this.urlField.show();
+        },
+        loadImages: function() {
+            console.log(this.imgs);
+            this.loadImgContainer.show();
+            imgURL = $('#imgs_url').val();
+            console.log(imgURL);
+            if (imgURL) {
+                this.imgs.push(imgURL);
+            }
+            $('#imgs_url').val('');
         },
         _initCanvas: function() {
             var imageUrlInput = $('#url')[0];

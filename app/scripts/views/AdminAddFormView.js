@@ -58,6 +58,7 @@ var AdminAddFormView = Backbone.View.extend({
             route: this.routeEl.val(),
             description: this.editor.getData(),
             duration: this.durationEl.val(),
+            imgs: this.imgs,
             creationDate: this.getCurrentDate()
         });
         if (this.mapVisible) {

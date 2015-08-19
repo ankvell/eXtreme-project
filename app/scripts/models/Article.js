@@ -11,6 +11,7 @@ var Article = Backbone.Model.extend({
         tracks: '',
         difficulty: '',
         duration: '',
+        imgs: [],
         creationDate: '',
         type: 'news'
     },
