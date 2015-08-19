@@ -13,7 +13,6 @@ var ListView = Backbone.View.extend({
     render: function() {
         this.$el.empty();
         this.$el.append('<div class="east_side"></div>');
-        console.log(this.collection);
         if (this.collection.length > 0){
             this.collection.forEach((function(article) {
                 this.renderArticle(article);

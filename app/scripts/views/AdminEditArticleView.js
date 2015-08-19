@@ -25,7 +25,7 @@ var AdminEditArticleView = Backbone.View.extend({
     },
     deleteArticle: function() {
         api.removeArticle(this.keyInDb);
-        this.model.destroy();
+        this.model.collection.remove(this.model);
         this.remove();
     },
     editArticle: function() {

@@ -83,6 +83,7 @@
                 this.mapContainer.show();
                 this.mapVisible = true;
                 this.mapAutocompleteField.hide();
+                $('.track-gps').hide();
                 this.model.map = new Map({
                     'lat': this.model.attributes.map.lat,
                     'lng': this.model.attributes.map.lon
@@ -113,14 +114,20 @@
                     this.model.attributes.shapes = mapDrawing.shapes;
                     this.model.attributes.map = mapDrawing.map;
                     this.model.attributes.type = 'routs';
+                    this.model.attributes.rockImgUrl = '';
+                    this.model.attributes.tracks = '';
                 }
             }
 
-            if (this.rockVisible) {
-                var canvasDraving = this.drawCanvasView.serialize();
-                if (canvasDraving) {
-                    this.model.attributes.tracks = canvasDraving.tracks;
+            if (this.drawCanvasView) {
+                var canvasDrawing = this.drawCanvasView.serialize();
+                console.log(canvasDrawing);
+                if (canvasDrawing) {
+                    this.model.attributes.rockImgUrl = canvasDrawing.imageUrl;
+                    this.model.attributes.tracks = canvasDrawing.paths;
                     this.model.attributes.type = 'rocks';
+                    this.model.attributes.map = '';
+                    this.model.attributes.shapes = '';
                 }
             }
 
@@ -138,8 +145,11 @@
                 creationDate: this.model.attributes.creationDate,
                 shapes: this.model.attributes.shapes,
                 map: this.model.attributes.map,
-                type: this.model.attributes.type
+                type: this.model.attributes.type,
+                rockImgUrl: this.model.attributes.rockImgUrl,
+                tracks: this.model.attributes.tracks
             });
+            console.log(updatedData);
             api.addArticle(this.keyInDb, updatedData);
             App.eventAggregator.trigger('admin:main');
         },
