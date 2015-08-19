@@ -11,7 +11,7 @@ var SearchView = Backbone.View.extend({
             if (e.currentTarget.value && e.keyCode == 13) {
                 App.eventAggregator.trigger('search:results', e.currentTarget.value);
             }
-        }, 200))
+        }, 200));
     },
     search: function() {
         if ($('#search_field').val()){

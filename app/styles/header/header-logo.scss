@@ -1,14 +1,16 @@
 .header_cont .logo {
-    position: relative;
-    display: table;
     vertical-align: middle;
-    left: 7%;
     text-align: center;
     text-transform: uppercase;
-    float: left;
     letter-spacing: 5px;
+    background-color: #F36523;
     font-family: din-med;
-    .logo_cont {
+    width: 250px;
+    position: absolute;
+    left: 0;
+    top: 12px;
+    a {
+        display: block;
         color: #fdfffe;
         text-decoration: none;
         .top{
@@ -42,6 +44,18 @@
 }
 @media screen and (max-width: 767px) {
     .header_cont .logo {
-        left: 70px;
+        position: absolute;
+        top: 12px;
+        width: 200px;
+        left: -10px;
+        text-align: center;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .itinerary_rock {
+        canvas {
+            width: 350px;
+        }
     }
 }

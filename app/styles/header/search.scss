@@ -1,5 +1,5 @@
 .search {
-    position: absolute;
+    position: fixed;
     right: 1.6%;
     top: 3%;
     z-index: 10;
@@ -34,4 +34,12 @@
 
           } */
     }
+}
+
+@media screen and (max-width: 767px) {
+   .search {
+     #search_field {
+        width: 180px;
+     }
+   }
 }

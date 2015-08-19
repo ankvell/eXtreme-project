@@ -6,7 +6,8 @@ var HeaderView = Backbone.View.extend({
   el: '.header_cont',
 
   events: {
-    'click': 'toggleSidebar'
+    'click': 'toggleSidebar',
+    // 'blur .header_cont': 'toggleSidebar'
   },
   toggleSidebar: function() {
     $('body').toggleClass('toggle_sidebar');
