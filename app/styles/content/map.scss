@@ -28,6 +28,7 @@
             border-radius: 0px;
             border: 1px solid lightgrey;
             float: left;
+            margin-top: 1px;
         }
         button {
 //            position: absolute;
@@ -39,6 +40,7 @@
         .saveShape-button, .delete-button {
             width: 100px !important;
             margin: 0 !important;
+            height: 28px;
         }
     }
     #map {
