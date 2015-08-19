@@ -1,7 +1,6 @@
 <form action="#" id="article_form">
     <label for="caption">Заголовок</label><input type="text" id="caption" placeholder="Заголовок статті" required />
     <label for="description">Опис</label><textarea id="description" required></textarea>
-
     <div id="map_container">
         <label class="track-gps"><span>Завантажити GPS-трек</span>
             <div class="upload"><input type="file" id="gps_file" accept=".plt"/></div>
@@ -9,10 +8,8 @@
         <input type="text" name="autocompete" id="autocomplete" />
         <div id="drawing_controls"></div>
         <div id="map"></div>
-
         <label for="route_description">Опис маршруту</label><input type="text" id="route_description" placeholder="с. Кваси - г. Петрос(2020м) - г. Говерла(2061м) - г. Піп Іван(2028м) - с. Дземброня" />
         <label class="stl">Складність</label>
-
         <label><input type="radio" name="difficulty" id="radio1" value="1" />1</label>
         <label><input type="radio" name="difficulty" id="radio2" value="2" />2</label>
         <label><input type="radio" name="difficulty" id="radio3" value="3" />3</label>
@@ -20,27 +17,21 @@
         <label><input type="radio" name="difficulty" id="radio5" value="5" />5</label>
         <label for="duration" class="stl">Тривалість</label><input type="text" placeholder="15год" id="duration" />
     </div>
-
     <div id="choose_url">
         <label for="url" class="stl">Введіть url адресу знимка скали:</label><input type="url" id="url" placeholder="Url goes here" /><span id="error"></span>
         <button type="button" id="load_rock_image" class="btn_style">Завантажити знимок</button>
     </div>
-
     <div id="rock_container">
         <div class="itinerary_rock"></div>
     </div>
-
     <div id="carousel_imgs">
         <lable for="imgs_url" class="stl">Введіть url адресу зображення місцевості:</lable><br>
         <input type="url" id="imgs_url" placeholder="Url goes here" />
         <button type="button" id="load" class="btn_style">Завантажити</button>
     </div>
-
     <button type="button" id="submit" class="btn_style">Зберегти</button>
     <input type="reset" id="reset" value="Очистити" class="btn_style" />
 </form>
-
-
 <div class="sidebar">
     <button type="button" class="add_images">Додати зображення</button>
     <button type="button" id="add_rock" >Додати скелю</button>

@@ -8,14 +8,14 @@ var AdminMainView = Backbone.View.extend({
         this.listenTo(this.collection, 'change', this.render);
         this.render();
     },
-    render: function(){
+    render: function() {
         $('.content').empty();
-        $('.content').append('<div class="east_side"><table id="articles_table"></table></div>')
-        this.collection.forEach(function(article){
+        $('.content').append('<div class="east_side"><table id="articles_table"></table></div>');
+        this.collection.forEach(function(article) {
             this.renderArticle(article);
         }, this);
         $('<div class="sidebar"><button type="button" id="add_new_article">Додати нову статтю</button></div>').prependTo('.content');
-        $('#add_new_article').on('click', function(){
+        $('#add_new_article').on('click', function() {
             App.eventAggregator.trigger('add:article');
         });
         return this;

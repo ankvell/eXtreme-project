@@ -1,5 +1,4 @@
-var $ = require('jquery'),
-    Backbone = require('backbone');
+var Backbone = require('backbone');
 
 var MapView = Backbone.View.extend({
     initialize: function(options) {

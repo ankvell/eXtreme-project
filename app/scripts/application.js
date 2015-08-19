@@ -1,4 +1,4 @@
-    var $ = require('jquery'),
+var $ = require('jquery'),
     _ = require('underscore'),
     Backbone = require('backbone'),
     Router = require('./routes/Router'),
@@ -14,13 +14,13 @@ $(document).ready(function() {
             article = new Article(el);
             articleCollection.add(article);
             api.setArticle(_.uniqueId('articleData'), article);
-        })
+        });
     } else {
         api.eachArticle(function(key){
             var obj = JSON.parse(api.getArticle(key));
             article = new Article(obj);
             articleCollection.add(article);
-        })
+        });
     }
     var router = new Router({
         articleCollection: articleCollection

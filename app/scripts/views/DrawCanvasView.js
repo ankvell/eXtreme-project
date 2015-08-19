@@ -1,5 +1,4 @@
 var $ = require('jquery'),
-    _ = require('underscore'),
     Backbone = require('backbone'),
     Path = require('../models/RockPath'),
     RockPathesCollection = require('../collections/RockPathesCollection'),
@@ -30,14 +29,12 @@ var DrawCanvasView = Backbone.View.extend({
     render: function() {
         this.$el.html(template());
         this.context = this.$el.find('canvas')[0].getContext('2d');
-
         this.draw = false;
         var imageObj = new Image();
         imageObj.onload = function() {
             this.context.drawImage(imageObj, 0, 0, canvasWidth, canvasHeight);
         }.bind(this);
         imageObj.src = this.imageUrl;
-
         this.checkColor();
         return this;
     },

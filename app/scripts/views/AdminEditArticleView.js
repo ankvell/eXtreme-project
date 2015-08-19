@@ -1,5 +1,4 @@
-var $ = require('jquery'),
-    Backbone = require('backbone'),
+var Backbone = require('backbone'),
     api = require('../configs/api'),
     template = require('./templates/mainAdminTemplate.html');
 

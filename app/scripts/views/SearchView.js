@@ -4,7 +4,7 @@ var $ = require('jquery'),
 
 var SearchView = Backbone.View.extend({
     el: $('.search'),
-    initialize: function(){
+    initialize: function() {
         _.bindAll(this, 'search');
         $('.search_cont').on('click', this.search);
         $('#search_field').on('keyup', _.throttle(function(e) {
@@ -14,7 +14,7 @@ var SearchView = Backbone.View.extend({
         }, 200));
     },
     search: function() {
-        if ($('#search_field').val()){
+        if ($('#search_field').val()) {
             App.eventAggregator.trigger('search:results', $('#search_field').val());
         }
     }

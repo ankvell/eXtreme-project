@@ -22,9 +22,9 @@ var AdminAddFormView = Backbone.View.extend({
     },
     initialize: function() {
         this.render();
-        _.bindAll(this, 'saveArticle', '_initCanvas');
+        _.bindAll(this, 'saveArticle', 'initCanvas');
         $('#submit').on('click', this.saveArticle);
-        this.$el.on('click', '#load_rock_image', this._initCanvas);
+        this.$el.on('click', '#load_rock_image', this.initCanvas);
     },
     render: function() {
         $('.content').empty();
@@ -53,7 +53,7 @@ var AdminAddFormView = Backbone.View.extend({
         var article = new Article();
         this.setValidation(article);
         article.set({
-            id : this.generateId(),
+            id: this.generateId(),
             title: this.titleEl.val(),
             route: this.routeEl.val(),
             description: this.editor.getData(),
@@ -86,7 +86,7 @@ var AdminAddFormView = Backbone.View.extend({
                 difficulty: this.$el.find('input[name=difficulty]:checked').val()
             });
         }
-        if (article.isValid()){
+        if (article.isValid()) {
             this.collection.add(article, {
                 silent: true
             });
@@ -94,25 +94,25 @@ var AdminAddFormView = Backbone.View.extend({
             App.eventAggregator.trigger('admin:main');
         }
     },
-    setValidation: function(article){
-        article.on('invalid', (function (model, errors) {
-            errors.forEach((function(error){
-                if (error.name == 'title'){
+    setValidation: function(article) {
+        article.on('invalid', (function(model, errors) {
+            errors.forEach((function(error) {
+                if (error.name == 'title') {
                     this.titleEl.addClass('error');
-                } else if (error.name == 'description'){
+                } else if (error.name == 'description') {
                     $('<div class="error" style="height: 1px"><div>').insertAfter('#description');
                 }
             }).bind(this));
         }).bind(this));
-        this.titleEl.on('keyup', (function(){
+        this.titleEl.on('keyup', (function() {
             this.titleEl.removeClass('error');
         }).bind(this));
-        this.editor.on('change', function(){
+        this.editor.on('change', function() {
             $('div.error').remove();
         });
     },
     loadMap: function(e) {
-        if (e.target.id === 'add_map'){
+        if (e.target.id === 'add_map') {
             $('.track-gps').hide();
         } else {
             $('.track-gps').show();
@@ -173,15 +173,13 @@ var AdminAddFormView = Backbone.View.extend({
         this.rockContainer.hide();
         this.urlField.show();
     },
-    _initCanvas: function() {
+    initCanvas: function() {
         var imageUrlInput = $('#url')[0];
         var url = imageUrlInput.value;
-
         if (imageUrlInput.checkValidity() && url) {
             this.urlField.hide();
             this.rockContainer.show();
             this.rockVisible = true;
-
             this.drawCanvasView = new DrawCanvasView({
                 imageUrl: url
             });
@@ -197,7 +195,6 @@ var AdminAddFormView = Backbone.View.extend({
             this.imgs.push(imgURL);
         }
         $('#imgs_url').val('');
-
     },
     generateId: function() {
         function s4() {
