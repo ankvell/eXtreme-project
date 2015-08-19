@@ -3,10 +3,26 @@
     height: auto;
     position: relative;
     .track-gps {
+        margin-top: 23px !important;
         display: block;
-        width: 100%;
+        width: 270px;
         height: 60px;
-        margin-top: 20px;
+        .upload {
+            width: 50px;
+            height: 50px;
+            background: url(http://adspired.com/wp-content/uploads/2014/09/map32.png) 100% 100% no-repeat;
+            background-size: cover;
+            overflow: hidden;
+            float: right;
+            input {
+                display: block !important;
+                width: 157px !important;
+                height: 57px !important;
+                opacity: 0 !important;
+                overflow: hidden !important;
+                cursor: pointer;
+            }
+        }
     }
     #autocomplete {
         display: block;
@@ -51,4 +67,8 @@
     .duration span {
         display: none;
     }
+}
+
+@media screen and (max-width: 767px) {
+    
 }
