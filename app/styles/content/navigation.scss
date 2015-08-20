@@ -110,7 +110,9 @@ nav {
         transform: translateX(0)
      }
     .user_sidebar {
-        top: -5px;
+        top: -20px;
+        bottom: 0;
+        height: auto;
         transform:translateX(-100%);
     }
 

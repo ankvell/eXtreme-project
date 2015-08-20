@@ -87,8 +87,7 @@
 
     .toggle_sidebar {
       .sidebar {
-          // top: -75px;
-          top: -5px;
+          height: 100vh;
           transform: translateX(-100%);
       }
     }

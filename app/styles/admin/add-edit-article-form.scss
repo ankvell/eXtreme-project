@@ -1,5 +1,5 @@
 #addForm, #editForm {
-  margin: 80px 20px 0 220px;
+  margin: 0 20px 0 220px;
   #article_form {
       label{
         font-size: 20px;
@@ -116,7 +116,7 @@
 
 @media screen and (max-width: 960px) {
     #addForm, #editForm {
-      margin: 80px 20px 0 220px;
+      margin: 0 20px 0 220px;
     }
   .sidebar{
     #add_map {
@@ -140,12 +140,12 @@
 }
 @media screen and (max-width: 767px) {
   #addForm, #editForm {
-      margin: 80px 20px;
+      margin: 0 20px;
     }
 
 
     .sidebar {
-      top: 0;
+      // top: 0;
       transform:translateX(-100%);
       transition: all .5s ease 0s;
     }
