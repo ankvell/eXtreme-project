@@ -15,6 +15,7 @@ var _ = require('underscore'),
 var Router = Backbone.Router.extend({
     initialize: function(options) {
         this.articleCollection = options.articleCollection;
+        var headerView = new HeaderView();
     },
     routes: {
         '': 'showStartPage',
@@ -33,13 +34,11 @@ var Router = Backbone.Router.extend({
         var startPageView = new StartPageView();
         var navigationView = new NavigationView();
         var searchView = new SearchView();
-        this.headerView.undelegateEvents();
     },
     showArticleList: function() {
         var listView = new ListView({
             collection: this.articleCollection
         });
-        this.headerView = new HeaderView();
     },
     viewArticle: function(title) {
         var selectedArticle = _(this.articleCollection.models).find(function(article) {
@@ -48,7 +47,6 @@ var Router = Backbone.Router.extend({
         var articleView = new ArticleView({
             model: selectedArticle
         });
-        this.headerView = new HeaderView();
     },
     showAdminMainView: function() {
 
@@ -56,7 +54,6 @@ var Router = Backbone.Router.extend({
         var adminMainView = new AdminMainView({
             collection: this.articleCollection
         });
-        this.headerView = new HeaderView();
     },
     viewSearchResult: function(searchItem) {
         var filter = new Filter({
@@ -66,7 +63,6 @@ var Router = Backbone.Router.extend({
         var listView = new ListView({
             collection: filter.filtered
         });
-        this.headerView = new HeaderView();
     },
     editArticle: function(id) {
         var selectedArticle = _.find(this.articleCollection.models, function(article) {
@@ -75,31 +71,26 @@ var Router = Backbone.Router.extend({
         var adminEditFormView = new AdminEditFormView({
             model: selectedArticle
         });
-        this.headerView = new HeaderView();
     },
     addArticle: function() {
         var adminAddFormView = new AdminAddFormView({
             collection: this.articleCollection
         });
-        this.headerView = new HeaderView();
     },
     showNews: function() {
         var newsView = new ListView({
             collection: this.articleCollection.byType('news')
         });
-        this.headerView = new HeaderView();
     },
     showRouts: function() {
         var routsView = new ListView({
             collection: this.articleCollection.byType('routs')
         });
-        this.headerView = new HeaderView();
     },
     showRocks: function() {
         var rocksView = new ListView({
             collection: this.articleCollection.byType('rocks')
         });
-        this.headerView = new HeaderView();
     }
 });
 module.exports = Router;
